@@ -223,7 +223,7 @@
 
 
 
-                  <li class="nav-item active dropdown">
+                  <li class="nav-item  dropdown">
                       <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                           data-bs-auto-close="false" role="button" aria-expanded="true">
                           <span
@@ -243,18 +243,18 @@
                               </svg>
                           </span>
                           <span class="nav-link-title">
-                              Layout
+                              Access Management
                           </span>
                       </a>
-                      <div class="dropdown-menu show">
+                      <div class="dropdown-menu ">
                           <div class="dropdown-menu-columns">
                               <div class="dropdown-menu-column">
                                   <a class="dropdown-item" href="./layout-horizontal.html">
                                       Horizontal
                                   </a>
-                                  <a class="dropdown-item" href="./layout-boxed.html">
-                                      Boxed
-                                      <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
+                                  <a class="dropdown-item" href="{{route('admin.roles.index')}}">
+                                      Role & Permission
+                                      {{-- <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span> --}}
                                   </a>
 
                               </div>
