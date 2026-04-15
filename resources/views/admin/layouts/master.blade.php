@@ -62,6 +62,7 @@
     <script src="{{ asset('assets/front/js/select2.min.js') }}"></script>
 
 
+    @stack('scripts')
 </body>
 
 </html>
