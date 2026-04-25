@@ -25,7 +25,7 @@
             </label>
             <div class="form_box">
                 <select wire:model="selectedState" name="city" 
-                    class="common-input border form-control form-select select_2"
+                    class="common-input border form-control  select_2"
                     {{ empty($states) ? 'disabled' : '' }}>
                     <option value="">{{ __('Select State') }}</option>
                     @foreach ($states as $state)

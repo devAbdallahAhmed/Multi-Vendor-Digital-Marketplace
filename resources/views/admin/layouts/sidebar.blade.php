@@ -184,7 +184,8 @@
               <div class="nav-item dropdown">
                   <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
                       aria-label="Open user menu">
-                      <span class="avatar avatar-sm" style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default-avatar.png') }})"></span>
+                      <span class="avatar avatar-sm"
+                          style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default-avatar.png') }})"></span>
                       <div class="d-none d-xl-block ps-2">
                           <div>{{ Auth::user('admin')->name }}</div>
                           <div class="mt-1 small text-secondary">UI Designer</div>
@@ -243,17 +244,18 @@
                               </svg>
                           </span>
                           <span class="nav-link-title">
-                              Access Management
+                              {{ __('Access Management') }}
+
                           </span>
                       </a>
                       <div class="dropdown-menu ">
                           <div class="dropdown-menu-columns">
                               <div class="dropdown-menu-column">
-                                  <a class="dropdown-item" href="./layout-horizontal.html">
-                                      Horizontal
+                                  <a class="dropdown-item" href="{{ route('admin.role-users.index') }}">
+                                      {{ __('Role Users') }}
                                   </a>
-                                  <a class="dropdown-item" href="{{route('admin.roles.index')}}">
-                                      Role & Permission
+                                  <a class="dropdown-item" href="{{ route('admin.roles.index') }}">
+                                      {{ __('Role & Permissions') }}
                                       {{-- <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span> --}}
                                   </a>
 

@@ -60,7 +60,11 @@
     <script src="{{ asset('assets/admin/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('assets/admin/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('assets/front/js/select2.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="{{ asset('assets/admin/js/default/admin.js') }}">
+
+</script>
 
     @stack('scripts')
 </body>

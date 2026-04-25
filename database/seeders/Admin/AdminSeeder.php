@@ -14,7 +14,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::create([
+        $admin =  Admin::create([
         'name'=> ' Super Admin',
         'email' =>'admin@gmail.com',
         'country' => 'Egypt',
@@ -22,5 +22,16 @@ class AdminSeeder extends Seeder
         'address' => '123 Main Street, Cairo, Egypt',
         'password'=>  Hash::make('12345678'),
         ]);
-    }
+        $admin->assignRole('super admin');
+
+        $reviewer = Admin::create([
+             'name'=> 'Reviewer',
+        'email' =>'reviewer@gmail.com',
+        'country' => 'Egypt',
+        'city' => 'Cairo',
+        'address' => '123 Main Street, Cairo, Egypt',
+        'password'=>  Hash::make('12345678'),
+        ]);
+        $reviewer->assignRole('reviewer');
+   }
 }
