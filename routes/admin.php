@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProfileController;   
 use App\Http\Controllers\Admin\RoleController; 
+use App\Http\Controllers\Admin\RoleUserController;
 
 Route::middleware('guest:admin')
 ->prefix('admin/')
@@ -48,7 +49,9 @@ Route::middleware('auth:admin')
      
      
         //                   Route Management Routes
-
         Route::resource('roles', RoleController::class);
 
+
+        // Roles Assignment Routes
+        Route::resource('role-users', RoleUserController::class);
        });

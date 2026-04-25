@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\Admin\RoleRequest;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -52,9 +53,13 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Role $role)
     {
-        $role = Role::findOrFail($id);
+
+        if($role->name === 'super admin') {
+            NotificationService::error();
+            return to_route('admin.roles.index');
+        }
         $permissions = Permission::all()->groupBy('group_name');
         return view('admin.access-management.role.edit' , compact('role' , 'permissions'));
     }
@@ -64,7 +69,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $role = Role::findOrFail($id);
+         if($role->name === 'super admin') {
+            NotificationService::error();
+            return to_route('admin.roles.index');
+        }
         $role->name = $request->name;
         $role->save();
         if ($request->has('permissions')) {
@@ -77,11 +87,27 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        $role = Role::findOrFail($id);
+         if($role->name === 'super admin') {
+            NotificationService::error();
+            return to_route('admin.roles.index');
+        }
+
+        try{
+        DB::beginTransaction();
+        $role->permissions()->detach();
+        $role->users()->detach();
         $role->delete();
-        NotificationService::deleted('Role deleted successfully');
+        DB::commit();
+        NotificationService::deleted(__('Role deleted successfully'));
         return redirect()->route('admin.roles.index');
+
+        }catch(\Exception $e){
+                DB::rollBack();
+            NotificationService::error(__('Failed to delete role: :message', ['message' => $e->getMessage()]));
+            return redirect()->route('admin.roles.index');
+        }
+
     }
 }

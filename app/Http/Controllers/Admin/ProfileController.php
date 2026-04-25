@@ -8,10 +8,17 @@ use App\Http\Requests\Admin\ProfileUpdateRequest;
 use App\Traits\fileupload;
 use App\Services\NotificationService;
 use App\Http\Requests\Admin\Auth\PasswordRequest;
+use App\Services\Admin\ProfileService;
 
 class ProfileController extends Controller
 {
-        use  fileupload;
+        protected $profileService;
+
+    public function __construct(ProfileService $profileService)
+    {
+        $this->profileService = $profileService;
+    }
+
     public function index(){
         $user = auth()->guard('admin')->user();
         return view('admin.dashboard.profile.index', compact('user'));
@@ -20,24 +27,16 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
         $admin = auth()->guard('admin')->user();
-        $data = $request->validated();
-        if($request->hasFile('avatar')){
-              $this->deleteFile($admin->avatar);
-                $avatarPath= $this->uploadFile($request->avatar ,'uploads/admin/');
-                $data['avatar'] = $avatarPath ;
-        }
-        $admin->update($data);
+        $this->profileService->updateProfile($admin , $request->validated());
         NotificationService::updated();
         return redirect()->back();
     }
 
     public function updatePassword(PasswordRequest $request){
     $admin = auth('admin')->user();
-    $admin->update([
-        'password' => bcrypt($request->password)
-    ]);
+    $this->profileService->updatePassword($admin, $request->validated());
     NotificationService::updated();
     return redirect()->back();
-   
+
     }
 }

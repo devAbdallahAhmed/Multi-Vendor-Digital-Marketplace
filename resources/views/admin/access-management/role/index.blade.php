@@ -45,8 +45,13 @@
                                         <div class="ms-3">
                                             <h3 class="card-title m-0 fw-bold">{{ $role->name }}</h3>
                                             <div class="text-secondary small">
-                                                <i class="ti ti-lock"></i> {{ $role->permissions->count() }}
-                                                {{ __('Permissions') }}
+                                                <i class="ti ti-lock"></i>
+                                                @if($role->name == 'super admin')
+                                                   <span style="color:blue">{{ __('All Permissions') }}</span>
+                                                    @else
+                                                {{ $role->permissions->count() }}
+                                                 {{ __('Permissions') }}
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -83,6 +88,7 @@
                                     </div>
                                 </div>
 
+                 @if ($role->name != 'super admin')
                                 <div class="card-footer bg-light-subtle d-flex align-items-center">
                                     {{-- Edit Button --}}
                                     <a href="{{ route('admin.roles.edit', $role->id) }}"
@@ -96,14 +102,12 @@
                                         </svg>
                                         {{ __('Edit') }}
                                     </a>
-
                                     {{-- Delete Form --}}
                                     <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
-                                        class="ms-2">
+                                        class="ms-2 delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm"
-                                            onclick="return confirm('{{ __('Are you sure you want to delete this role?') }}')">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm delete-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon m-0" width="24"
                                                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -116,7 +120,10 @@
                                             </svg>
                                         </button>
                                     </form>
+
                                 </div>
+                                  @endif
+
                             </div>
                         </div>
                     @empty

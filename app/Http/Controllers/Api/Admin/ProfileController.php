@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Api\AdminResource;
 use App\Http\Requests\Api\Admin\ProfileRequest;
 use App\Traits\fileUpload;
+use App\Services\Admin\ProfileService;
 
 class ProfileController extends Controller
 {
+    protected $profileService;
+
+    function __construct(ProfileService $profileService)
+    {
+        $this->profileService = $profileService;
+    }
 
     use fileUpload;
 /**
@@ -48,15 +55,7 @@ class ProfileController extends Controller
         $admin = auth('admin-api')->user();
         $data = $request->validated();
 
-        if ($request->hasFile('avatar')) {
-            $deletePath = $this->deleteFile($admin->avatar);
-            $avatarPath =$this->uploadFile($request->file('avatar'));
-            $admin->avatar = $avatarPath;
-            $data['avatar'] = $avatarPath;
-        }
-
-        $admin->update($data);
-
+        $this->profileService->updateProfile($admin,$data);        
         return response()->json([
             'success' => true,
             'message' => 'Profile updated successfully',

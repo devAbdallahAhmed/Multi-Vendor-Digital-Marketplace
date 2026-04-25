@@ -54,7 +54,7 @@
                                                                     <input class="form-check-input permission-checkbox"
                                                                         type="checkbox" name="permissions[]"
                                                                         value="{{ $permission->name }}"
-                                                                        {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                                                                        @checked($role->hasPermissionTo($permission->name))>
                                                                     <span
                                                                         class="form-check-label">{{ $permission->name }}</span>
                                                                 </label>

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileUpload {
 
-
     public function uploadFile(UploadedFile $file, string $dir = 'uploads', string $disk = 'public')
     {
         try {
@@ -23,8 +22,6 @@ trait FileUpload {
         }
     }
 
-    /**
-     */
     public function deleteFile($path, $disk = 'public')
     {
         if ($path && Storage::disk($disk)->exists($path)) {
