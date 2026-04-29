@@ -11,12 +11,9 @@ trait FileUpload {
     {
         try {
             $extension = $file->getClientOriginalExtension();
-
             $fileName = time() . '_' . uniqid() . '.' . $extension;
-
             $path = $file->storeAs($dir, $fileName, $disk);
-
-            return $path; 
+            return $path;
         } catch (\Exception $e) {
             return null;
         }

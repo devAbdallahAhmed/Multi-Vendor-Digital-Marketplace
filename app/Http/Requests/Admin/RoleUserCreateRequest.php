@@ -25,7 +25,12 @@ class RoleUserCreateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id',
-        ];
+            'role_id' => [
+                'required',
+                \Illuminate\Validation\Rule::exists('roles', 'id')->where(function ($query) {
+                    return $query->where('guard_name', 'admin');
+                }),
+            ]
+    ];
     }
 }
