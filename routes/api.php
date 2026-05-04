@@ -39,5 +39,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::get('role/user', [RoleUserController::class,'index']);
         Route::post('role/user/store', [RoleUserController::class,'store']);
         Route::put('role/user/update/{role_user}',[RoleUserController::class ,'update']);
+        Route::delete('role/user/delete/{role_user}',[RoleUserController::class ,'destroy']);
+
     });
 });
