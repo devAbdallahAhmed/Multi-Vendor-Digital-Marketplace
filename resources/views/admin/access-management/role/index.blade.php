@@ -31,127 +31,104 @@
 
         <div class="page-body">
             <div class="container-xl">
-                <div class="row row-cards">
-                    @forelse($roles as $role)
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card d-flex flex-column shadow-sm border-0">
-                                <div class="card-status-start bg-primary"></div>
+           <div class="row row-cards">
+    @forelse($roles as $role)
+        <div class="col-md-6 col-lg-4">
+            <div class="card d-flex flex-column shadow-sm border-0 rounded-3 overflow-hidden hover-shadow"
+                 style="transition: all 0.3s ease; background: #ffffff; min-height: 200px;">
 
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <span class="avatar avatar-md rounded-circle bg-primary-lt fw-bold">
-                                            {{ strtoupper(substr($role->name, 0, 2)) }}
-                                        </span>
-                                        <div class="ms-3">
-                                            <h3 class="card-title m-0 fw-bold">{{ $role->name }}</h3>
-                                            <div class="text-secondary small">
-                                                <i class="ti ti-lock"></i>
-                                                @if($role->name == 'super admin')
-                                                   <span style="color:blue">{{ __('All Permissions') }}</span>
-                                                    @else
-                                                {{ $role->permissions->count() }}
-                                                 {{ __('Permissions') }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="card-status-start bg-primary"></div>
 
-                                    <div class="mb-3" style="min-height: 80px;">
-                                        <div class="d-flex flex-wrap gap-1">
-                                            @foreach ($role->permissions->take(5) as $permission)
-                                                <span class="badge badge-outline text-blue fw-medium">
-                                                    {{ str_replace('_', ' ', $permission->name) }}
-                                                </span>
-                                            @endforeach
-                                            @if ($role->permissions->count() > 5)
-                                                <span
-                                                    class="badge badge-soft-secondary">+{{ $role->permissions->count() - 5 }}
-                                                    More</span>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="text-secondary small mt-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline me-1" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-                                            <path d="M16 3v4" />
-                                            <path d="M8 3v4" />
-                                            <path d="M4 11h16" />
-                                            <path d="M11 15h1" />
-                                            <path d="M12 15v3" />
-                                        </svg>
-                                        {{ __('Created:') }} {{ $role->created_at->format('M d, Y') }}
-                                    </div>
-                                </div>
-
-                 @if ($role->name != 'super admin')
-                                <div class="card-footer bg-light-subtle d-flex align-items-center">
-                                    {{-- Edit Button --}}
-                                    <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                        class="btn btn-outline-primary btn-sm flex-fill fw-bold">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
-                                            <path d="M13.5 6.5l4 4"></path>
-                                        </svg>
-                                        {{ __('Edit') }}
-                                    </a>
-                                    {{-- Delete Form --}}
-                                    <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
-                                        class="ms-2 delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger btn-sm shadow-sm delete-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon m-0" width="24"
-                                                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M4 7l16 0"></path>
-                                                <path d="M10 11l0 6"></path>
-                                                <path d="M14 11l0 6"></path>
-                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                                            </svg>
-                                        </button>
-                                    </form>
-
-                                </div>
-                                  @endif
-
-                            </div>
+                <div class="card-body p-3 d-flex flex-column">
+                    <!-- Header: Avatar + Title -->
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="avatar avatar-sm rounded-2 bg-primary-lt fw-bold text-primary shadow-none">
+                            {{ strtoupper(substr($role->name, 0, 2)) }}
+                        </span>
+                        <div class="ms-3">
+                            <h4 class="m-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                                {{ ucwords($role->name) }}
+                            </h4>
+                            <small class="text-muted" style="font-size: 0.7rem;">
+                                @if($role->name == 'super admin')
+                                    <span class="text-blue"><i class="ti ti-crown me-1"></i>Full Control</span>
+                                @else
+                                    <i class="ti ti-shield me-1"></i>{{ $role->permissions->count() }} Permissions
+                                @endif
+                            </small>
                         </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="card card-md border-dashed">
-                                <div class="card-body text-center py-5">
-                                    <div class="mb-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-lock-off text-muted" width="40"
-                                            height="40" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M15 11v-1a3 3 0 0 0 -3 -3m-2.75 1.188a3 3 0 0 0 -0.25 1.812v1" />
-                                            <path d="M8 11h-2a2 2 0 0 0 -2 2v5a2 2 0 0 0 2 2h12" />
-                                            <path d="M16 16l0 .01" />
-                                            <path d="M3 3l18 18" />
-                                        </svg>
-                                    </div>
-                                    <h3>{{ __('No roles found') }}</h3>
-                                    <p class="text-secondary">{{ __('You have not created any roles yet.') }}</p>
-                                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary">
-                                        {{ __('Add your first role') }}
-                                    </a>
-                                </div>
-                            </div>
+                    </div>
+
+                    <!-- Permissions Tags -->
+                    <div class="flex-grow-1 mb-3">
+                        <div class="d-flex flex-wrap gap-1">
+                            @forelse ($role->permissions->take(4) as $permission)
+                                <span class="badge badge-outline text-secondary fw-medium px-2 py-1"
+                                      style="font-size: 10px; border-color: #eee; background: #fafafa; color: #666 !important;">
+                                    {{ str_replace('_', ' ', $permission->name) }}
+                                </span>
+                            @empty
+                                <span class="text-muted small italic" style="font-size: 11px;">No specific permissions</span>
+                            @endforelse
+
+                            @if ($role->permissions->count() > 4)
+                                <span class="badge bg-light text-primary fw-bold" style="font-size: 10px;">
+                                    +{{ $role->permissions->count() - 4 }} More
+                                </span>
+                            @endif
                         </div>
-                    @endforelse
+                    </div>
+
+                    <!-- Footer: Date + Actions (Edit/Delete) -->
+                    <div class="d-flex align-items-center justify-content-between pt-3 border-top border-light">
+                        <div class="text-muted" style="font-size: 11px;">
+                            <i class="ti ti-calendar-event me-1"></i>{{ $role->created_at->format('d M Y') }}
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            @if ($role->name != 'super admin')
+                                {{-- Edit Button --}}
+                                <a href="{{ route('admin.roles.edit', $role->id) }}"
+                                   class="btn btn-icon btn-sm btn-ghost-primary rounded-2"
+                                   style="width: 32px; height: 32px;"
+                                   data-bs-toggle="tooltip" title="Edit Role">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                </a>
+
+                                {{-- Delete Button --}}
+                                <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST" class="m-0 delete-form">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-icon btn-sm btn-ghost-danger rounded-2"
+                                            style="width: 32px; height: 32px;"
+                                            data-bs-toggle="tooltip" title="Delete Role">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+                                    </button>
+                                </form>
+                            @else
+                                <span class="badge bg-blue-lt border-0 px-2 py-1" style="font-size: 10px;">
+                                    <i class="ti ti-lock me-1"></i>Protected
+                                </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    @empty
+        <div class="col-12">
+            <div class="card border-dashed bg-transparent shadow-none py-5">
+                <div class="card-body text-center">
+                    <h3 class="text-muted fw-bold">No roles available</h3>
+                    <a href="{{ route('admin.roles.create') }}" class="btn btn-primary rounded-2 px-4 mt-2">
+                        <i class="ti ti-plus me-2"></i>Create New Role
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endforelse
+</div>
+
+
             </div>
         </div>
     </div>

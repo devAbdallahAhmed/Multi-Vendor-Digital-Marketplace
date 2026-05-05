@@ -5,9 +5,10 @@ use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ProfileController;   
-use App\Http\Controllers\Admin\RoleController; 
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
+use App\Http\Controllers\Admin\KycSettingController;
 
 Route::middleware('guest:admin')
 ->prefix('admin/')
@@ -46,12 +47,13 @@ Route::middleware('auth:admin')
         Route::get('profile/',[ProfileController::class,'index'])->name('profile.index');
         Route::put('profile/',[ProfileController::class,'update'])->name('profile.update');
         Route::put('profile/password',[ProfileController::class,'updatePassword'])->name('profile.updatePassword');
-     
-     
+
+
         //                   Route Management Routes
         Route::resource('roles', RoleController::class);
-
-
-        // Roles Assignment Routes
+        //                    Roles Assignment Routes
         Route::resource('role-users', RoleUserController::class);
+        //              KYC_Setting
+       Route::resource('kyc-setting', KycSettingController::class);
+Route::put('kyc-setting/update', [KycSettingController::class, 'update'])->name('kyc-setting.update');
        });
