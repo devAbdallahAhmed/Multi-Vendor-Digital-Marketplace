@@ -23,7 +23,7 @@ class User extends Authenticatable
     //     'email',
     //     'password',
     // ];
-    protected $guarded = []; 
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+public function latestKyc()
+{
+    return $this->hasOne(KycVerification::class)->latestOfMany();
+}
 }

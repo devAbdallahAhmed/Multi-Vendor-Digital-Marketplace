@@ -1,135 +1,236 @@
-<!-- Top Header Section -->
-<header class="navbar navbar-expand-md d-none d-lg-flex d-print-none custom-header">
+<header class="navbar navbar-expand-md d-none d-lg-flex d-print-none bg-white border-bottom shadow-sm sticky-top">
     <div class="container-xl">
 
-        <!-- Search Bar (Left Side) -->
+        <!-- Search -->
         <div class="collapse navbar-collapse" id="navbar-menu">
-            <div class="header-search-wrapper">
-                <form action="./" method="get" autocomplete="off" novalidate>
-                    <div class="input-icon">
-                        <span class="input-icon-addon">
-                            <i class="bi bi-search text-muted"></i>
-                        </span>
-                        <input type="text" class="form-control header-search-input" placeholder="Search for anything...">
-                    </div>
-                </form>
-            </div>
-        </div>
 
-        <!-- Right Side Actions -->
-        <div class="navbar-nav flex-row order-md-last">
+            <form action="./" method="get" class="w-100" autocomplete="off" novalidate>
 
-            <!-- Notifications Dropdown -->
-            <div class="nav-item dropdown d-none d-md-flex me-3">
-                <a href="#" class="nav-link px-0 text-white-50 hover-white" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
-                    <i class="bi bi-bell fs-2"></i>
-                    <span class="badge bg-red badge-notification"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Last updates</h3>
-                        </div>
-                        <div class="list-group list-group-flush list-group-hoverable">
-                            <div class="list-group-item">
-                                <small class="text-muted d-block">No new notifications</small>
-                            </div>
-                        </div>
-                    </div>
+                <div class="position-relative" style="max-width: 380px;">
+
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+
+                    <input type="text"
+                           class="form-control rounded-4 ps-5 py-2 border-0 bg-light shadow-sm"
+                           placeholder="Search dashboard...">
+
                 </div>
+
+            </form>
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="navbar-nav flex-row align-items-center gap-3 ms-auto">
+
+            <!-- Notifications -->
+            <div class="nav-item dropdown">
+
+                <a href="#"
+                   class="btn btn-light rounded-circle position-relative d-flex align-items-center justify-content-center shadow-sm"
+                   style="width: 45px; height: 45px;"
+                   data-bs-toggle="dropdown">
+
+                    <i class="bi bi-bell fs-5 text-secondary"></i>
+
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-white rounded-circle">
+                    </span>
+
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-end border-0 shadow rounded-4 p-0 overflow-hidden"
+                     style="width: 300px;">
+
+                    <div class="p-3 border-bottom bg-light">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div>
+                                <h6 class="mb-0 fw-bold">
+                                    Notifications
+                                </h6>
+
+                                <small class="text-muted">
+                                    Latest updates
+                                </small>
+                            </div>
+
+                            <span class="badge bg-primary-subtle text-primary">
+                                0 New
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="text-center p-4">
+
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                             style="width: 70px; height: 70px;">
+
+                            <i class="bi bi-bell-slash fs-3 text-secondary"></i>
+
+                        </div>
+
+                        <h6 class="fw-semibold mb-1">
+                            No notifications
+                        </h6>
+
+                        <small class="text-muted">
+                            You're all caught up.
+                        </small>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <!-- User Profile Dropdown -->
-          <div class="nav-item dropdown">
-    <a href="#" class="nav-link d-flex lh-1 text-reset p-0 user-menu-trigger"
-       data-bs-toggle="dropdown"
-       data-bs-auto-close="outside"
-       aria-label="Open user menu">
-        <span class="avatar avatar-sm rounded-circle shadow-sm profile-avatar"
-              style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default.png') }})"></span>
-        <div class="d-none d-xl-block ps-2 text-start">
-            <div class="text-white fw-bold">{{ Auth::user('admin')->name }}</div>
-            <div class="mt-1 small text-white-50 opacity-75">System Admin</div>
-        </div>
-    </a>
+            <!-- User Dropdown -->
+            <div class="nav-item dropdown">
 
-    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow shadow-lg ">
-        <a href="{{ route('admin.profile.index') }}" class="dropdown-item py-2">
-            <i class="bi bi-person me-2"></i> Profile
+                <a href="#"
+                   class="d-flex align-items-center text-decoration-none px-2 py-1 rounded-4 hover-bg-light"
+                   data-bs-toggle="dropdown"
+                   data-bs-auto-close="outside">
+
+                    <!-- Avatar -->
+                    <span class="avatar avatar-md rounded-circle border border-2 shadow-sm"
+                          style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default.png') }})">
+                    </span>
+
+                    <!-- Info -->
+                    <div class="ms-3 d-none d-xl-block">
+
+                        <div class="fw-bold text-dark">
+                            {{ Auth::user('admin')->name }}
+                        </div>
+
+                        <small class="text-muted">
+                            System Admin
+                        </small>
+
+                    </div>
+
+                    <i class="bi bi-chevron-down small text-secondary ms-2"></i>
+
+                </a>
+
+                <!-- Dropdown -->
+<div class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-4 p-0 overflow-hidden user-dropdown-menu">
+
+    <!-- User Info -->
+    <div class="p-4 text-center border-bottom bg-light-subtle">
+
+        <div class="position-relative d-inline-block mb-3">
+
+            <span class="avatar avatar-xl rounded-circle shadow"
+                  style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default.png') }});
+                         width: 80px;
+                         height: 80px;">
+            </span>
+
+            <!-- Online Dot -->
+            <span class="position-absolute bottom-0 end-0 bg-success border border-3 border-white rounded-circle"
+                  style="width: 18px; height: 18px;">
+            </span>
+
+        </div>
+
+        <h5 class="fw-bold mb-1 text-dark">
+            {{ Auth::user('admin')->name }}
+        </h5>
+
+        <div class="text-muted small">
+            Administrator Account
+        </div>
+
+    </div>
+
+    <!-- Menu Links -->
+    <div class="py-2">
+
+        <a href="{{ route('admin.profile.index') }}"
+           class="dropdown-item d-flex align-items-center gap-3 py-3 px-4">
+
+            <div class="menu-icon bg-primary-subtle text-primary">
+                <i class="bi bi-person"></i>
+            </div>
+
+            <div>
+                <div class="fw-semibold text-dark">
+                    Profile
+                </div>
+
+                <small class="text-muted">
+                    Manage your profile
+                </small>
+            </div>
+
         </a>
-        <a href="#" class="dropdown-item py-2">
-            <i class="bi bi-gear me-2"></i> Account Settings
+
+        <a href="#"
+           class="dropdown-item d-flex align-items-center gap-3 py-3 px-4">
+
+            <div class="menu-icon bg-warning-subtle text-warning">
+                <i class="bi bi-gear"></i>
+            </div>
+
+            <div>
+                <div class="fw-semibold text-dark">
+                    Settings
+                </div>
+
+                <small class="text-muted">
+                    Account preferences
+                </small>
+            </div>
+
         </a>
-        <div class="dropdown-divider"></div>
+
+    </div>
+
+    <div class="dropdown-divider m-0"></div>
+
+    <!-- Logout -->
+    <div class="p-2">
+
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
-            <button type="submit" class="dropdown-item text-danger fw-bold py-2 w-100 text-start">
-                <i class="bi bi-box-arrow-right me-2"></i> Logout
+
+            <button type="submit"
+                    class="dropdown-item logout-btn d-flex align-items-center gap-3 rounded-3 py-3 px-3">
+
+                <div class="menu-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-box-arrow-right"></i>
+                </div>
+
+                <div class="fw-semibold">
+                    Logout
+                </div>
+
             </button>
+
         </form>
+
     </div>
+
 </div>
+
+
+
+            </div>
+
         </div>
 
     </div>
 </header>
 
 <style>
-    /* Custom Header Classes */
-    .custom-header {
-        background-color: #0f172a !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        height: 70px;
+
+    .hover-bg-light:hover{
+        background: #f8f9fa;
+        transition: .2s ease;
     }
 
-    /* Search Bar Styling */
-    .header-search-wrapper {
-        margin: 8px 0;
-    }
-
-    .header-search-input {
-        background-color: rgba(255, 255, 255, 0.05) !important;
-        border: none !important;
-        color: white !important;
-        width: 350px !important;
-        border-radius: 8px !important;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        transition: all 0.3s ease;
-    }
-
-    .header-search-input:focus {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 0 0 2px rgba(32, 107, 196, 0.25) !important;
-        width: 400px !important;
-    }
-
-    .header-search-input::placeholder {
-        color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Badge Positioning */
-    .badge-notification {
-        position: absolute;
-        top: 8px;
-        right: -2px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        border: 2px solid #0f172a;
-    }
-
-    /* Profile Avatar Effects */
-    .profile-avatar {
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: border-color 0.3s ease;
-    }
-
-    .nav-item:hover .profile-avatar {
-        border-color: #206bc4;
-    }
-
-    .hover-white:hover {
-        color: white !important;
-    }
 </style>

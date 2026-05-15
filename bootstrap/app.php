@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
          'auth' => App\Http\Middleware\Authenticate::class,
          'guest'=>  App\Http\Middleware\RedirectIfAuthenticated::class,
+         'checkKyc' => \App\Http\Middleware\CheckKyc::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

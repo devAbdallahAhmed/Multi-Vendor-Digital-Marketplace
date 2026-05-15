@@ -27,6 +27,26 @@
     <!-- Main css -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
 
+
+    <style>
+        .fw-600 { font-weight: 600; }
+        .card { transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .rounded-4 { border-radius: 1.25rem !important; }
+        .btn-primary { background-color: #0d6efd; border: none; }
+        .btn-primary:hover { background-color: #0b5ed7; transform: scale(1.01); }
+        .upload-wrapper input[type="file"] { border: none; background: transparent; }
+    </style>
+<style>
+    .fw-600 { font-weight: 600; }
+    .rounded-4 { border-radius: 1.25rem !important; }
+    .card { transition: all 0.3s ease; }
+    .card:hover { transform: translateY(-5px); }
+    .btn-primary { background-color: #0d6efd; border: none; }
+    .btn-primary:hover { background-color: #0b5ed7; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2); }
+    .form-control:focus { border-color: #0d6efd; box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1); }
+</style>
+
 </head>
 
 <body>
