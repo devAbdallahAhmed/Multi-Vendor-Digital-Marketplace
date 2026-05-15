@@ -1,115 +1,105 @@
-{{-- <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
 @extends('frontend.layouts.master')
+
 @section('content')
-    <section class="wsus__login padding-y-120">
+    <section class="breadcrumb-area py-5" style="background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);">
         <div class="container">
-            <div class="row">
-                <div class="col-xxl-5 col-xl-6 col-md-9 col-lg-7 m-auto">
-                    <div class="wsus__login_area">
-                        <h2>{{ __('Welcome back!') }}</h2>
-                        <p>{{ __('sign up to continue') }}</p>
-                        <form method="POST" action="{{ route('register') }}"> 
-                            @csrf
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="name" :value="__('Name')" />
-                                        <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                            :value="old('name')" required autofocus autocomplete="name" />
-                                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                    </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="email" :value="__('Email')" />
-                                        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                            :value="old('email')" required autocomplete="username" />
-                                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                                    </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="password" :value="__('Password')" />
-                                        <x-text-input id="password" class="block mt-1 w-full" type="password"
-                                            name="password" required autocomplete="new-password" />
-                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                                    </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-primary">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create Account</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold">{{ __('Join Our Marketplace') }}</h2>
+        </div>
+    </section>
 
-                                        <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                                            name="password_confirmation" required autocomplete="new-password" />
+    <section class="wsus__login padding-y-120 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-5 col-xl-6 col-md-9 col-lg-7">
 
-                                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                                    </div>
-                                </div>
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 pt-5 px-5 text-center">
+                            <h3 class="fw-bold text-dark mb-2">{{ __('Create Account') }}</h3>
+                            <p class="text-muted small">{{ __('Join us today and start your journey') }}</p>
+                        </div>
 
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-primary-button class="btn btn-main btn-lg">
-                                            {{ __('Register') }}
-                                        </x-primary-button>
+                        <div class="card-body p-5">
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
+                                <div class="row g-4">
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-user me-2 text-primary"></i>{{ __('Full Name') }}
+                                            </label>
+                                            <x-text-input id="name" class="form-control py-3 shadow-none" type="text" name="name"
+                                                :value="old('name')" required autofocus autocomplete="name"
+                                                placeholder="Enter your full name" />
+                                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                        </div>
                                     </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-envelope me-2 text-primary"></i>{{ __('Email Address') }}
+                                            </label>
+                                            <x-text-input id="email" class="form-control py-3 shadow-none" type="email" name="email"
+                                                :value="old('email')" required autocomplete="username"
+                                                placeholder="example@mail.com" />
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-lock me-2 text-primary"></i>{{ __('Password') }}
+                                            </label>
+                                            <x-text-input id="password" class="form-control py-3 shadow-none" type="password"
+                                                name="password" required autocomplete="new-password"
+                                                placeholder="Create a strong password" />
+                                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-shield-alt me-2 text-primary"></i>{{ __('Confirm Password') }}
+                                            </label>
+                                            <x-text-input id="password_confirmation" class="form-control py-3 shadow-none"
+                                                type="password" name="password_confirmation" required
+                                                autocomplete="new-password" placeholder="Repeat your password" />
+                                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 py-3 shadow-sm fw-bold">
+                                            <i class="fas fa-user-plus me-2"></i>{{ __('Register Now') }}
+                                        </button>
+                                    </div>
+
                                 </div>
-                            </div>
-                        </form>
-                        <p class="create_account mt-2">{{ __('have an aceount ?') }} <a href="{{ route('login') }}">{{ __('Sing In') }}</a></p>
+                            </form>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 pb-5 text-center">
+                            <p class="create_account mb-0 text-muted">
+                                {{ __('Already have an account?') }}
+                                <a href="{{ route('login') }}" class="text-primary fw-bold text-decoration-none ms-1">
+                                    {{ __('Sign In') }}
+                                </a>
+                            </p>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </section>
 @endsection
+

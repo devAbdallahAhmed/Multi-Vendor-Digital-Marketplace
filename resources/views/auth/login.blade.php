@@ -1,91 +1,95 @@
 @extends('frontend.layouts.master')
+
 @section('content')
-    <!-- ======================== Breadcrumb Two Section Start ===================== -->
-    <section class="breadcrumb border-bottom p-0 d-block section-bg position-relative z-index-1"
-        style="background: url({{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }});">
-        <div class="breadcrumb-two">
-            <img src="assets/images/gradients/breadcrumb-gradient-bg.png" alt="" class="bg--gradient">
-            <div class="container container-two">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <div class="breadcrumb-two-content text-center">
-
-                            <ul class="breadcrumb-list flx-align gap-2 mb-2 justify-content-center">
-                                <li class="breadcrumb-list__item font-14 text-body">
-                                    <a href="index.html" class="breadcrumb-list__link text-body hover-text-main">Home</a>
-                                </li>
-                                <li class="breadcrumb-list__item font-14 text-body">
-                                    <span class="breadcrumb-list__icon font-10"><i class="fas fa-chevron-right"></i></span>
-                                </li>
-                                <li class="breadcrumb-list__item font-14 text-body">
-                                    <span class="breadcrumb-list__text">{{ __('Sign In') }}</span>
-                                </li>
-                            </ul>
-
-                            <h3 class="breadcrumb-two-content__title mb-0 text-capitalize">{{ __('Sign In') }}</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="breadcrumb-area py-5" style="background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-primary">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sign In</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold">{{ __('Welcome Back') }}</h2>
         </div>
     </section>
-    <!-- ======================== Breadcrumb Two Section End ===================== -->
 
-    <section class="wsus__login padding-y-120">
+    <section class="wsus__login padding-y-120 bg-light">
         <div class="container">
-            <div class="row">
-                <div class="col-xxl-5 col-xl-6 col-md-9 col-lg-7 m-auto">
-                    <div class="wsus__login_area">
-                        <h2>{{ __('Welcome back!') }}</h2>
-                        <p>{{ __('sign in to continue') }}</p>
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="email" :value="__('Email')" />
-                                        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                            :value="old('email')" required autofocus autocomplete="username" />
-                                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="row justify-content-center">
+                <div class="col-xxl-5 col-xl-6 col-md-9 col-lg-7">
 
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                        <div class="card-header bg-white border-0 pt-5 px-5 text-center">
+                            <h3 class="fw-bold text-dark mb-2">{{ __('Sign In') }}</h3>
+                            <p class="text-muted">{{ __('Please enter your details to access your account') }}</p>
+                        </div>
+
+                        <div class="card-body p-5">
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+                                <div class="row g-4">
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-envelope me-2 text-primary"></i>{{ __('Email Address') }}
+                                            </label>
+                                            <x-text-input id="email" class="form-control py-3 shadow-none" type="email" name="email"
+                                                :value="old('email')" required autofocus autocomplete="username"
+                                                placeholder="example@mail.com" />
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput">
-                                        <x-input-label for="password" :value="__('Password')" />
 
-                                        <x-text-input id="password" class="block mt-1 w-full" type="password"
-                                            name="password" required autocomplete="current-password" />
-
-                                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label class="form-label fw-600 mb-2 text-dark">
+                                                <i class="fas fa-lock me-2 text-primary"></i>{{ __('Password') }}
+                                            </label>
+                                            <x-text-input id="password" class="form-control py-3 shadow-none" type="password"
+                                                name="password" required autocomplete="current-password"
+                                                placeholder="••••••••" />
+                                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_imput wsus__login_check_area">
+
+                                    <div class="col-12 d-flex justify-content-between align-items-center">
                                         <div class="form-check">
-                                            <input class="form-check-input" name="remember"type="checkbox" value=""
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label" name="remember" for="flexCheckDefault">
-                                               {{ __('Remember Me')}}
+                                            <input class="form-check-input" name="remember" type="checkbox" id="flexCheckDefault">
+                                            <label class="form-check-label text-muted small" for="flexCheckDefault">
+                                                {{ __('Remember Me') }}
                                             </label>
                                         </div>
                                         @if (Route::has('password.request'))
-                                            <a href="{{ route('password.request') }}"> {{ __('Forgot your password?') }}</a>
+                                            <a href="{{ route('password.request') }}" class="small text-primary text-decoration-none hover-underline">
+                                                {{ __('Forgot Password?') }}
+                                            </a>
                                         @endif
                                     </div>
-                                </div>
-                                <div class="col-xl-12">
-                                    <div class="wsus__login_input">
-                                        <button type="submit" class="btn btn-main btn-lg">{{ __('Sign In') }}</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
 
-                        <p class="create_account"> {{ __("Don't have an account ? ") }}<a href="{{ route('register') }}"{{ __('Sign Up') }}</a></p>
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg w-100 py-3 shadow-sm fw-bold">
+                                            {{ __('Sign In') }}
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 pb-5 text-center">
+                            <p class="create_account mb-0 text-muted">
+                                {{ __("Don't have an account?") }}
+                                <a href="{{ route('register') }}" class="text-primary fw-bold text-decoration-none ms-1 italic">
+                                    {{ __('Sign Up') }}
+                                </a>
+                            </p>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </section>
 @endsection
+
