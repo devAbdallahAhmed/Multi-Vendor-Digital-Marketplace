@@ -34,6 +34,10 @@ class KycStatusService
                 'reject_reason' => $reason
             ]);
 
+            $kyc->user->update([
+                'user_type' => 'user'
+            ]);
+
             Mail::to($kyc->user->email)->queue(
                 new DefaultMail(
                     name: $kyc->user->name,
@@ -42,6 +46,15 @@ class KycStatusService
                     content: __('We are sorry to inform you that your KYC verification request has been rejected. Reason: ') . $reason
                 )
             );
+        } elseif ($status === 'pending') {
+            $kyc->update([
+                'status' => 'pending',
+                'reject_reason' => null
+            ]);
+
+            $kyc->user->update([
+                'user_type' => 'user'
+            ]);
         }
     }
 }

@@ -2,8 +2,8 @@
 
     <!-- Mobile Close -->
     <button type="button"
-            class="btn btn-light rounded-circle position-absolute top-0 end-0 m-3 d-lg-none d-flex align-items-center justify-content-center"
-            style="width: 38px; height: 38px;">
+        class="btn btn-light rounded-circle position-absolute top-0 end-0 m-3 d-lg-none d-flex align-items-center justify-content-center"
+        style="width: 38px; height: 38px;">
 
         <i class="bi bi-x-lg text-dark"></i>
 
@@ -14,8 +14,7 @@
         <!-- Logo -->
         <div class="mb-5">
 
-            <a href="{{ url('/') }}"
-               class="d-flex align-items-center text-decoration-none">
+            <a href="{{ url('/') }}" class="d-flex align-items-center text-decoration-none">
 
                 <div class="sidebar-logo-icon me-3">
                     <i class="bi bi-lightning-charge-fill"></i>
@@ -41,8 +40,7 @@
             <!-- Dashboard -->
             <li class="nav-item">
 
-                <a href="#"
-                   class="nav-link sidebar-link active">
+                <a href="#" class="nav-link sidebar-link active">
 
                     <div class="sidebar-icon sidebar-primary">
                         <i class="bi bi-grid-1x2-fill"></i>
@@ -59,8 +57,7 @@
             <!-- Profile -->
             <li class="nav-item">
 
-                <a href="{{ route('profile') }}"
-                   class="nav-link sidebar-link">
+                <a href="{{ route('profile') }}" class="nav-link sidebar-link">
 
                     <div class="sidebar-icon sidebar-info">
                         <i class="bi bi-person-circle"></i>
@@ -73,12 +70,29 @@
                 </a>
 
             </li>
+            @can('is-author')
+                <!-- Product -->
+                <li class="nav-item">
+
+                    <a href="#" class="nav-link sidebar-link">
+
+                        <div class="sidebar-icon sidebar-warning">
+                            <i class="bi bi-sliders"></i>
+                        </div>
+
+                        <span>
+                            Product
+                        </span>
+
+                    </a>
+
+                </li>
+            @endcan
 
             <!-- Settings -->
             <li class="nav-item">
 
-                <a href="#"
-                   class="nav-link sidebar-link">
+                <a href="#" class="nav-link sidebar-link">
 
                     <div class="sidebar-icon sidebar-warning">
                         <i class="bi bi-sliders"></i>
@@ -95,8 +109,7 @@
             <!-- Orders -->
             <li class="nav-item">
 
-                <a href="#"
-                   class="nav-link sidebar-link">
+                <a href="#" class="nav-link sidebar-link">
 
                     <div class="sidebar-icon sidebar-success">
                         <i class="bi bi-bag-check-fill"></i>
@@ -113,8 +126,7 @@
             <!-- Wishlist -->
             <li class="nav-item">
 
-                <a href="#"
-                   class="nav-link sidebar-link">
+                <a href="#" class="nav-link sidebar-link">
 
                     <div class="sidebar-icon sidebar-danger">
                         <i class="bi bi-heart-fill"></i>
@@ -137,7 +149,7 @@
                 @csrf
 
                 <button type="submit"
-                        class="btn btn-light border w-100 rounded-4 d-flex align-items-center justify-content-center gap-2 py-3 fw-semibold text-danger logout-btn">
+                    class="btn btn-light border w-100 rounded-4 d-flex align-items-center justify-content-center gap-2 py-3 fw-semibold text-danger logout-btn">
 
                     <i class="bi bi-box-arrow-right"></i>
 
@@ -154,8 +166,7 @@
 </div>
 
 <style>
-
-    .dashboard-sidebar{
+    .dashboard-sidebar {
         width: 290px;
         min-height: 100vh;
         position: sticky;
@@ -165,13 +176,13 @@
 
     /* Logo */
 
-    .sidebar-logo-icon{
+    .sidebar-logo-icon {
         width: 48px;
         height: 48px;
 
         border-radius: 16px;
 
-        background: linear-gradient(135deg,#0d6efd,#6ea8fe);
+        background: linear-gradient(135deg, #0d6efd, #6ea8fe);
 
         color: white;
 
@@ -181,12 +192,12 @@
 
         font-size: 22px;
 
-        box-shadow: 0 10px 20px rgba(13,110,253,.18);
+        box-shadow: 0 10px 20px rgba(13, 110, 253, .18);
     }
 
     /* Links */
 
-    .sidebar-link{
+    .sidebar-link {
         display: flex;
         align-items: center;
         gap: 14px;
@@ -202,19 +213,19 @@
         transition: all .22s ease;
     }
 
-    .sidebar-link:hover{
+    .sidebar-link:hover {
         background: #f8fafc;
         transform: translateX(4px);
     }
 
-    .sidebar-link.active{
-        background: rgba(13,110,253,.08);
+    .sidebar-link.active {
+        background: rgba(13, 110, 253, .08);
         color: #0d6efd !important;
     }
 
     /* Icons */
 
-    .sidebar-icon{
+    .sidebar-icon {
         width: 44px;
         height: 44px;
 
@@ -231,46 +242,45 @@
         transition: all .2s ease;
     }
 
-    .sidebar-link:hover .sidebar-icon{
+    .sidebar-link:hover .sidebar-icon {
         transform: scale(1.05);
     }
 
     /* Icon Colors */
 
-    .sidebar-primary{
-        background: rgba(13,110,253,.12);
+    .sidebar-primary {
+        background: rgba(13, 110, 253, .12);
         color: #0d6efd;
     }
 
-    .sidebar-info{
-        background: rgba(13,202,240,.12);
+    .sidebar-info {
+        background: rgba(13, 202, 240, .12);
         color: #0dcaf0;
     }
 
-    .sidebar-warning{
-        background: rgba(255,193,7,.14);
+    .sidebar-warning {
+        background: rgba(255, 193, 7, .14);
         color: #f59f00;
     }
 
-    .sidebar-success{
-        background: rgba(25,135,84,.12);
+    .sidebar-success {
+        background: rgba(25, 135, 84, .12);
         color: #198754;
     }
 
-    .sidebar-danger{
-        background: rgba(220,53,69,.12);
+    .sidebar-danger {
+        background: rgba(220, 53, 69, .12);
         color: #dc3545;
     }
 
     /* Logout */
 
-    .logout-btn{
+    .logout-btn {
         transition: all .2s ease;
     }
 
-    .logout-btn:hover{
-        background: rgba(220,53,69,.08);
-        border-color: rgba(220,53,69,.15);
+    .logout-btn:hover {
+        background: rgba(220, 53, 69, .08);
+        border-color: rgba(220, 53, 69, .15);
     }
-
 </style>
