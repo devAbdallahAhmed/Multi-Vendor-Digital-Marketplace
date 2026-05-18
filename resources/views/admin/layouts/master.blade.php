@@ -51,7 +51,10 @@
             background: rgba(214, 57, 57, 0.1);
             color: #d63939;
         }
+
+
     </style>
+     @stack('styles')
 </head>
 
 <body>

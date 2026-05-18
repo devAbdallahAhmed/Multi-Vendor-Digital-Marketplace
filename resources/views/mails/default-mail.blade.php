@@ -4,54 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <title>{{ $subject }}</title>
 </head>
 
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333;">
+<body
+    style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; color: #343a40;">
+
     <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
-        style="max-width: 600px; background-color: #ffffff; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 8px;">
-        <!-- Header Section -->
-        <tr>
-            <td align="center"
-                style="padding: 20px; background-color: #007BFF; color: #ffffff; border-radius: 8px 8px 0 0;">
-                <h1 style="margin: 0; font-size: 24px;">Welcome to [Your Brand]</h1>
-                <p style="margin: 0; font-size: 14px;">Your tagline or a short message here</p>
-            </td>
-        </tr>
+        style="max-width: 600px; background-color: #ffffff; margin: 40px auto; border: 1px solid #dee2e6; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden;">
 
-        <!-- Main Content Section -->
         <tr>
-            <td style="padding: 20px;">
-                <h2 style="font-size: 20px; margin-top: 0;">Hello [Recipient Name],</h2>
-                <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                    Thank you for joining [Your Brand]! We're excited to have you on board. Here are some resources to
-                    help you get started:
+            <td align="center" style="padding: 35px 20px; background-color: #0d6efd; color: #ffffff;">
+                <h1 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.5px;">
+                    {{ config('app.name') }}
+                </h1>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #e9ecef; opacity: 0.9;">
+                    {{ __('Security & Verification Service') }}
                 </p>
-                <ul style="font-size: 16px; line-height: 1.5; padding-left: 20px; margin-bottom: 20px;">
-                    <li>Feature 1 - Short description</li>
-                    <li>Feature 2 - Short description</li>
-                    <li>Feature 3 - Short description</li>
-                </ul>
-                <p style="font-size: 16px; line-height: 1.5;">If you have any questions, feel free to reach out to us
-                    anytime!</p>
-                <a href="[CTA Link]"
-                    style="display: inline-block; margin-top: 20px; padding: 12px 20px; background-color: #007BFF; color: #ffffff; text-decoration: none; border-radius: 4px; font-size: 16px;">Get
-                    Started</a>
             </td>
         </tr>
 
-        <!-- Footer Section -->
+        <tr>
+            <td style="padding: 40px 30px;">
+                <h2 style="font-size: 20px; font-weight: 600; margin-top: 0; color: #212529;">
+                    {{ __('Hello') }} {{ $name }},
+                </h2>
+
+                <p style="font-size: 16px; line-height: 1.6; color: #495057; margin-bottom: 25px;">
+                    {{ $content }}
+                </p>
+
+                <p style="font-size: 15px; line-height: 1.6; color: #6c757d;">
+                    {{ __('If you have any questions or believe this was a mistake, please contact our support team immediately.') }}
+                </p>
+
+                <div style="text-align: center; margin-top: 35px;">
+                    <a href="{{ route('home') }}"
+                        style="display: inline-block; padding: 12px 30px; background-color: #0d6efd; color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 600; box-shadow: 0 2px 4px rgba(13,110,253,0.2);">
+                        {{ __('Go to Dashboard') }}
+                    </a>
+                </div>
+            </td>
+        </tr>
+
         <tr>
             <td align="center"
-                style="padding: 20px; background-color: #f4f4f4; color: #888; font-size: 14px; border-radius: 0 0 8px 8px;">
-                <p style="margin: 0;">[Your Brand Name] &copy; 2025. All rights reserved.</p>
+                style="padding: 25px 20px; background-color: #f8f9fa; color: #6c757d; font-size: 13px; border-top: 1px solid #dee2e6;">
+                <p style="margin: 0 0 8px 0; font-weight: 500;">
+                    {{ config('app.name') }} &copy; {{ date('Y') }}. {{ __('All rights reserved.') }}
+                </p>
                 <p style="margin: 0;">
-                    <a href="[Privacy Policy Link]" style="color: #007BFF; text-decoration: none;">Privacy Policy</a> |
-                    <a href="[Unsubscribe Link]" style="color: #007BFF; text-decoration: none;">Unsubscribe</a>
+                    <a href="#"
+                        style="color: #0d6efd; text-decoration: none; margin: 0 5px;">{{ __('Privacy Policy') }}</a> |
+                    <a href="#"
+                        style="color: #0d6efd; text-decoration: none; margin: 0 5px;">{{ __('Support') }}</a>
                 </p>
             </td>
         </tr>
     </table>
+
 </body>
 
 </html>

@@ -9,44 +9,42 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class DefaultMail extends Mailable
+class DefaultMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct( public $name , public $toMail ,public $message , public $email , public $content)
-    {  
+    public $name;
+    public $mailSubject;
+    public $content;
+    public $toMail;
+
+    public function __construct($name, $mailSubject, $content, $toMail)
+    {
+        $this->name = $name;
+        $this->mailSubject = $mailSubject;
+        $this->content = $content;
+        $this->toMail = $toMail;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->message,
-
+            subject: $this->mailSubject,
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
             view: 'mails.default-mail',
+            with: [
+                'name' => $this->name,
+                'subject' => $this->mailSubject,
+                'content' => $this->content,
+            ]
         );
-
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];
