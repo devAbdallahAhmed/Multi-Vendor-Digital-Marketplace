@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\KycVerification;
+use App\Services\MailSendService;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Services\KycStatusService;
+use Illuminate\Support\Facades\Redirect;
 
 class KycCheckController extends Controller
 {
@@ -15,7 +18,8 @@ class KycCheckController extends Controller
      */
     public function index()
     {
-        $kycVerification = KycVerification::with('user')->paginate(25);
+        $kycVerification = KycVerification::with('user')
+            ->latest()->paginate(25);
         return view('admin.kyc.kyc-request.index', compact('kycVerification'));
     }
 
@@ -67,14 +71,16 @@ class KycCheckController extends Controller
     {
         $validated = $request->validate([
             'status' => 'required|in:pending,approved,rejected',
+            'reason' => 'nullable|string|max:500'
         ]);
+        KycStatusService::updateStatus(
+            kyc: $kyc,
+            status: $validated['status'],
+            reason: $validated['reason'] ?? null
+        );
 
-        $kyc->update(['status' => $validated['status']]);
 
-        $kyc->user->update([
-            'kyc_status' => ($validated['status'] === 'approved') ? 1 : 0
-        ]);
-
+        NotificationService::updated();
         return response()->json([
             'success' => true,
             'message' => __('KYC status updated successfully!')
