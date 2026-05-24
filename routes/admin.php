@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
 use App\Http\Controllers\Admin\KycSettingController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Frontend\KycVerificationController;
 
 Route::middleware('guest:admin')
@@ -69,4 +70,10 @@ Route::middleware('auth:admin')
             ->parameters([
                 'kyc-request' => 'kyc'
             ]);
+
+
+
+        //                              setting
+        Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+        Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
     });
