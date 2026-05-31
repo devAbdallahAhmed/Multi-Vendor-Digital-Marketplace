@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KycCheckController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,9 @@ Route::middleware('auth:admin')
             ]);
 
 
+
+        //  Categories Routes
+        Route::resource('categories',CategoryController::class);
 
         //                              setting
         Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
