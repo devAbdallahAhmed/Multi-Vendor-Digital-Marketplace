@@ -11,8 +11,9 @@
                 <div class="col-12">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
 
+                        <!-- Header Section -->
                         <div class="card-header bg-white border-0 py-4 px-4 border-bottom bg-light-subtle">
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 w-100">
                                 <div>
                                     <h3 class="card-title fw-bold mb-1 text-dark">
                                         {{ __('All Categories') }}
@@ -21,48 +22,28 @@
                                         {{ __('Manage your marketplace categories and their supported digital file extensions.') }}
                                     </p>
                                 </div>
-                                <div>
+                                <div class="ms-auto">
                                     <a href="{{ route('admin.categories.create') }}"
-                                        class="btn btn-primary btn-m
-                                        d rounded-3 px-4 fw-semibold shadow-sm">
+                                        class="btn btn-primary btn-md rounded-3 px-4 fw-semibold shadow-sm">
                                         <i class="bi bi-plus-circle-fill me-2"></i>{{ __('Add New Category') }}
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card-body p-4 border-bottom">
-                            <form action="#" method="POST">
-                                <div class="row g-3">
-
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold text-dark">{{ __('Category Icon') }}</label>
-                                        <div class="easy-icon-picker" data-picker="category-icon"></div>
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold text-dark">{{ __('Supported File Types') }}</label>
-                                        <input type="text" class="form-control" name="file_type"
-                                            placeholder="e.g. zip, jpg, mp4">
-                                        <span class="text-muted d-block mt-1" style="font-size: 12px;">
-                                            {{ __('The allowed files to be uploaded as main file. e.g. ZIP, JPG, MP4, MP3, PNG, etc.') }}
-                                        </span>
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div>
-
+                        <!-- Table Section -->
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light border-bottom">
                                     <tr>
                                         <th class="ps-4 py-3 fw-bold text-secondary text-uppercase fs-7"
-                                            style="letter-spacing: 0.5px;">{{ __('Category info') }}</th>
-                                        <th class="py-3 fw-bold text-secondary text-uppercase fs-7"
-                                            style="letter-spacing: 0.5px;">{{ __('Slug') }}</th>
+                                            style="letter-spacing: 0.5px;">{{ __('Category Info') }}</th>
                                         <th class="py-3 fw-bold text-secondary text-uppercase fs-7"
                                             style="letter-spacing: 0.5px;">{{ __('Supported Files') }}</th>
+                                        <th class="py-3 fw-bold text-secondary text-uppercase fs-7"
+                                            style="letter-spacing: 0.5px;">{{ __(' Show At Nav') }}</th>
+                                        <th class="py-3 fw-bold text-secondary text-uppercase fs-7"
+                                            style="letter-spacing: 0.5px;">{{ __(' Show At Featured') }}</th>
                                         <th class="py-3 fw-bold text-secondary text-uppercase fs-7"
                                             style="letter-spacing: 0.5px;">{{ __('Created At') }}</th>
                                         <th class="text-end pe-4 py-3 fw-bold text-secondary text-uppercase fs-7"
@@ -70,91 +51,160 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="border-bottom-0">
-                                        <td class="ps-4 py-3">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <div class="bg-primary-soft text-primary rounded-3 d-flex align-items-center justify-content-center border"
-                                                    style="width:48px; height:48px; background-color: rgba(13, 110, 253, 0.08);">
-                                                    <i class="bi bi-image fs-4"></i>
+
+                                    @forelse ($categories as $category)
+                                        <tr>
+
+                                            {{-- Category --}}
+                                            <td class="ps-4 py-3">
+
+                                                <div class="d-flex align-items-center gap-3">
+
+                                                    <div class="avatar avatar-md bg-primary-lt">
+
+                                                        <i class="{{ $category->icon ?? 'bi bi-folder' }}"></i>
+
+                                                    </div>
+
+                                                    <div>
+
+                                                        <h4 class="mb-1 fw-semibold">
+                                                            {{ $category->name }}
+                                                        </h4>
+
+                                                        <small class="text-muted">
+                                                            {{ count($category->file_types) }}
+                                                            {{ __('File Types') }}
+                                                        </small>
+
+                                                    </div>
+
                                                 </div>
-                                                <div>
-                                                    <h6 class="mb-0 fw-bold text-dark">
-                                                        Graphics Design
-                                                    </h6>
-                                                    <small class="text-muted fw-mono fs-7">
-                                                        ID: #1
-                                                    </small>
+
+                                            </td>
+
+                                            {{-- File Types --}}
+                                            <td class="py-3">
+
+                                                <div class="d-flex flex-wrap gap-2">
+
+                                                    @foreach ($category->file_types as $type)
+                                                        <span
+                                                            class="badge bg-primary-lt text-primary rounded-pill px-3 py-2">
+
+                                                            {{ strtoupper($type) }}
+
+                                                        </span>
+                                                    @endforeach
+
                                                 </div>
-                                            </div>
-                                        </td>
 
-                                        <td class="py-3">
-                                            <span
-                                                class="font-monospace text-secondary bg-light px-2.5 py-1 rounded border small">
-                                                graphics-design
-                                            </span>
-                                        </td>
+                                            </td>
 
-                                        <td class="py-3">
-                                            <div class="d-flex flex-wrap gap-1.5" style="max-width: 300px;">
+                                            <td class="py-3 ">
                                                 <span
-                                                    class="badge bg-dark-subtle text-dark border rounded-pill px-2.5 py-1.5 fw-semibold text-uppercase fs-7">
-                                                    <i class="bi bi-file-earmark-code me-1 text-secondary"></i>PNG
-                                                </span>
-                                                <span
-                                                    class="badge bg-dark-subtle text-dark border rounded-pill px-2.5 py-1.5 fw-semibold text-uppercase fs-7">
-                                                    <i class="bi bi-file-earmark-code me-1 text-secondary"></i>JPG
-                                                </span>
-                                                <span
-                                                    class="badge bg-dark-subtle text-dark border rounded-pill px-2.5 py-1.5 fw-semibold text-uppercase fs-7">
-                                                    <i class="bi bi-file-earmark-code me-1 text-secondary"></i>PSD
-                                                </span>
-                                            </div>
-                                        </td>
+                                                    class="badge {{ $category->show_at_nav === 1 ? 'bg-green-lt' : 'bg-red-lt' }} ">
+                                                    {{ $category->show_at_nav === 1 ? 'Yes' : 'No' }}</span>
+                                            </td>
 
-                                        <td class="py-3 text-muted small">
-                                            <div class="d-flex align-items-center gap-1">
-                                                <i class="bi bi-calendar3 opacity-75"></i>
-                                                <span>2 hours ago</span>
-                                            </div>
-                                        </td>
+                                            <td class="py-3 ">
+                                                <span
+                                                    class="badge {{ $category->show_at_featured === 1 ? 'bg-green-lt' : 'bg-red-lt' }} ">
+                                                    {{ $category->show_at_featured === 1 ? 'Yes' : 'No' }}</span>
+                                            </td>
 
-                                        <td class="py-3 pe-4 text-end">
-                                            <div class="d-inline-flex gap-2">
-                                                <a href="#"
-                                                    class="btn btn-light btn-sm border rounded-2 p-2 shadow-sm"
-                                                    title="{{ __('Edit') }}">
-                                                    <i class="bi bi-pencil-square text-primary fs-6"></i>
-                                                </a>
-                                                <button type="button"
-                                                    class="btn btn-light btn-sm border rounded-2 p-2 shadow-sm"
-                                                    title="{{ __('Delete') }}">
-                                                    <i class="bi bi-trash3-fill text-danger fs-6"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            {{-- Created Date --}}
+                                            <td class="py-3">
+
+                                                <div class="d-flex align-items-center gap-2 text-muted">
+
+                                                    <i class="bi bi-calendar3"></i>
+
+                                                    <span>
+                                                        {{ $category->created_at->diffForHumans() }}
+                                                    </span>
+
+                                                </div>
+
+                                            </td>
+
+                                            {{-- Actions --}}
+                                            <td class="py-3 pe-4 text-end">
+
+                                                <div class="btn-list justify-content-end">
+
+                                                    <a href="{{ route('admin.categories.edit', $category->id) }}"
+                                                        class="btn btn-outline-primary btn-icon btn-sm"
+                                                        title="{{ __('Edit') }}">
+
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                    </a>
+
+                                                    <form action="{{ route('admin.categories.destroy', $category->id) }}"
+                                                        method="POST" class="d-inline delete-form">
+
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger btn-icon btn-sm"
+                                                            title="{{ __('Delete') }}">
+
+                                                            <i class="bi bi-trash3"></i>
+
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+
+                                            <td colspan="4" class="text-center py-5">
+
+                                                <div class="empty">
+
+                                                    <div class="empty-img mb-3">
+
+                                                        <i class="bi bi-folder2-open fs-1 text-muted"></i>
+
+                                                    </div>
+
+                                                    <p class="empty-title fw-semibold">
+                                                        {{ __('No Categories Found') }}
+                                                    </p>
+
+                                                    <p class="empty-subtitle text-muted">
+                                                        {{ __('Create your first category to get started.') }}
+                                                    </p>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+                                    @endforelse
+
                                 </tbody>
                             </table>
                         </div>
 
+                        <!-- Pagination Footer -->
                         <div class="card-footer bg-white border-0 py-3.5 px-4 border-top">
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                                 <small class="text-muted fw-medium">
-                                    Showing 1 to 1 of 1 entries
+                                    Showing {{ $categories->firstItem() }} to {{ $categories->lastItem() }} of
+                                    {{ $categories->total() }} entries
                                 </small>
                                 <nav>
-                                    <ul class="pagination pagination-sm mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link rounded-start-3" href="#">Prev</a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link rounded-end-3" href="#">Next</a>
-                                        </li>
-                                    </ul>
+                                    {{ $categories->links() }}
                                 </nav>
                             </div>
                         </div>

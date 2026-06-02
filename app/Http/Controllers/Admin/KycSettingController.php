@@ -7,16 +7,17 @@ use App\Http\Requests\StoreKycSettingRequest;
 use App\Http\Requests\UpdateKycSettingRequest;
 use App\Http\Controllers\Controller;
 use App\Services\NotificationService;
+
 class KycSettingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-   public function index()
-{
-$kycSetting = KycSetting::query()->first();
-    return view('admin.kyc.kyc-setting.index', compact('kycSetting'));
-}
+    public function index()
+    {
+        $kycSetting = KycSetting::query()->first();
+        return view('admin.kyc.kyc-setting.index', compact('kycSetting'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -55,11 +56,11 @@ $kycSetting = KycSetting::query()->first();
      */
     public function update(UpdateKycSettingRequest $request)
     {
-       KycSetting::updateOrCreate(
+        KycSetting::updateOrCreate(
             ['id' => 1],
             $request->validated()
-            );
-       NotificationService::updated();
+        );
+        NotificationService::updated();
         return  redirect()->back();
     }
 
