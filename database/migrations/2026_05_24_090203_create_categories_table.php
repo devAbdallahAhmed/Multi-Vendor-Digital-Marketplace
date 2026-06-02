@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('icon');
             $table->string('slug')->unique();
             $table->json('file_types')->nullable();
+            $table->boolean('show_at_featured')->default(0);
+            $table->boolean('show_at_nav')->default(0);
             $table->timestamps();
         });
     }

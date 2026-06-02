@@ -78,15 +78,18 @@
                                         </th>
                                         <td class="py-3">
                                             @if ($kyc->status === 'approved')
-                                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+                                                <span
+                                                    class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
                                                     {{ __('Approved') }}
                                                 </span>
                                             @elseif($kyc->status === 'pending')
-                                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 rounded-pill">
+                                                <span
+                                                    class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 rounded-pill">
                                                     {{ __('Pending') }}
                                                 </span>
                                             @else
-                                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">
+                                                <span
+                                                    class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">
                                                     {{ __('Rejected') }}
                                                 </span>
                                             @endif
@@ -121,25 +124,34 @@
                                             {{ __('Action') }}
                                         </th>
                                         <td class="py-3">
-                                            <form id="kycUpdateForm" data-id="{{ $kyc->id }}" class="d-flex flex-column gap-3 align-items-start">
+                                            <form id="kycUpdateForm" data-id="{{ $kyc->id }}"
+                                                class="d-flex flex-column gap-3 align-items-start">
                                                 @csrf
 
                                                 <div class="d-flex align-items-center gap-3 flex-wrap">
-                                                    <select name="status" id="statusSelect" class="form-select w-auto rounded-3">
-                                                        <option value="pending" @selected($kyc->status === 'pending')>{{ __('Pending') }}</option>
-                                                        <option value="approved" @selected($kyc->status === 'approved')>{{ __('Approved') }}</option>
-                                                        <option value="rejected" @selected($kyc->status === 'rejected')>{{ __('Rejected') }}</option>
+                                                    <select name="status" id="statusSelect"
+                                                        class="form-select w-auto rounded-3">
+                                                        <option value="pending" @selected($kyc->status === 'pending')>
+                                                            {{ __('Pending') }}</option>
+                                                        <option value="approved" @selected($kyc->status === 'approved')>
+                                                            {{ __('Approved') }}</option>
+                                                        <option value="rejected" @selected($kyc->status === 'rejected')>
+                                                            {{ __('Rejected') }}</option>
                                                     </select>
 
                                                     <button type="submit" id="submitBtn" class="btn btn-primary rounded-3">
-                                                        <span class="spinner-border spinner-border-sm d-none" id="btnSpinner"></span>
+                                                        <span class="spinner-border spinner-border-sm d-none"
+                                                            id="btnSpinner"></span>
                                                         <i class="bi bi-check2-circle me-1" id="btnIcon"></i>
                                                         <span id="btnText">{{ __('Update Status') }}</span>
                                                     </button>
                                                 </div>
-                                                <div id="reasonContainer" class="w-100 max-w-md d-none" style="max-width: 500px;">
-                                                    <label for="rejectReason" class="form-label fw-semibold text-danger">{{ __('Rejection Reason') }}</label>
-                                                    <textarea name="reason" id="rejectReason" class="form-control rounded-3" rows="3" placeholder="{{ __('Write why this KYC is rejected...') }}"></textarea>
+                                                <div id="reasonContainer" class="w-100 max-w-md d-none"
+                                                    style="max-width: 500px;">
+                                                    <label for="rejectReason"
+                                                        class="form-label fw-semibold text-danger">{{ __('Rejection Reason') }}</label>
+                                                    <textarea name="reason" id="rejectReason" class="form-control rounded-3" rows="3"
+                                                        placeholder="{{ __('Write why this KYC is rejected...') }}"></textarea>
                                                 </div>
                                             </form>
                                         </td>
@@ -158,91 +170,91 @@
 @endsection
 
 @push('scripts')
-<script>
-    'use strict';
+    <script>
+        'use strict';
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const kycForm = document.getElementById('kycUpdateForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const btnSpinner = document.getElementById('btnSpinner');
-        const btnIcon = document.getElementById('btnIcon');
-        const btnText = document.getElementById('btnText');
+        document.addEventListener('DOMContentLoaded', function() {
+            const kycForm = document.getElementById('kycUpdateForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnText = document.getElementById('btnText');
 
-        const statusSelect = document.getElementById('statusSelect');
-        const reasonContainer = document.getElementById('reasonContainer');
-        const rejectReason = document.getElementById('rejectReason');
+            const statusSelect = document.getElementById('statusSelect');
+            const reasonContainer = document.getElementById('reasonContainer');
+            const rejectReason = document.getElementById('rejectReason');
 
-        function handleStatusChange() {
-            if (statusSelect.value === 'rejected') {
-                reasonContainer.classList.remove('d-none');
-            } else {
-                reasonContainer.classList.add('d-none');
-                rejectReason.value = '';
-            }
-        }
-
-        statusSelect.addEventListener('change', handleStatusChange);
-        handleStatusChange();
-        kycForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const kycId = this.dataset.id;
-            const status = statusSelect.value;
-            const reason = rejectReason.value;
-            const token = document.querySelector('input[name="_token"]').value;
-
-            toggleLoading(true);
-
-            try {
-                const response = await fetch(`/admin/kyc-update-status/${kycId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token,
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        status: status,
-                        reason: reason
-                    })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Updated!',
-                        text: result.message,
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        location.reload();
-                    });
+            function handleStatusChange() {
+                if (statusSelect.value === 'rejected') {
+                    reasonContainer.classList.remove('d-none');
                 } else {
+                    reasonContainer.classList.add('d-none');
+                    rejectReason.value = '';
+                }
+            }
+
+            statusSelect.addEventListener('change', handleStatusChange);
+            handleStatusChange();
+            kycForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const kycId = this.dataset.id;
+                const status = statusSelect.value;
+                const reason = rejectReason.value;
+                const token = document.querySelector('input[name="_token"]').value;
+
+                toggleLoading(true);
+
+                try {
+                    const response = await fetch(`/admin/kyc-update-status/${kycId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            status: status,
+                            reason: reason
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Updated!',
+                            text: result.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: result.message || 'Validation Error'
+                        });
+                    }
+                } catch (error) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: result.message || 'Validation Error'
+                        title: 'Server Error',
+                        text: 'Something went wrong on our side'
                     });
+                } finally {
+                    toggleLoading(false);
                 }
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Server Error',
-                    text: 'Something went wrong on our side'
-                });
-            } finally {
-                toggleLoading(false);
+            });
+
+            function toggleLoading(isLoading) {
+                submitBtn.disabled = isLoading;
+                btnSpinner.classList.toggle('d-none', !isLoading);
+                btnIcon.classList.toggle('d-none', isLoading);
+                btnText.innerText = isLoading ? 'Updating...' : 'Update Status';
             }
         });
-
-        function toggleLoading(isLoading) {
-            submitBtn.disabled = isLoading;
-            btnSpinner.classList.toggle('d-none', !isLoading);
-            btnIcon.classList.toggle('d-none', isLoading);
-            btnText.innerText = isLoading ? 'Updating...' : 'Update Status';
-        }
-    });
-</script>
+    </script>
 @endpush

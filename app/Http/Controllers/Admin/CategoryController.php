@@ -3,79 +3,61 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CategoryCreateRequest;
+use App\Http\Requests\Admin\CategoryUpdateRequest;
+use App\Services\Admin\CategoryService;
 use App\Services\NotificationService;
-use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
     {
-        return view('admin.category.index');
+        $this->categoryService = $categoryService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index()
+    {
+        $categories = Category::latest()->paginate(10);
+        return view('admin.category.index', compact('categories'));
+    }
+
     public function create()
     {
         return view('admin.category.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CategoryCreateRequest $request)
     {
-        $tags = json_decode($request->file_types, true);
-        $fileTypes = collect($tags)->pluck('value')->toArray();
-
-        Category::create([
-            'name'       => $request->name,
-            'icon'       => $request->icon,
-            'slug'       => Str::slug($request->name),
-            'file_types' => $fileTypes,
-        ]);
-
+        $this->categoryService->store($request->validated());
+  
         NotificationService::created();
         return redirect()->route('admin.categories.index');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
-        //
+        if (is_array($category->file_types)) {
+            $category->file_types = implode(',', $category->file_types);
+        }
+        return view('admin.category.edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        //
+        $this->categoryService->update($category, $request->validated());
+
+        NotificationService::updated();
+        return redirect()->route('admin.categories.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        NotificationService::deleted();
+        return redirect()->route('admin.categories.index');
     }
 }

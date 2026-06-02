@@ -16,8 +16,9 @@ class RoleController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {        $roles = Role::with('permissions')->get();
-        return view('admin.access-management.role.index' , compact('roles'));
+    {
+        $roles = Role::with('permissions')->get();
+        return view('admin.access-management.role.index', compact('roles'));
     }
 
     /**
@@ -26,7 +27,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::all()->groupBy('group_name');
-        return view('admin.access-management.role.create' , compact('permissions' ));
+        return view('admin.access-management.role.create', compact('permissions'));
     }
 
     /**
@@ -36,7 +37,7 @@ class RoleController extends Controller
     {
         $role = Role::create(['name' => $request->name, 'guard_name' => 'admin']);
         if ($request->has('permissions')) {
-        $role->syncPermissions($request->permissions);
+            $role->syncPermissions($request->permissions);
         }
         NotificationService::created('Role created successfully');
         return redirect()->route('admin.roles.index');
@@ -56,12 +57,12 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
 
-        if($role->name === 'super admin') {
+        if ($role->name === 'super admin') {
             NotificationService::error();
             return to_route('admin.roles.index');
         }
         $permissions = Permission::all()->groupBy('group_name');
-        return view('admin.access-management.role.edit' , compact('role' , 'permissions'));
+        return view('admin.access-management.role.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -71,7 +72,7 @@ class RoleController extends Controller
     {
 
         $role = Role::findOrFail($id);
-         if($role->name === 'super admin') {
+        if ($role->name === 'super admin') {
             NotificationService::error();
             return to_route('admin.roles.index');
         }
@@ -89,25 +90,23 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-         if($role->name === 'super admin') {
+        if ($role->name === 'super admin') {
             NotificationService::error();
             return to_route('admin.roles.index');
         }
 
-        try{
-        DB::beginTransaction();
-        $role->permissions()->detach();
-        $role->users()->detach();
-        $role->delete();
-        DB::commit();
-        NotificationService::deleted(__('Role deleted successfully'));
-        return redirect()->route('admin.roles.index');
-
-        }catch(\Exception $e){
-                DB::rollBack();
+        try {
+            DB::beginTransaction();
+            $role->permissions()->detach();
+            $role->users()->detach();
+            $role->delete();
+            DB::commit();
+            NotificationService::deleted(__('Role deleted successfully'));
+            return redirect()->route('admin.roles.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
             NotificationService::error(__('Failed to delete role: :message', ['message' => $e->getMessage()]));
             return redirect()->route('admin.roles.index');
         }
-
     }
 }
