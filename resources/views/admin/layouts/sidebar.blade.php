@@ -26,7 +26,7 @@
                 {{-- Dashboard --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
-                       href="{{ route('admin.dashboard') }}">
+                        href="{{ route('admin.dashboard') }}">
 
                         <span class="nav-link-icon">
                             <i class="bi bi-speedometer2"></i>
@@ -41,10 +41,7 @@
                 {{-- Access Control --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->is('admin/roles*') ? 'show active' : '' }}"
-                       href="#navbar-access"
-                       data-bs-toggle="dropdown"
-                       data-bs-auto-close="false"
-                       role="button">
+                        href="#navbar-access" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button">
 
                         <span class="nav-link-icon">
                             <i class="bi bi-shield-lock"></i>
@@ -56,13 +53,11 @@
                     </a>
 
                     <div class="dropdown-menu {{ request()->is('admin/roles*') ? 'show' : '' }}">
-                        <a class="dropdown-item"
-                           href="{{ route('admin.roles.index') }}">
+                        <a class="dropdown-item" href="{{ route('admin.roles.index') }}">
                             Roles
                         </a>
 
-                        <a class="dropdown-item"
-                           href="{{ route('admin.role-users.index') }}">
+                        <a class="dropdown-item" href="{{ route('admin.role-users.index') }}">
                             Role Users
                         </a>
                     </div>
@@ -71,10 +66,7 @@
                 {{-- KYC --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->is('admin/kyc*') ? 'show active' : '' }}"
-                       href="#navbar-kyc"
-                       data-bs-toggle="dropdown"
-                       data-bs-auto-close="false"
-                       role="button">
+                        href="#navbar-kyc" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button">
 
                         <span class="nav-link-icon">
                             <i class="bi bi-person-vcard"></i>
@@ -86,18 +78,50 @@
                     </a>
 
                     <div class="dropdown-menu {{ request()->is('admin/kyc*') ? 'show' : '' }}">
-                        <a class="dropdown-item"
-                           href="{{ route('admin.kyc-setting.index') }}">
+                        <a class="dropdown-item" href="{{ route('admin.kyc-setting.index') }}">
                             KYC Settings
                         </a>
 
-                        <a class="dropdown-item"
-                           href="{{ route('admin.kyc-request.index') }}">
-                          KYC Requests
-                          <span class="badge badge-sm bg-yellow-lt text-uppercase ms-auto">{{ KycCount() }}</span>
+                        <a class="dropdown-item" href="{{ route('admin.kyc-request.index') }}">
+                            KYC Requests
+                            <span class="badge badge-sm bg-yellow-lt text-uppercase ms-auto">{{ KycCount() }}</span>
                         </a>
                     </div>
                 </li>
+                @if (hasPermission('manage categories'))
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->is('admin/categories*') || request()->is('admin/sub-categories*') ? 'show active' : '' }}"
+                            href="#navbar-categories" data-bs-toggle="dropdown" data-bs-auto-close="false"
+                            role="button">
+
+                            <span class="nav-link-icon">
+                                <i class="bi bi-grid-3x3-gap"></i>
+                            </span>
+
+                            <span class="nav-link-title">
+                                {{ __('Categories') }}
+                            </span>
+                        </a>
+
+                        <div
+                            class="dropdown-menu {{ request()->is('admin/categories*') || request()->is('admin/sub-categories*') ? 'show' : '' }}">
+                            <div class="dropdown-menu-columns">
+                                <div class="dropdown-menu-column">
+                                    <a class="dropdown-item {{ request()->is('admin/categories*') ? 'active' : '' }}"
+                                        href="{{ route('admin.categories.index') }}">
+                                        {{ __('All Categories') }}
+                                    </a>
+
+                                    <a class="dropdown-item d-flex align-items-center {{ request()->is('admin/sub-categories*') ? 'active' : '' }}"
+                                        href="{{ route('admin.sub-categories.index') }}">
+                                        {{ __('Sub Categories') }}
+                                        <span class="badge badge-sm bg-blue-lt text-uppercase ms-auto">New</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                @endif
 
                 {{-- Vendors --}}
                 <li class="nav-item">
@@ -129,4 +153,3 @@
         </div>
     </div>
 </aside>
-

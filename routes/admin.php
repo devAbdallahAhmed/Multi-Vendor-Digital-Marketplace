@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
 use App\Http\Controllers\Admin\KycSettingController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SubCategory;
 use App\Http\Controllers\Frontend\KycVerificationController;
 
 Route::middleware('guest:admin')
@@ -75,8 +76,8 @@ Route::middleware('auth:admin')
 
 
         //  Categories Routes
-        Route::resource('categories',CategoryController::class);
-
+        Route::resource('categories', CategoryController::class);
+        Route::resource('sub-categories', SubCategory::class);
         //                              setting
         Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
         Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');

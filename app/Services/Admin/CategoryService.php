@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Exception;
 
 class CategoryService
 {
@@ -38,5 +39,15 @@ class CategoryService
         $tags = json_decode($fileTypesJson, true);
 
         return collect($tags)->pluck('value')->toArray();
+    }
+
+
+
+    public function destroy(Category $category): bool
+    {
+        if ($category->subCategories()->exists()) {
+            throw new Exception(__('This category contains sub-categories and cannot be deleted!'));
+        }
+        return $category->delete();
     }
 }
