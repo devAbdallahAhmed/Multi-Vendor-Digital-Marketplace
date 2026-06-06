@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -11,4 +12,9 @@ class Category extends Model
     protected $casts = [
         'file_types' => 'array',
     ];
+
+    function subCategories()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 }

@@ -8,14 +8,23 @@ use App\Http\Requests\Admin\CategoryCreateRequest;
 use App\Http\Requests\Admin\CategoryUpdateRequest;
 use App\Services\Admin\CategoryService;
 use App\Services\NotificationService;
+use Illuminate\Http\JsonResponse;
+use Exception;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
     protected $categoryService;
-
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
+    }
+
+    static function middleware(): array{
+        return [
+            new Middleware('permission:manage category'),
+        ];
     }
 
     public function index()
@@ -32,7 +41,7 @@ class CategoryController extends Controller
     public function store(CategoryCreateRequest $request)
     {
         $this->categoryService->store($request->validated());
-  
+
         NotificationService::created();
         return redirect()->route('admin.categories.index');
     }
@@ -52,12 +61,15 @@ class CategoryController extends Controller
         NotificationService::updated();
         return redirect()->route('admin.categories.index');
     }
-
     public function destroy(Category $category)
     {
-        $category->delete();
-
-        NotificationService::deleted();
-        return redirect()->route('admin.categories.index');
+        try {
+            $this->categoryService->destroy($category);
+            NotificationService::deleted();
+            return redirect()->route('admin.categories.index');
+        } catch (Exception $e) {
+            NotificationService::error('This category contains sub-categories and cannot be deleted!');
+            return redirect()->back();
+        }
     }
 }
