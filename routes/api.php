@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\Admin\RoleUserController;
 use App\Http\Controllers\Api\KycApiController;
 use App\Http\Controllers\Api\Admin\KycCheckController;
+use App\Http\Controllers\Api\Admin\SubCategoryController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -57,5 +58,6 @@ Route::prefix('v1/admin')->group(function () {
         // Route Categories
         Route::apiResource('categories', CategoryApiController::class);
 
+        Route::apiResource('sub/categories',SubCategoryController::class);
         });
 });

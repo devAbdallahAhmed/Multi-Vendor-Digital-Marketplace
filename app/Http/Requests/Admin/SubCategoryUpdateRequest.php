@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SubCategoryUpdateRequest extends FormRequest
 {
@@ -21,18 +22,20 @@ class SubCategoryUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // We used 'category' here because Laravel's apiResource names the parameter after the last segment
+        $subCategoryId = $this->route('category')?->id ?? $this->route('category');
+
         return [
             'category_id' => [
-                'required',
+                'sometimes',
                 'integer',
                 'exists:categories,id',
             ],
-
             'name' => [
-                'required',
+                'sometimes',
                 'string',
                 'max:255',
-                \Illuminate\Validation\Rule::unique('sub_categories', 'name')->ignore($this->route('sub_category')),
+                Rule::unique('categories', 'name')->ignore($subCategoryId),
             ],
         ];
     }
