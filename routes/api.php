@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\CategoryApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\ProfileController;
@@ -51,5 +52,10 @@ Route::prefix('v1/admin')->group(function () {
         Route::put('kyc-requests/{kyc}/update-status', [KycCheckController::class, 'updateStatus']);
         Route::get('kyc-requests/{kyc}/download/{index}', [KycCheckController::class, 'downloadDocument']);
         Route::delete('kyc-requests/{kyc}', [KycCheckController::class, 'destroy']);
-    });
+
+
+        // Route Categories
+        Route::apiResource('categories', CategoryApiController::class);
+
+        });
 });
