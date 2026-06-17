@@ -3,26 +3,43 @@
 use App\Http\Controllers\Frontend\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ItemController;
 use App\Http\Controllers\Frontend\KycVerificationController;
 use App\Http\Controllers\Frontend\ProfileController;
 
-Route::get('/', [HomeController::class,'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
-Route::group(['middleware'=> 'auth' , 'verified'] , function(){
-    Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
-    Route::get('profile',[ProfileController::class,'index'])->name('profile');
-    Route::put('profile',[ProfileController::class,'update'])->name('profile.update');
-    Route::put('password',[ProfileController::class,'updatePassword'])->name('profile.updatePassword');
+Route::group(['middleware' => 'auth', 'verified'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 
 
     //  Kyc verification
-    Route::get('kyc-verification',[KycVerificationController::class,'index'])->name('kyc.verification')->middleware('checkKyc');
-    Route::post('kyc-verification',[KycVerificationController::class,'store'])->name('kyc.verification.store')->middleware('checkKyc');
+    Route::get('kyc-verification', [KycVerificationController::class, 'index'])->name('kyc.verification')->middleware('checkKyc');
+    Route::post('kyc-verification', [KycVerificationController::class, 'store'])->name('kyc.verification.store')->middleware('checkKyc');
 
+
+    Route::group(['middleware' => 'is_author'], function () {
+        Route::get('items', [ItemController::class, 'index'])->name('items.index');
     });
+});
+
+Route::group([
+    'middleware' => ['auth', 'verified'],
+    'prefix' => 'user',
+    'as' => 'user.'
+], function () {
+    Route::group(['middleware' => 'is_author'], function () {
+        Route::get('items', [ItemController::class, 'index'])->name('items.index');
+        Route::get('items/create', [ItemController::class, 'create'])->name('items.create');
+        Route::post('items/uploads', [ItemController::class, 'itemUploads'])->name('items.uploads');
+        Route::delete('item-destroy/{id}', [ItemController::class, 'delete'])->name('item.destroy');
+          });
+});
 
 
 
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -45,8 +45,10 @@
     <script src="{{ asset('assets/admin/js/default/admin.js') }}"></script>
     <script src="{{ asset('assets/admin/js/tagsinput.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    
 
     @stack('scripts')
 </body>
 
 </html>
+

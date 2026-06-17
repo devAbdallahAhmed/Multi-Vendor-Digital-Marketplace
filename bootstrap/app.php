@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\IsAuthor;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => App\Http\Middleware\Authenticate::class,
             'guest' =>  App\Http\Middleware\RedirectIfAuthenticated::class,
             'checkKyc' => \App\Http\Middleware\CheckKyc::class,
+            'is_author' =>IsAuthor::class,
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,

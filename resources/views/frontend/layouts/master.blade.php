@@ -29,23 +29,69 @@
 
 
     <style>
-        .fw-600 { font-weight: 600; }
-        .card { transition: transform 0.3s ease; }
-        .card:hover { transform: translateY(-5px); }
-        .rounded-4 { border-radius: 1.25rem !important; }
-        .btn-primary { background-color: #0d6efd; border: none; }
-        .btn-primary:hover { background-color: #0b5ed7; transform: scale(1.01); }
-        .upload-wrapper input[type="file"] { border: none; background: transparent; }
+        .fw-600 {
+            font-weight: 600;
+        }
+
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .rounded-4 {
+            border-radius: 1.25rem !important;
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: scale(1.01);
+        }
+
+        .upload-wrapper input[type="file"] {
+            border: none;
+            background: transparent;
+        }
     </style>
-<style>
-    .fw-600 { font-weight: 600; }
-    .rounded-4 { border-radius: 1.25rem !important; }
-    .card { transition: all 0.3s ease; }
-    .card:hover { transform: translateY(-5px); }
-    .btn-primary { background-color: #0d6efd; border: none; }
-    .btn-primary:hover { background-color: #0b5ed7; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2); }
-    .form-control:focus { border-color: #0d6efd; box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1); }
-</style>
+    <style>
+        .fw-600 {
+            font-weight: 600;
+        }
+
+        .rounded-4 {
+            border-radius: 1.25rem !important;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+        }
+    </style>
 
 </head>
 
@@ -80,7 +126,7 @@
         <button type="button" class="close-button"> <i class="las la-times"></i> </button>
         <div class="mobile-menu__inner">
             <a href="index.html" class="mobile-menu__logo">
-                <img src="{{ asset('assets/front/images/logo/logo-two.png')}}" alt="Logo" class="white-version">
+                <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo" class="white-version">
             </a>
             <div class="mobile-menu__menu">
                 <div class="header-right__inner d-lg-none my-3 gap-1 d-flex flx-align">

@@ -5219,12 +5219,12 @@ section.dashboard {
     overflow: hidden;
 }
 
-/* =========================== 
-Blog Section Css End 
+/* ===========================
+Blog Section Css End
 ========================== */
 
-/* ======================= 
-Become Seller Section Css start 
+/* =======================
+Become Seller Section Css start
 ==================== */
 
 .seller-two {
@@ -8555,11 +8555,11 @@ Become Seller Section Css start
     padding: 24px;
 }
 
-/* ======================== 
+/* ========================
 Dashboard Profile Css End ========================= */
 
-/* ===================== 
-Gradient Bg Css Start 
+/* =====================
+Gradient Bg Css Start
 ======================= */
 .bg--gradient,
 .bg-pattern {
@@ -13837,3 +13837,56 @@ select {
 .search-list__link.font-14.text-heading:hover {
     color: black !important;
 }
+
+
+
+
+.bootstrap-tagsinput {
+    width: 100%;
+    border: 1px solid #ddd !important;
+  padding: 11px 25px;
+  border-radius: 7px;
+  width: 100%;
+  background: none;
+    background-color: rgba(0, 0, 0, 0);
+  outline: none;
+}
+
+.bootstrap-tagsinput .tag {
+	margin-right: 2px;
+	color: white;
+	background: var(--colorPrimary);
+	padding: 3px 8px 3px 8px;
+    box-shadow: none !important;
+}
+.form-label {
+    margin-bottom: 6px !important;
+    font-size: 0.875rem !important;
+    color: var(--colorBlack) !important;
+    font-weight: 400 !important;
+}
+.btn.btn-outline-secondary.dropdown-toggle {
+    border: 1px solid #ddd !important;
+    color: black !important;
+}
+.btn.btn-outline-secondary.dropdown-toggle:hover {
+    background-color: transparent !important;
+}
+.select2-selection.select2-selection--multiple {
+    padding: 10px 15px 10px 15px !important;
+    border: 1px solid #ddd !important;
+}
+
+.select2-search  .select2-search__field {
+    border:none !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background-color: var(--colorPrimary) !important;
+	border: none !important;
+}
+
+#select2-screenshots-pw-container-choice-e49e-grm3 {
+    color: white !important;
+}
+
