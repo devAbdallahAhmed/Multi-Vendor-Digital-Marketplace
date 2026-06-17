@@ -31,7 +31,7 @@
 
                                     <div class="col-md-12 mb-3">
                                         <x-admin.input-select name="category_id" :label="__('Parent Category')">
-                                            <option value="">{{ __('Select Parent Category') }}</option>
+                                            <option value="" disabled>{{ __('Select Parent Category') }}</option>
                                             @foreach ($category as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
@@ -39,6 +39,7 @@
                                     </div>
                                 </div>
 
+                                
                                 <div class="card-footer text-end bg-transparent px-0 pb-0 mt-4">
                                     <button type="submit" class="btn btn-primary px-4">
                                         <span><i class="ti ti-device-floppy"></i></span>

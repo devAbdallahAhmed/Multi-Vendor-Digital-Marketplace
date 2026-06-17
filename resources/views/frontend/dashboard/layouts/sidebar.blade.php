@@ -74,14 +74,14 @@
                 <!-- Product -->
                 <li class="nav-item">
 
-                    <a href="#" class="nav-link sidebar-link">
+                    <a href="{{ route('user.items.index') }}" class="nav-link sidebar-link">
 
                         <div class="sidebar-icon sidebar-warning">
                             <i class="bi bi-sliders"></i>
                         </div>
 
                         <span>
-                            Product
+                            {{ __('My Items') }}
                         </span>
 
                     </a>
