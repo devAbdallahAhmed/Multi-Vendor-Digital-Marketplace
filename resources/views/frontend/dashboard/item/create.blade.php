@@ -2,7 +2,6 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css">
     <style>
         .dz-message {
@@ -85,6 +84,7 @@
         }
     </style>
 @endpush
+
 @section('content')
     <div class="page-wrapper py-4">
         <div class="container-fluid">
@@ -94,8 +94,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h4 class="fw-bold mb-1">Add Item</h4>
-                            <p class="text-muted mb-0">Fill in the details below to list your
-                                digital asset.</p>
+                            <p class="text-muted mb-0">Fill in the details below to list your digital asset.</p>
                         </div>
                         <button type="button" class="btn btn-outline-primary d-flex align-items-center gap-2"
                             data-bs-toggle="modal" data-bs-target="#selectCategoryModal" style="border-radius: 8px;">
@@ -120,8 +119,7 @@
                                 <x-frontend.input-text name="name" label="{{ __('Name') }}" required />
                             </div>
                             <div class="col-md-12">
-                                <x-frontend.textarea id="editor" name="description"
-                                    label="{{ __('Description') }}"required />
+                                <x-frontend.textarea id="editor" name="description" label="{{ __('Description') }}" required />
                             </div>
                         </div>
                     </div>
@@ -138,8 +136,7 @@
                             <div class="col-md-6">
                                 <input type="hidden" name="category" value="{{ request('category') }}">
 
-                                <x-frontend.input-select name="category_display" label="{{ __('Category') }}"
-                                    disabled="true">
+                                <x-frontend.input-select name="category_display" label="{{ __('Category') }}" disabled="true">
                                     <option value="" disabled>Select</option>
                                     @foreach ($categories as $cat)
                                         <option @selected($cat->slug == request('category')) value="{{ $cat->slug }}">
@@ -151,8 +148,7 @@
 
                             <div class="col-md-6">
                                 <x-frontend.input-select name="sub_category" label="{{ __('Sub Category') }}" required>
-                                    <option value="" selected disabled>Select
-                                    </option>
+                                    <option value="" selected disabled>Select</option>
                                     @foreach ($category->subCategories as $subcategory)
                                         <option value="{{ $subcategory->slug }}">
                                             {{ $subcategory->name }}
@@ -168,16 +164,14 @@
                             <div class="col-md-6">
                                 <x-frontend.input-text name="demo_link" label="{{ __('Demo Link (Optional)') }}" />
                             </div>
+                            
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="my_tags_input" class="form-label fw-semibold text-secondary mb-2">
                                         Search Tags <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" name="tags" id="my_tags_input" class="form-control" required
-                                        placeholder="Type a tag and press Enter">
-                                    <small class="text-muted d-block mt-1">Tags help
-                                        customers find your items through
-                                        search.</small>
+                                    <input type="text" name="tags" id="my_tags_input" class="form-control" required placeholder="Type a tag and press Enter">
+                                    <small class="text-muted d-block mt-1">Tags help customers find your items through search.</small>
                                 </div>
                             </div>
                         </div>
@@ -193,37 +187,30 @@
 
                         <div class="row g-4">
                             <div class="col-lg-12">
-                                <div class="dropzone-custom-wrapper mt-4" id="fileUpload">
+                                <div class="dropzone-custom-wrapper mt-4" id="fileUpload" data-url="{{ route('user.items.uploads') }}" data-token="{{ csrf_token() }}">
                                     <div class="text-center" style="pointer-events: none;">
                                         <div class="mb-2 file-text-wrapper">
                                             <i class="bi bi-plus add-file-icon"></i>
-                                            <span class="add-file-text">File
-                                                Upload</span>
+                                            <span class="add-file-text">File Upload</span>
                                         </div>
-                                        <p class="text-muted mt-2">Drop files here
-                                            or click to upload</p>
+                                        <p class="text-muted mt-2">Drop files here or click to upload</p>
                                     </div>
                                 </div>
 
                                 <ul class="list-group mt-3" id="fileList">
                                     @foreach ($uploadFiles as $file)
-                                        <li class="list-group-item file-list-item d-flex align-items-center justify-content-between "
-                                            id="file-{{ $file->id }}">
+                                        <li class="list-group-item file-list-item d-flex align-items-center justify-content-between" id="file-{{ $file->id }}">
                                             <div class="w-100">
                                                 <div class="d-flex align-items-center">
-                                                    <i
-                                                        class="bi {{ getIcon($file->mime_type) }} fs-3 me-3 text-primary"></i>
-
-                                                    <span>{{ $file->name }}<span
-                                                            class="file-size">{{ format_size($file->size) }}</span></span>
+                                                    <i class="bi {{ getIcon($file->mime_type) }} fs-3 me-3 text-primary"></i>
+                                                    <span>{{ $file->name }}<span class="file-size">{{ format_size($file->size) }}</span></span>
                                                 </div>
                                                 <div class="progress me-3" style="width:100%; height: 5px;">
-                                                    <div class="progress-bar progress-bar-striped bg-success"
-                                                        role="progressbar" style="width: 100%;" id=""></div>
+                                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-danger btn-sm justify-content-end ms-3"
-                                                onclick="removeFile('{{ $file->id }}')"><i class="bi bi-trash3"></i>
+                                            <button type="button" class="btn btn-danger btn-sm justify-content-end ms-3" onclick="removeFile('{{ $file->id }}')">
+                                                <i class="bi bi-trash3"></i>
                                             </button>
                                         </li>
                                     @endforeach
@@ -231,8 +218,7 @@
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}"
-                                    id="preview_file_input" required>
+                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}" id="preview_file_input" required>
                                 </x-frontend.input-select>
                             </div>
 
@@ -248,26 +234,21 @@
                                 <label class="form-label mb-2 font-18 font-heading fw-600">Main File<code>*</code></label>
                                 <div class="input-group mb-3">
                                     <select class="form-select" id="main_resource_select">
-                                        <option value="" selected disabled>
-                                            {{ __('Select') }}</option>
-                                        <option value="upload">{{ __('Upload') }}
-                                        </option>
-                                        <option value="link">{{ __('Link') }}
-                                        </option>
+                                        <option value="" selected disabled>{{ __('Select') }}</option>
+                                        <option value="upload">{{ __('Upload') }}</option>
+                                        <option value="link">{{ __('Link') }}</option>
                                     </select>
                                     <select class="form-select d-none" id="upload_source">
                                         @foreach ($uploadFiles as $file)
                                             <option value="{{ $file->path }}">{{ $file->name }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" class="form-control" id="link_source"
-                                        aria-label="Text input with dropdown button">
+                                    <input type="text" class="form-control" id="link_source" aria-label="Text input with dropdown button">
                                 </div>
                             </div>
 
                             <div class="col-md-12">
-                                <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')"
-                                    multiple="multiple" id="screenshot_input">
+                                <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')" multiple="multiple" id="screenshot_input">
                                     @foreach ($uploadFiles as $file)
                                         <option value="{{ $file->path }}">{{ $file->name }}</option>
                                     @endforeach
@@ -278,8 +259,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end border-top pt-4 mt-4">
-                    <button type="submit" class="btn btn-primary px-5 py-2 fw-bold d-flex align-items-center gap-2"
-                        style="background-color: #0061ff; border: none; border-radius: 8px;">
+                    <button type="submit" class="btn btn-primary px-5 py-2 fw-bold d-flex align-items-center gap-2" style="background-color: #0061ff; border: none; border-radius: 8px;">
                         <i class="ti ti-device-floppy fs-5"></i>
                         {{ __('Save Item') }}
                     </button>
@@ -289,226 +269,9 @@
         </div>
     </div>
 @endsection
+
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        var notyf = new Notyf({
-            duration: 5000,
-        });
-        const csrfToken = "{{ csrf_token() }}";
-
-        Dropzone.autoDiscover = false;
-        const dropzone = new Dropzone("#fileUpload", {
-            url: "{{ route('user.items.uploads') }}",
-            method: 'post',
-            maxFilesize: 100,
-            parallelUploads: 5,
-            uploadMultiple: true,
-            addRemoveLinks: false,
-            previewsContainer: false,
-            clickable: "#fileUpload",
-            headers: {
-                "X-CSRF-TOKEN": csrfToken
-            },
-            init: function() {
-                this.on("addedfile", function(file) {
-                    createListItem(file);
-                });
-
-                this.on("uploadprogress", function(file, progress) {
-                    const progressBar = document.getElementById(`progress-${file.upload.uuid}`);
-                    if (progressBar) {
-                        progressBar.style.width = `${progress}%`;
-                    }
-                });
-
-                this.on("successmultiple", function(files, response) {
-                    if (response && response.files) {
-                        files.forEach(file => {
-                            const matchedFile = response.files.find(f => f.name === file.name);
-                            if (matchedFile) {
-                                const listItem = document.getElementById(
-                                    `file-${file.upload.uuid}`);
-                                if (listItem) {
-                                    const progressBar = listItem.querySelector(".progress-bar");
-                                    if (progressBar) {
-                                        progressBar.classList.remove("progress-bar-animated");
-                                        progressBar.classList.add("bg-success");
-                                        progressBar.style.width = "100%";
-                                    }
-
-                                    listItem.id = `file-${matchedFile.id}`;
-
-                                    const deleteBtn = listItem.querySelector("button");
-                                    if (deleteBtn) {
-                                        deleteBtn.setAttribute("onclick",
-                                            `removeFile('${matchedFile.id}')`);
-                                    }
-                                }
-                            }
-                        });
-                        setDynamicOption(response);
-                    }
-                });
-
-                this.on("errormultiple", function(files, errorMessage) {
-                    let message = "Upload failed";
-                    if (typeof errorMessage === 'string') {
-                        message = errorMessage;
-                    } else if (errorMessage && errorMessage.errors) {
-                        message = Object.values(errorMessage.errors).flat().join(', ');
-                    } else if (errorMessage && errorMessage.message) {
-                        message = errorMessage.message;
-                    }
-
-                    notyf.error(message);
-
-                    files.forEach(file => {
-                        const listItem = document.getElementById(`file-${file.upload.uuid}`);
-                        if (listItem) {
-                            const progressBar = listItem.querySelector(".progress-bar");
-                            if (progressBar) {
-                                progressBar.classList.remove("progress-bar-striped",
-                                    "progress-bar-animated");
-                                progressBar.classList.add("bg-danger");
-                                progressBar.style.width = "100%";
-                            }
-                        }
-                    });
-                });
-            },
-        });
-
-        function setDynamicOption(response) {
-            var previewFileInput = document.getElementById('preview_file_input');
-            var screenshotsInput = document.getElementById('screenshot_input');
-            var uploadSource = document.getElementById('upload_source');
-
-            if (previewFileInput) previewFileInput.innerHTML = '<option value="">Select File</option>';
-            if (screenshotsInput) screenshotsInput.innerHTML = '<option value="">Select File</option>';
-            if (uploadSource) uploadSource.innerHTML = '<option value="">Select File</option>';
-
-            if (response && response.files) {
-                response.files.forEach(file => {
-                    if (previewFileInput) {
-                        var previewOption = document.createElement('option');
-                        previewOption.value = file.path;
-                        previewOption.text = file.name;
-                        previewFileInput.add(previewOption);
-                    }
-
-                    if (screenshotsInput) {
-                        var screenOption = document.createElement('option');
-                        screenOption.value = file.path;
-                        screenOption.text = file.name;
-                        screenshotsInput.add(screenOption);
-                    }
-
-                    if (uploadSource) {
-                        var uploadOption = document.createElement('option');
-                        uploadOption.value = file.path;
-                        uploadOption.text = file.name;
-                        uploadSource.add(uploadOption);
-                    }
-                });
-            }
-        }
-
-        function getIcon(fileType) {
-            let fileIcon = "bi-file-earmark";
-            if (!fileType) return fileIcon;
-            if (fileType.startsWith("image/")) fileIcon = "bi-file-earmark-image";
-            else if (fileType.startsWith("video/")) fileIcon = "bi-file-earmark-play";
-            else if (fileType.startsWith("audio/")) fileIcon = "bi-file-earmark-music";
-            else if (fileType.endsWith("pdf")) fileIcon = "bi-file-earmark-pdf";
-            else if (fileType.startsWith("text/")) fileIcon = "bi-file-earmark-text";
-            else if (fileType.startsWith("application/")) fileIcon = "bi-file-earmark-zip";
-            return fileIcon;
-        }
-
-        function createListItem(file) {
-            const fileIcon = getIcon(file.type);
-            const listItem = document.createElement("li");
-            listItem.className = "list-group-item file-list-item d-flex align-items-center justify-content-between";
-            listItem.id = `file-${file.upload.uuid}`;
-            listItem.innerHTML = `
-                <div class="w-100">
-                    <div class="d-flex align-items-center mb-2">
-                        <i class="bi ${fileIcon} fs-3 me-3 text-primary"></i>
-                        <span>${file.name} <span class="file-size text-muted">(${getFileSize(file)})</span></span>
-                    </div>
-                    <div class="progress me-3" style="width:100%; height: 5px;">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                             role="progressbar"
-                             style="width: 0%;"
-                             id="progress-${file.upload.uuid}"></div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-danger btn-sm justify-content-end ms-3"
-                        onclick="cancelOrRemoveTmpFile('${file.upload.uuid}', this)">
-                    <i class="bi bi-trash3"></i>
-                </button>
-            `;
-            document.getElementById("fileList").appendChild(listItem);
-        }
-
-        function getFileSize(file) {
-            const size = file.size;
-            if (size === 0) return '0 B';
-            const i = Math.floor(Math.log(size) / Math.log(1024));
-            return `${(size / Math.pow(1024, i)).toFixed(2) * 1} ${["B", "KB", "MB", "GB", "TB"][i]}`;
-        }
-
-        function removeFile(id) {
-            const listItem = document.getElementById(`file-${id}`);
-            const deleteUrl = "{{ route('user.item.destroy', ':id') }}".replace(':id', id);
-
-            fetch(deleteUrl, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        if (listItem) {
-                            listItem.remove();
-                        }
-                        notyf.success(data.message || 'Item removed successfully');
-                        setDynamicOption(data);
-                    } else {
-                        notyf.error(data.message || 'Failed to delete file');
-                    }
-                })
-                .catch(error => {
-                    notyf.error('Failed to delete file');
-                });
-        }
-
-        function cancelOrRemoveTmpFile(uuid, btn) {
-            const listItem = document.getElementById(`file-${uuid}`);
-            if (listItem) {
-                listItem.remove();
-            }
-        }
-
-        document.getElementById('main_resource_select').addEventListener('change', function() {
-            const value = this.value;
-            const UploadSource = document.getElementById('upload_source');
-            const LinkSource = document.getElementById('link_source');
-
-            if (value === 'upload') {
-                if (UploadSource) UploadSource.classList.remove('d-none');
-                if (LinkSource) LinkSource.classList.add('d-none');
-            } else if (value === 'link') {
-                if (UploadSource) UploadSource.classList.add('d-none');
-                if (LinkSource) LinkSource.classList.remove('d-none');
-            }
-        });
-    </script>
+    <script src="{{ asset('assets/front/js/default/fileupload.js') }}"></script>
 @endpush
