@@ -16,3 +16,10 @@ public/**/*.js linguist-vendored
 public/**/*.css linguist-vendored
 node_modules/** linguist-vendored
 vendor/** linguist-vendored
+
+public/assets/front/js/tinymce/** linguist-vendored
+public/assets/** linguist-vendored
+public/uploads/** linguist-vendored
+
+*.php linguist-detectable=true
+*.blade.php linguist-detectable=true

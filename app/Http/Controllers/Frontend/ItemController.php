@@ -62,8 +62,13 @@ class ItemController extends Controller
 
         $uploadFiles = $this->getAuthorFilesByCategory($sessionId);
 
+        $html = view('frontend.dashboard.layouts.partials.file-list-item', [
+            'uploadFiles' => $uploadFiles
+        ])->render();
+
         return response()->json([
             'files' => $uploadFiles,
+            'html'  => $html
         ], 200);
     }
 
@@ -76,6 +81,8 @@ class ItemController extends Controller
 
     public function delete($id)
     {
+        $sessionId = session()->get('selected_category');
+
         $file = UploadedFiles::whereId($id)
             ->where('author_id', Auth::id())
             ->first();
@@ -87,6 +94,16 @@ class ItemController extends Controller
         $this->deleteFile($file->path, 'local');
         $file->delete();
 
-        return response()->json(['status' => 'success', 'message' => 'Deleted Successfully'], 200);
+        $uploadFiles = $this->getAuthorFilesByCategory($sessionId);
+
+        $html = view('frontend.dashboard.layouts.partials.file-list-item', [
+            'uploadFiles' => $uploadFiles
+        ])->render();
+
+        return response()->json([
+            'status'  => 'success',
+            'files'   => $uploadFiles,
+            'html'    => $html
+        ], 200);
     }
 }
