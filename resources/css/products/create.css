@@ -1,0 +1,80 @@
+/* ==========================================================================
+   1. Tagify Plugin Styles
+   ========================================================================== */
+.tagify {
+    border-radius: 8px !important;
+    border: 1px solid #dee2e6 !important;
+    padding: 4px 8px !important;
+    background: #fff;
+}
+
+.tagify__tag {
+    margin: 2px !important;
+}
+
+.tagify__tag > div {
+    border-radius: 4px !important;
+    background: #0061ff !important;
+    color: #fff !important;
+}
+
+.tagify__tag__removeBtn {
+    color: #fff !important;
+}
+
+/* ==========================================================================
+   2. Dropzone & File Upload Styles
+   ========================================================================== */
+.dropzone {
+    min-height: 150px;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.dz-message,
+.dropzone-custom-wrapper {
+    cursor: pointer;
+    padding: 20px;
+    border: 2px dashed #6c757d;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.dropzone-custom-wrapper {
+    padding: 30px 20px;
+    position: relative;
+    z-index: 999;
+}
+
+.dz-message:hover,
+.dropzone-custom-wrapper:hover {
+    background-color: #e9ecef;
+    border-color: #0061ff;
+}
+
+/* Elements & Helpers */
+.dz-message .bi-plus-circle {
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.file-text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.add-file-icon {
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+.add-file-text {
+    font-size: 1.5rem;
+}
+
+.file-list-item {
+    background-color: #f8f9fa;
+}

@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+!/public/uploads/.gitkeep
+/public/uploads/*
+/public/assets/front/js/tinymce/
+/storage/debugbar/*

@@ -14,78 +14,175 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table">
-                <thead>
+            <table class="table table-hover align-middle shadow-sm rounded border">
+                <thead class="table-light">
                     <tr>
-                        <th class="sn">serial</th>
-                        <th class="details">details</th>
-                        <th class="p_date">Purchase Date</th>
-                        <th class="e_date">Expired Date</th>
-                        <th class="price">Price</th>
-                        <th class="action">action</th>
+                        <th class="py-3 px-4">Details</th>
+                        <th class="py-3">Price</th>
+                        <th class="py-3">Publish Date</th>
+                        <th class="py-3">Status</th>
+                        <th class="d-flex py-3 text-center align-center mr-auto">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="sn">
-                            <p>1</p>
-                        </td>
-                        <td class="details">
-                            <a class="title" href="#">Complete Blender Creator Learn 3D Modelling.</a>
-                        </td>
-                        <td class="p_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="e_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="price">
-                            <p>$300</p>
-                        </td>
-                        <td class="action">
-                            <a class="view" href="#"><i class="ti ti-eye"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="sn">
-                            <p>2</p>
-                        </td>
-                        <td class="details">
-                            <a class="title" href="#">Complete Blender Creator Learn 3D Modelling.</a>
-                        </td>
-                        <td class="p_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="e_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="price">
-                            <p>$300</p>
-                        </td>
-                        <td class="action">
-                            <a class="view" href="#"><i class="ti ti-eye"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="sn">
-                            <p>3</p>
-                        </td>
-                        <td class="details">
-                            <a class="title" href="#">Complete Blender Creator Learn 3D Modelling.</a>
-                        </td>
-                        <td class="p_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="e_date">
-                            <p>2021-12-28</p>
-                        </td>
-                        <td class="price">
-                            <p>$300</p>
-                        </td>
-                        <td class="action">
-                            <a class="view" href="#"><i class="ti ti-eye"></i></a>
-                        </td>
-                    </tr>
+                    @forelse ($items as $item)
+                        <tr>
+
+                            {{-- Details --}}
+                            <td class="ps-4 py-3">
+                                <div class="d-flex align-items-center">
+
+                                    <div class="flex-shrink-0" style="width:70px;height:70px;">
+
+                                        @if ($item->preview_type === 'image' && $item->preview_image)
+                                            <img src="{{ asset($item->preview_image) }}" alt="{{ $item->name }}"
+                                                class="rounded-3 border w-100 h-100" style="object-fit:cover;">
+                                        @else
+                                            <div
+                                                class="bg-light border rounded-3 d-flex align-items-center justify-content-center w-100 h-100">
+                                                <i class="ti ti-photo text-muted fs-2"></i>
+                                            </div>
+                                        @endif
+
+                                    </div>
+
+                                    <div class="ms-3 flex-grow-1">
+
+                                        <h6 class="mb-1 fw-bold">
+                                            {{ $item->name }}
+                                        </h6>
+
+                                        <div class="small text-muted">
+
+                                            <span class="text-primary fw-semibold">
+                                                {{ $item->category->name ?? 'Uncategorized' }}
+                                            </span>
+
+
+                                            <span>
+                                                {{ $item->sub_category->name ?? 'None' }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            {{-- Price --}}
+                            <td class="py-3">
+
+                                @if ($item->is_free)
+                                    <span class="badge bg-success px-3 py-2 rounded-pill">
+                                        Free
+                                    </span>
+                                @else
+                                    @if ($item->discount_price > 0)
+                                        <div class="fw-bold text-success fs-5">
+                                            ${{ $item->discount_price }}
+                                        </div>
+
+                                        <small class="text-muted text-decoration-line-through">
+                                            ${{ $item->price }}
+                                        </small>
+                                    @else
+                                        <span class="fw-bold fs-5 text-dark">
+                                            ${{ $item->price }}
+                                        </span>
+                                    @endif
+                                @endif
+
+                            </td>
+
+                            {{-- Date --}}
+                            <td class="py-3">
+                                <div class="text-muted">
+                                    <i class="ti ti-calendar me-1"></i>
+                                    {{ $item->created_at->format('M d, Y') }}
+                                </div>
+                            </td>
+
+                            {{-- Status --}}
+                            <td class="py-3">
+
+                                @if ($item->status === 'active')
+                                    <span class="badge bg-success rounded-pill px-1 py-2">
+                                        Active
+                                    </span>
+                                @elseif ($item->status === 'pending')
+                                    <span class="badge bg-warning text-dark rounded-pill px-1 py-2">
+                                        Pending
+                                    </span>
+                                @else
+                                    <span class="badge bg-secondary rounded-pill px-1 py-2">
+                                        {{ ucfirst($item->status) }}
+                                    </span>
+                                @endif
+
+                            </td>
+
+                            {{-- Actions --}}
+                            <td class="text-center py-3">
+
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <a href="{{ route('user.items.edit', $item->id) }}"
+                                        class="btn btn-light border rounded-3 btn-sm" title="Edit">
+
+                                        <i class="ti ti-pencil text-primary"></i>
+
+                                    </a>
+
+                                    <form action="{{ route('user.items.destroy', $item->id) }}" method="POST"
+                                        class="m-0">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-light border rounded-3 btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this item?')"
+                                            title="Delete">
+
+                                            <i class="ti ti-trash text-danger"></i>
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
+
+                                <div class="d-flex flex-column align-items-center">
+
+                                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3"
+                                        style="width:80px;height:80px;">
+
+                                        <i class="ti ti-folder-off fs-1 text-secondary"></i>
+
+                                    </div>
+
+                                    <h5 class="fw-semibold mb-1">
+                                        No Items Found
+                                    </h5>
+
+                                    <p class="text-muted mb-0">
+                                        You haven't uploaded any products yet.
+                                    </p>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
