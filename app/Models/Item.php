@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Admin\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Override;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Item extends Model
 {
+
     //
-    use HasFactory;
+    use HasFactory,
+        HasSlug;
+
 
     protected $fillable = [
         'author_id',
@@ -34,4 +41,31 @@ class Item extends Model
         'is_supported',
         'support_instruction'
     ];
+
+    function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
+    protected $casts = [
+        'tags' => 'array',
+        'screenshots' => 'array',
+    ];
+
+
+    function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    function sub_category()
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
 }

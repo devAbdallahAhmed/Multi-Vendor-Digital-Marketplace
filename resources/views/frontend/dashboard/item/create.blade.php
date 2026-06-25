@@ -1,90 +1,7 @@
 @extends('frontend.dashboard.layouts.master')
-
 @push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css">
-    <style>
-        .dz-message {
-            padding: 20px;
-            border: 2px dashed #6c757d;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .dz-message:hover {
-            background-color: #e9ecef;
-        }
-
-        .dz-message .bi-plus-circle {
-            animation: bounce 2s infinite ease-in-out;
-        }
-
-        .dz-message .add-file-icon {
-            font-size: 2rem;
-            font-weight: bolder;
-        }
-
-        .dz-message .add-file-text {
-            font-size: 1.5rem;
-        }
-
-        .file-text-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .file-list-item {
-            background-color: #f8f9fa;
-        }
-
-        .dropzone {
-            min-height: 150px;
-            border: none;
-            background: none;
-            padding: 0;
-        }
-
-        .dropzone-custom-wrapper {
-            cursor: pointer;
-            padding: 30px 20px;
-            border: 2px dashed #6c757d;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 999;
-        }
-
-        .dropzone-custom-wrapper:hover {
-            background-color: #e9ecef;
-            border-color: #0061ff;
-        }
-
-        .file-text-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .add-file-icon {
-            font-size: 2rem;
-            font-weight: bolder;
-        }
-
-        .add-file-text {
-            font-size: 1.5rem;
-        }
-
-        .file-list-item {
-            background-color: #f8f9fa;
-        }
-    </style>
+    @vite('resources/css/products/create.css')
 @endpush
-
 @section('content')
     <div class="page-wrapper py-4">
         <div class="container-fluid">
@@ -96,15 +13,15 @@
                             <h4 class="fw-bold mb-1">Add Item</h4>
                             <p class="text-muted mb-0">Fill in the details below to list your digital asset.</p>
                         </div>
-                        <button type="button" class="btn btn-outline-primary d-flex align-items-center gap-2"
-                            data-bs-toggle="modal" data-bs-target="#selectCategoryModal" style="border-radius: 8px;">
-                            <i class="ti ti-plus"></i> Change Category
+                        <button type="button" class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
+                            data-bs-target="#selectCategoryModal" style="border-radius: 8px;">
+                            <i class="ti ti-plus"><a href="{{ route('user.items.index') }}"></a></i> Change Category
                         </button>
                     </div>
                 </div>
             </div>
 
-            <form action="#" method="POST" id="mainItemForm">
+            <form action="{{ route('user.items.store') }}" method="POST" id="product_form">
                 @csrf
 
                 <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
@@ -119,7 +36,8 @@
                                 <x-frontend.input-text name="name" label="{{ __('Name') }}" required />
                             </div>
                             <div class="col-md-12">
-                                <x-frontend.textarea id="editor" name="description" label="{{ __('Description') }}" required />
+                                <x-frontend.textarea id="editor" name="description" label="{{ __('Description') }}"
+                                    required />
                             </div>
                         </div>
                     </div>
@@ -134,12 +52,12 @@
 
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <input type="hidden" name="category" value="{{ request('category') }}">
+                                <input type="hidden" name="category" value="{{ $category->id }}">
 
-                                <x-frontend.input-select name="category_display" label="{{ __('Category') }}" disabled="true">
+                                <x-frontend.input-select name="category_view" label="{{ __('Category') }}" disabled="true">
                                     <option value="" disabled>Select</option>
                                     @foreach ($categories as $cat)
-                                        <option @selected($cat->slug == request('category')) value="{{ $cat->slug }}">
+                                        <option @selected($cat->id == $category->id) value="{{ $cat->id }}">
                                             {{ $cat->name }}
                                         </option>
                                     @endforeach
@@ -150,7 +68,7 @@
                                 <x-frontend.input-select name="sub_category" label="{{ __('Sub Category') }}" required>
                                     <option value="" selected disabled>Select</option>
                                     @foreach ($category->subCategories as $subcategory)
-                                        <option value="{{ $subcategory->slug }}">
+                                        <option value="{{ $subcategory->id }}">
                                             {{ $subcategory->name }}
                                         </option>
                                     @endforeach
@@ -164,14 +82,16 @@
                             <div class="col-md-6">
                                 <x-frontend.input-text name="demo_link" label="{{ __('Demo Link (Optional)') }}" />
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="my_tags_input" class="form-label fw-semibold text-secondary mb-2">
                                         Search Tags <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" name="tags" id="my_tags_input" class="form-control" required placeholder="Type a tag and press Enter">
-                                    <small class="text-muted d-block mt-1">Tags help customers find your items through search.</small>
+                                    <input type="text" name="tags[]" id="my_tags_input" class="form-control" required
+                                        placeholder="Type a tag and press Enter">
+                                    <small class="text-muted d-block mt-1">Tags help customers find your items through
+                                        search.</small>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +107,8 @@
 
                         <div class="row g-4">
                             <div class="col-lg-12">
-                                <div class="dropzone-custom-wrapper mt-4" id="fileUpload" data-url="{{ route('user.items.uploads') }}" data-token="{{ csrf_token() }}">
+                                <div class="dropzone-custom-wrapper mt-4" id="fileUpload"
+                                    data-url="{{ route('user.items.uploads') }}" data-token="{{ csrf_token() }}">
                                     <div class="text-center" style="pointer-events: none;">
                                         <div class="mb-2 file-text-wrapper">
                                             <i class="bi bi-plus add-file-icon"></i>
@@ -199,17 +120,22 @@
 
                                 <ul class="list-group mt-3" id="fileList">
                                     @foreach ($uploadFiles as $file)
-                                        <li class="list-group-item file-list-item d-flex align-items-center justify-content-between" id="file-{{ $file->id }}">
+                                        <li class="list-group-item file-list-item d-flex align-items-center justify-content-between"
+                                            id="file-{{ $file->id }}">
                                             <div class="w-100">
                                                 <div class="d-flex align-items-center">
-                                                    <i class="bi {{ getIcon($file->mime_type) }} fs-3 me-3 text-primary"></i>
-                                                    <span>{{ $file->name }}<span class="file-size">{{ format_size($file->size) }}</span></span>
+                                                    <i
+                                                        class="bi {{ getIcon($file->mime_type) }} fs-3 me-3 text-primary"></i>
+                                                    <span>{{ $file->name }}<span
+                                                            class="file-size">{{ format_size($file->size) }}</span></span>
                                                 </div>
                                                 <div class="progress me-3" style="width:100%; height: 5px;">
-                                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%;"></div>
+                                                    <div class="progress-bar progress-bar-striped bg-success"
+                                                        role="progressbar" style="width: 100%;"></div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-danger btn-sm justify-content-end ms-3" onclick="removeFile('{{ $file->id }}')">
+                                            <button type="button" class="btn btn-danger btn-sm justify-content-end ms-3"
+                                                onclick="removeFile('{{ $file->id }}')">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </li>
@@ -218,7 +144,11 @@
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}" id="preview_file_input" required>
+                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}"
+                                    id="preview_file_input" required>
+                                    <option value="image">{{ __('Image') }}</option>
+                                    <option value="video">{{ __('Video') }}</option>
+                                    <option value="audio">{{ __('Audio') }}</option>
                                 </x-frontend.input-select>
                             </div>
 
@@ -233,22 +163,26 @@
                             <div class="col-md-12">
                                 <label class="form-label mb-2 font-18 font-heading fw-600">Main File<code>*</code></label>
                                 <div class="input-group mb-3">
-                                    <select class="form-select" id="main_resource_select">
+                                    <select name="source_type" class="form-select" id="main_resource_select">
                                         <option value="" selected disabled>{{ __('Select') }}</option>
                                         <option value="upload">{{ __('Upload') }}</option>
                                         <option value="link">{{ __('Link') }}</option>
                                     </select>
-                                    <select class="form-select d-none" id="upload_source">
+
+                                    <select name="upload_source" class="form-select d-none" id="upload_source">
                                         @foreach ($uploadFiles as $file)
                                             <option value="{{ $file->path }}">{{ $file->name }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" class="form-control" id="link_source" aria-label="Text input with dropdown button">
+
+                                    <input type="text" name="link_source" class="form-control d-none"
+                                        id="link_source">
                                 </div>
                             </div>
 
                             <div class="col-md-12">
-                                <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')" multiple="multiple" id="screenshot_input">
+                                <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')"
+                                    multiple="multiple" id="screenshot_input">
                                     @foreach ($uploadFiles as $file)
                                         <option value="{{ $file->path }}">{{ $file->name }}</option>
                                     @endforeach
@@ -258,8 +192,86 @@
                     </div>
                 </div>
 
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h5 class="fw-semibold text-dark mb-1">{{ __('Support') }} </h5>
+                            <div style="width: 40px; height: 3px; background-color: #0061ff; border-radius: 2px;"></div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <x-frontend.input-select name="support" id="option_support"
+                                    label="{{ __('Item Will Be Supported') }}">
+                                    <option value="" disabled>Select</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </x-frontend.input-select>
+                            </div>
+
+                            <div class="col-md-12 d-none" id="support_instruction">
+                                <x-frontend.textarea name="support_instruction" :label="__('Support Instruction')"></x-frontend.textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h5 class="fw-semibold text-dark mb-1">{{ __('Pricing') }} </h5>
+                            <div style="width: 40px; height: 3px; background-color: #0061ff; border-radius: 2px;"></div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <x-frontend.input-text name="price" label="{{ __('Regular Price') }}" required />
+                            </div>
+                            <div class="col-md-12">
+                                <x-frontend.input-text name="discount_price" label="{{ __('Discount Price') }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h5 class="fw-semibold text-dark mb-1">{{ __('Free Item') }} </h5>
+                            <div style="width: 40px; height: 3px; background-color: #0061ff; border-radius: 2px;"></div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <x-frontend.input-select name="is_free" id="is_free"
+                                    label="{{ __('Is Item Will Be Free? ') }}">
+                                    <option value="" disabled>Select</option>
+                                    <option value="0"> No </option>
+                                    <option value="1"> Yes </option>
+                                </x-frontend.input-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+                    <div class="card-body p-4">
+                        <div class="mb-4">
+                            <h5 class="fw-semibold text-dark mb-1">{{ __('Message To The Reviewer') }} </h5>
+                            <div style="width: 40px; height: 3px; background-color: #0061ff; border-radius: 2px;"></div>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-12" id="message_reviewer">
+                                <x-frontend.textarea name="message_for_reviewer" :label="__(' Message')"></x-frontend.textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-end border-top pt-4 mt-4">
-                    <button type="submit" class="btn btn-primary px-5 py-2 fw-bold d-flex align-items-center gap-2" style="background-color: #0061ff; border: none; border-radius: 8px;">
+                    <button type="submit" class="btn btn-primary px-5 py-2 fw-bold d-flex align-items-center gap-2"
+                        style="background-color: #0061ff; border: none; border-radius: 8px;">
                         <i class="ti ti-device-floppy fs-5"></i>
                         {{ __('Save Item') }}
                     </button>
@@ -269,9 +281,17 @@
         </div>
     </div>
 @endsection
-
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var input = document.querySelector('#my_tags_input');
+            if (input) {
+                new Tagify(input);
+            }
+        });
+    </script>
+
     <script src="{{ asset('assets/front/js/default/fileupload.js') }}"></script>
 @endpush

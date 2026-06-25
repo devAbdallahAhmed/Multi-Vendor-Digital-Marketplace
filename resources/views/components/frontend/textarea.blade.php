@@ -4,6 +4,6 @@
         @endif
     </label>
     <textarea name="{{ $name }}" placeholder="{{ $placeholder }}"
-        {{ $attributes->merge(['class' => 'common-input border']) }}>{!! $value !!}</textarea>
+        {{ $attributes->merge(['class' => 'common-input border']) }}>{!! old($name, $value ?? '') !!}</textarea>
     <x-input-error :messages="$errors->get($name)" />
 </div>

@@ -113,12 +113,12 @@ function setDynamicOption(response) {
     var uploadSource = document.getElementById("upload_source");
 
     if (previewFileInput)
-        previewFileInput.innerHTML = '<option value="">Select File</option>';
-    if (screenshotsInput)
-        screenshotsInput.innerHTML = '<option value="">Select File</option>';
+        previewFileInput.innerHTML =
+            '<option value="" selected disabled>Select File</option>';
     if (uploadSource)
-        uploadSource.innerHTML = '<option value="">Select File</option>';
-
+        uploadSource.innerHTML =
+            '<option value="" selected disabled>Select File</option>';
+    if (screenshotsInput) screenshotsInput.innerHTML = "";
     if (response && response.files) {
         response.files.forEach((file) => {
             if (previewFileInput) {
@@ -142,6 +142,13 @@ function setDynamicOption(response) {
                 uploadSource.add(uploadOption);
             }
         });
+    }
+
+    if (
+        typeof $.fn.select2 !== "undefined" &&
+        $("#screenshot_input").hasClass("select_2")
+    ) {
+        $("#screenshot_input").trigger("change");
     }
 }
 
@@ -228,6 +235,7 @@ function removeFile(id) {
             notyf.error("Failed to delete file");
         });
 }
+
 function cancelOrRemoveTmpFile(uuid, btn) {
     const listItem = document.getElementById(`file-${uuid}`);
     if (listItem) {
@@ -250,3 +258,102 @@ document
             if (LinkSource) LinkSource.classList.remove("d-none");
         }
     });
+
+document
+    .getElementById("option_support")
+    .addEventListener("change", function () {
+        const value = this.value;
+        const support_instruction = document.getElementById(
+            "support_instruction",
+        );
+
+        support_instruction.classList.toggle("d-none", value !== "1");
+    });
+
+$(document).ready(function () {
+    let tagify = null;
+    let input = document.querySelector("#my_tags_input");
+
+    if (input) {
+        tagify = new Tagify(input);
+    }
+
+    $("#product_form").on("submit", function (e) {
+        e.preventDefault();
+
+        let form = this;
+        let formData = new FormData(form);
+
+        formData.delete("tags");
+        formData.delete("tags[]");
+
+        if (tagify && tagify.value.length > 0) {
+            tagify.value.forEach(function (tagItem) {
+                formData.append("tags[]", tagItem.value);
+            });
+        }
+
+        const submitBtn = $(form).find('button[type="submit"]');
+        submitBtn
+            .prop("disabled", true)
+            .prepend(
+                '<span class="spinner-border spinner-border-sm me-2"></span>',
+            );
+
+        $.ajax({
+            method: $(form).attr("method"),
+            url: $(form).attr("action"),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                submitBtn
+                    .prop("disabled", false)
+                    .find(".spinner-border")
+                    .remove();
+
+                notyf.success(
+                    response.message || "Product saved successfully!",
+                );
+
+                if (response.redirect_url) {
+                    setTimeout(
+                        () => (window.location.href = response.redirect_url),
+                        1500,
+                    );
+                }
+            },
+            error: function (xhr) {
+                submitBtn
+                    .prop("disabled", false)
+                    .find(".spinner-border")
+                    .remove();
+
+                console.error(xhr);
+
+                if (
+                    xhr.status === 422 &&
+                    xhr.responseJSON &&
+                    xhr.responseJSON.errors
+                ) {
+                    let errors = xhr.responseJSON.errors;
+
+                    $.each(errors, function (key, messages) {
+                        if (Array.isArray(messages)) {
+                            messages.forEach(function (message) {
+                                notyf.error(message);
+                            });
+                        } else {
+                            notyf.error(messages);
+                        }
+                    });
+                } else {
+                    notyf.error(
+                        xhr.responseJSON?.message ||
+                            "Something went wrong while saving.",
+                    );
+                }
+            },
+        });
+    });
+});

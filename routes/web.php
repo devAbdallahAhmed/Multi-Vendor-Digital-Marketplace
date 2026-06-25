@@ -37,7 +37,12 @@ Route::group([
         Route::get('items/create', [ItemController::class, 'create'])->name('items.create');
         Route::post('items/uploads', [ItemController::class, 'itemUploads'])->name('items.uploads');
         Route::delete('item-destroy/{id}', [ItemController::class, 'delete'])->name('item.destroy');
-          });
+        Route::post('item/store', [ItemController::class, 'store'])->name('items.store');
+        Route::get('item/edit/{id}', [ItemController::class, 'edit'])->name('items.edit');
+        Route::put('item/update/{id}', [ItemController::class, 'update'])->name('items.update');
+        Route::delete('item/delete/{id}', [ItemController::class, 'delete'])->name('items.destroy');
+        Route::get('item/{id}/download', [ItemController::class, 'download'])->name('items.download');
+    });
 });
 
 

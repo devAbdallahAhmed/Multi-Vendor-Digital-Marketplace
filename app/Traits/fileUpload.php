@@ -59,4 +59,27 @@ trait FileUpload
             }
         }
     }
+
+
+    function movePublicAsset(array $screenShots = [], ?string $previewFile = null)
+    {
+
+        $publicFiles = $screenShots;
+        if ($previewFile) {
+            $publicFiles[] = $previewFile;
+        }
+        foreach ($publicFiles as $filePath) {
+            $storagePath = storage_path('app/private/' . $filePath);
+            $publicTargetPath = public_path($filePath);
+
+            if (File::exists($storagePath)) {
+                $directory = dirname($publicTargetPath);
+                if (!File::isDirectory($directory)) {
+                    File::makeDirectory($directory, 0755, true, true);
+                }
+
+                File::move($storagePath, $publicTargetPath);
+            }
+            }
+    }
 }

@@ -149,7 +149,7 @@
                 @csrf
 
                 <button type="submit"
-                    class="btn btn-light border w-100 rounded-4 d-flex align-items-center justify-content-center gap-2 py-3 fw-semibold text-danger logout-btn">
+                    class="btn btn-danger border w-100 rounded-4 d-flex align-items-center justify-content-center gap-2 py-3 fw-semibold text-danger logout-btn">
 
                     <i class="bi bi-box-arrow-right"></i>
 
