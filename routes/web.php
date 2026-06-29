@@ -42,6 +42,8 @@ Route::group([
         Route::put('item/update/{id}', [ItemController::class, 'update'])->name('items.update');
         Route::delete('item/delete/{id}', [ItemController::class, 'delete'])->name('items.destroy');
         Route::get('item/{id}/download', [ItemController::class, 'download'])->name('items.download');
+        Route::any('item/{id}/changelog', [ItemController::class, 'changelog'])->name('item.changelog');
+        Route::get('item/{id}/history', [ItemController::class, 'history'])->name('item.history');
     });
 });
 

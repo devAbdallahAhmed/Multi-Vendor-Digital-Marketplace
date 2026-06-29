@@ -6,27 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Frontend\ItemUpdateRequest;
 use App\Http\Requests\ItemStoreRequest;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Item;
-use App\Models\UploadedFiles;
+use App\Services\ItemService;
+use App\Repositories\ItemRepository;
 use App\Services\NotificationService;
-use App\Traits\FileUpload;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
-    use FileUpload;
+    protected $itemService;
+    protected $itemRepository;
+
+    public function __construct(ItemService $itemService, ItemRepository $itemRepository)
+    {
+        $this->itemService = $itemService;
+        $this->itemRepository = $itemRepository;
+    }
 
     public function index()
     {
         $categories = Category::all();
-        $items = Item::with(['category', 'sub_category'])
-            ->where('author_id', Auth::id())
-            ->paginate(10);
+        $items = $this->itemRepository->getPaginatedAuthorItems();
 
         return view('frontend.dashboard.item.index', compact('categories', 'items'));
     }
@@ -37,50 +37,111 @@ class ItemController extends Controller
         $category = Category::whereSlug($request->category)->firstOrFail();
 
         session()->put('selected_category', $category->id);
-        $uploadFiles = $this->getAuthorFilesByCategory($category->id);
+        $uploadFiles = $this->itemRepository->getFilesByAuthorAndCategory($category->id);
 
         return view('frontend.dashboard.item.create', compact('categories', 'category', 'uploadFiles'));
     }
 
     public function store(ItemStoreRequest $request)
     {
-        $item = new Item();
-        $item->fill($request->validated());
-        $item->author_id = Auth::id();
-        $item->status = 'pending';
-
-        if (in_array($request->preview_type, ['image', 'video', 'audio'])) {
-            $propertyName = "preview_" . $request->preview_type;
-            $item->{$propertyName} = $request->preview_file;
-        }
-
-        $item->is_main_file_external = ($request->source_type === 'upload') ? 0 : 1;
-        $item->main_file = ($request->source_type === 'upload') ? $request->upload_source : $request->link_source;
-        $item->save();
-
-        $this->movePublicAsset($request->screenshots ?? [], $request->preview_file);
-        NotificationService::created();
+        $this->itemService->storeItem($request->validated(), $request->message_for_reviewer);
+        NotificationService::created(__('Item created successfully.'));
 
         return redirect()->route('user.items.index');
     }
 
-    public function itemUploads(Request $request): JsonResponse
+    public function edit(string $id)
+    {
+        $item = $this->itemRepository->findAuthorItemById($id);
+
+        if ($item->status !== 'approved' && $item->status !== 'active' && $item->status !== 'soft_reject' && $item->status !== 'pending') {
+            abort(404);
+        }
+
+        session()->put('selected_category', $item->category_id);
+        $uploadFiles = $this->itemRepository->getFilesByAuthorAndCategory($item->category_id);
+
+        return view('frontend.dashboard.item.edit', compact('item', 'uploadFiles'));
+    }
+
+    public function update(ItemUpdateRequest $request, string $id)
+    {
+        $item = $this->itemRepository->findAuthorItemById($id);
+
+        if ($item->status !== 'approved' && $item->status !== 'active' && $item->status !== 'soft_reject') {
+            abort(404);
+        }
+
+        $this->itemService->updateItem($item, $request->validated());
+        NotificationService::updated(__('Item updated successfully.'));
+
+        return redirect()->route('user.items.index');
+    }
+
+    public function download(string $id)
+    {
+        $item = $this->itemRepository->findAuthorItemById($id);
+        $downloadData = $this->itemService->downloadFile($item);
+
+        if ($downloadData['type'] === 'url') {
+            return redirect()->away($downloadData['path']);
+        }
+
+        return response()->download($downloadData['path'], basename($downloadData['path']), [
+            'Content-Type' => File::mimeType($downloadData['path']),
+        ]);
+    }
+
+    public function changelog(Request $request, int $id)
+    {
+        $item = $this->itemRepository->findAuthorItemById($id);
+
+        if ($item->status !== 'approved' && $item->status !== 'active') {
+            abort(404);
+        }
+
+        if ($request->isMethod('post')) {
+            $validated = $request->validate([
+                'version'     => 'required|string|max:330',
+                'description' => 'required|string|max:1000',
+            ]);
+
+            $this->itemService->storeChangelog($item, $validated);
+            NotificationService::created(__('Changelog updated successfully.'));
+            return redirect()->back();
+        }
+
+        return view('frontend.dashboard.item.changelog', compact('item'));
+    }
+
+    public function history(int $id)
+    {
+        $item = $this->itemRepository->findAuthorItemById($id);
+        $histories = $this->itemRepository->getHistoryByItemId($id);
+
+        return view('frontend.dashboard.item.history', compact('item', 'histories'));
+    }
+
+    /**
+     * Handle chunk/file uploads from Dropzone for a selected category
+     */
+    public function itemUploads(Request $request): \Illuminate\Http\JsonResponse
     {
         $sessionId = session()->get('selected_category');
-        $category = Category::findOrFail($sessionId);
-        $supportedExtensions = Str::lower(implode(',', $category->file_types));
+        $category = \App\Models\Category::findOrFail($sessionId);
+        $supportedExtensions = \Illuminate\Support\Str::lower(implode(',', $category->file_types));
 
         $request->validate([
             'file.*' => "required|mimes:{$supportedExtensions}|max:102400",
         ]);
 
         foreach ($request->file('file') as $file) {
-            $fileInfo = $this->uploadFileWithDetails($file);
+            $fileInfo = $this->itemService->uploadFileWithDetails($file);
 
             if ($fileInfo) {
-                UploadedFiles::create([
+                \App\Models\UploadedFiles::create([
                     'category_id' => $sessionId,
-                    'author_id'   => Auth::id(),
+                    'author_id'   => \Illuminate\Support\Facades\Auth::id(),
                     'name'        => $fileInfo['name'],
                     'extension'   => $fileInfo['extension'],
                     'mime_type'   => $fileInfo['mime_type'],
@@ -93,119 +154,32 @@ class ItemController extends Controller
         return $this->respondWithFileList($sessionId);
     }
 
-    public function edit(string $id)
-    {
-        $item = Item::with(['category', 'sub_category'])
-            ->where('id', $id)
-            ->where('author_id', Auth::id())
-            ->firstOrFail();
-
-        session()->put('selected_category', $item->category->id);
-
-        $uploadFiles = $this->getAuthorFilesByCategory($item->category->id);
-
-        return view('frontend.dashboard.item.edit', compact('item', 'uploadFiles'));
-    }
-
-    public function update(ItemUpdateRequest $request, string $id)
-    {
-        $item = Item::where('id', $id)
-            ->where('author_id', Auth::id())
-            ->firstOrFail();
-
-        $oldPreviewType = $item->preview_type;
-        $oldPreviewFile = $item->{"preview_" . $oldPreviewType} ?? null;
-
-        $item->fill($request->validated());
-
-        $item->preview_image = null;
-        $item->preview_video = null;
-        $item->preview_audio = null;
-
-        if (in_array($request->preview_type, ['image', 'video', 'audio'])) {
-            $propertyName = "preview_" . $request->preview_type;
-            $item->{$propertyName} = $request->preview_file;
-        }
-
-        // Check if source_type is provided to update the file fields safely
-        if ($request->has('source_type')) {
-            $item->is_main_file_external = ($request->source_type === 'upload') ? 0 : 1;
-            $item->main_file = ($request->source_type === 'upload') ? $request->upload_source : $request->link_source;
-        }
-
-        if ($item->status === 'soft_reject') {
-            $item->status = 'resubmitted';
-        }
-
-        $item->save();
-
-        $this->movePublicAsset($request->screenshots ?? [], $request->preview_file);
-
-        if ($request->preview_file && $oldPreviewFile && $request->preview_file !== $oldPreviewFile) {
-            $this->deleteFile($oldPreviewFile, 'public');
-        }
-
-        NotificationService::updated(__('Item updated successfully.'));
-
-        return redirect()->route('user.items.index');
-    }
-
-    public function delete($id): JsonResponse
+    /**
+     * Delete a temporarily uploaded file from the list
+     */
+    public function delete($id): \Illuminate\Http\JsonResponse
     {
         $sessionId = session()->get('selected_category');
-        $file = UploadedFiles::whereId($id)
-            ->where('author_id', Auth::id())
+        $file = \App\Models\UploadedFiles::whereId($id)
+            ->where('author_id', \Illuminate\Support\Facades\Auth::id())
             ->first();
 
         if (!$file) {
             return response()->json(['status' => 'error', 'message' => 'File not found'], 422);
         }
 
-        $this->deleteFile($file->path, 'local');
+        $this->itemService->deleteFile($file->path, 'local');
         $file->delete();
 
         return $this->respondWithFileList($sessionId, 'success');
     }
 
-    public function download(string $id)
+    /**
+     * Helper to render and return the updated file list HTML for Dropzone
+     */
+    private function respondWithFileList(int $categoryId, string $status = 'success'): \Illuminate\Http\JsonResponse
     {
-        $item = Item::where('id', $id)
-            ->where('author_id', Auth::id())
-            ->firstOrFail();
-
-        if ($item->is_main_file_external) {
-            if (filter_var($item->main_file, FILTER_VALIDATE_URL)) {
-                return redirect()->away($item->main_file);
-            }
-            abort(404, 'External link is invalid.');
-        }
-
-        $cleanPath = ltrim($item->main_file, '/');
-        $storagePath = storage_path('app/private/' . $cleanPath);
-
-        if (!File::exists($storagePath)) {
-            abort(404, 'The requested file does not exist on the server.');
-        }
-
-        $fileName = basename($storagePath);
-        $mimeType = File::mimeType($storagePath);
-
-        return response()->download($storagePath, $fileName, [
-            'Content-Type' => $mimeType,
-        ]);
-    }
-
-
-    private function getAuthorFilesByCategory(int $categoryId)
-    {
-        return UploadedFiles::where('author_id', Auth::id())
-            ->where('category_id', $categoryId)
-            ->get();
-    }
-
-    private function respondWithFileList(int $categoryId, string $status = 'success'): JsonResponse
-    {
-        $uploadFiles = $this->getAuthorFilesByCategory($categoryId);
+        $uploadFiles = $this->itemRepository->getFilesByAuthorAndCategory($categoryId);
         $html = view('frontend.dashboard.layouts.partials.file-list-item', compact('uploadFiles'))->render();
 
         return response()->json([
@@ -215,3 +189,4 @@ class ItemController extends Controller
         ], 200);
     }
 }
+

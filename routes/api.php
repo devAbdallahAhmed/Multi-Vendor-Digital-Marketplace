@@ -1,63 +1,95 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\CategoryApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Admin\ProfileController;
-use App\Http\Controllers\Api\Admin\RoleUserController;
 use App\Http\Controllers\Api\KycApiController;
+use App\Http\Controllers\Api\V1\ItemApiController;
+use App\Http\Controllers\Api\Admin\ProfileController;
 use App\Http\Controllers\Api\Admin\KycCheckController;
+use App\Http\Controllers\Api\Admin\RoleUserController;
 use App\Http\Controllers\Api\Admin\SubCategoryController;
-Route::get('/user', function (Request $request) {
+use App\Http\Controllers\Api\Admin\CategoryApiController;
+use App\Http\Controllers\Api\Front\ProfileController as FrontProfileController;
+use App\Http\Controllers\Api\Front\Auth\LoginController as FrontLoginController;
+use App\Http\Controllers\Api\Admin\Auth\AdminAuthController as AdminLoginController;
+use App\Http\Controllers\Api\Front\Auth\RegisterUserController as FrontRegisterController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes - Version 1 (v1)
+|--------------------------------------------------------------------------
+*/
+
+// Generic Sanctum User Check
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+});
 
-
+// ==========================================
+// FRONT & AUTHOR ENDPOINTS (v1/front)
+// ==========================================
 Route::prefix('v1/front')->group(function () {
-    Route::post('/login', [App\Http\Controllers\Api\Front\Auth\LoginController::class, 'login']);
-    Route::post('/register', [App\Http\Controllers\Api\Front\Auth\RegisterUserController::class, 'register']);
 
+    // Public Guest Routes
+    Route::post('/login', [FrontLoginController::class, 'login']);
+    Route::post('/register', [FrontRegisterController::class, 'register']);
+
+    // Authenticated User & Author Routes
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/profile', [App\Http\Controllers\Api\Front\ProfileController::class, 'index']);
-        Route::put('/profile/update', [App\Http\Controllers\Api\Front\ProfileController::class, 'update']);
 
-        //  KYC Submit
+        // General Profile
+        Route::get('/profile', [FrontProfileController::class, 'index']);
+        Route::put('/profile/update', [FrontProfileController::class, 'update']);
+
+        // KYC Verification (User Side)
         Route::get('kyc/status', [KycApiController::class, 'status']);
         Route::post('kyc/submit', [KycApiController::class, 'submit']);
         Route::post('kyc/resubmit', [KycApiController::class, 'resubmit']);
+
+        // Specialized Author Routes (Protected by Role)
+        Route::middleware(['is_author'])->group(function () {
+            Route::get('items', [ItemApiController::class, 'index']);
+            Route::post('items', [ItemApiController::class, 'store']);
+            Route::get('items/{id}', [ItemApiController::class, 'show']);
+            Route::put('items/{id}', [ItemApiController::class, 'update']);
+            Route::post('items/uploads', [ItemApiController::class, 'itemUploads']);
+            Route::delete('items/uploads/{id}', [ItemApiController::class, 'deleteUpload']);
+            Route::post('items/{id}/changelog', [ItemApiController::class, 'storeChangelog']);
+            Route::get('items/{id}/history', [ItemApiController::class, 'history']);
+        });
     });
 });
 
-
-
-
-
+// ==========================================
+// ADMIN ENDPOINTS (v1/admin)
+// ==========================================
 Route::prefix('v1/admin')->group(function () {
-    Route::post('/login', [App\Http\Controllers\Api\Admin\Auth\AdminAuthController::class, 'login']);
+
+    // Public Admin Login
+    Route::post('/login', [AdminLoginController::class, 'login']);
+
+    // Protected Admin System Routes
     Route::middleware('auth:sanctum')->group(function () {
+
+        // Admin Profile
         Route::get('/profile', [ProfileController::class, 'index']);
         Route::put('/profile/update', [ProfileController::class, 'update']);
 
-
-        //Role & Permission
+        // Internal Role Management
         Route::get('role/user', [RoleUserController::class, 'index']);
         Route::post('role/user/store', [RoleUserController::class, 'store']);
         Route::put('role/user/update/{role_user}', [RoleUserController::class, 'update']);
         Route::delete('role/user/delete/{role_user}', [RoleUserController::class, 'destroy']);
 
-
-
-        //KYC Verification
+        // KYC Review Workflow (Admin View)
         Route::get('kyc-requests', [KycCheckController::class, 'index']);
         Route::get('kyc-requests/{kyc}', [KycCheckController::class, 'show']);
         Route::put('kyc-requests/{kyc}/update-status', [KycCheckController::class, 'updateStatus']);
         Route::get('kyc-requests/{kyc}/download/{index}', [KycCheckController::class, 'downloadDocument']);
         Route::delete('kyc-requests/{kyc}', [KycCheckController::class, 'destroy']);
 
-
-        // Route Categories
+        // Global System Metadata (Categories Control)
         Route::apiResource('categories', CategoryApiController::class);
-
-        Route::apiResource('sub/categories',SubCategoryController::class);
-        });
+        Route::apiResource('sub/categories', SubCategoryController::class);
+    });
 });
