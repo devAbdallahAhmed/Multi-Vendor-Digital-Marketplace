@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ItemReviewController;
 use App\Http\Controllers\Admin\KycCheckController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProfileController;
@@ -81,4 +82,13 @@ Route::middleware('auth:admin')
         //                              setting
         Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
         Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
+
+        // Item Reviewer
+        Route::get('items/review', [ItemReviewController::class, 'pendingIndex'])->name('items.review');
+        Route::get('items/review/{id}/show', [ItemReviewController::class, 'pendingShow'])->name('items-review.show');
+        Route::post('/item-review/update-status/{id}', [ItemReviewController::class, 'updateStatus'])->name('item.review.status');
+        Route::get('items/review/approved', [ItemReviewController::class, 'approveIndex'])->name('approve.index');
+        Route::get('items/review/hard-rejected', [ItemReviewController::class, 'hardRejectedIndex'])->name('hard.rejected.index');
+        Route::get('items/review/soft-rejected', [ItemReviewController::class, 'softRejectedIndex'])->name('soft.rejected.index');
+        Route::get('items/review/resubmitted', [ItemReviewController::class, 'resubmittedIndex'])->name('resubmitted.index');
     });
