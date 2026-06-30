@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Api\Front\Auth;
+namespace App\Http\Controllers\Api\V1\Front\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Front\LoginRequest;
@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller 
+class LoginController extends Controller
 {
 
     use fileUpload;

@@ -2,17 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\KycApiController;
+use App\Http\Controllers\Api\V1\KycApiController;
 use App\Http\Controllers\Api\V1\ItemApiController;
-use App\Http\Controllers\Api\Admin\ProfileController;
-use App\Http\Controllers\Api\Admin\KycCheckController;
-use App\Http\Controllers\Api\Admin\RoleUserController;
-use App\Http\Controllers\Api\Admin\SubCategoryController;
-use App\Http\Controllers\Api\Admin\CategoryApiController;
-use App\Http\Controllers\Api\Front\ProfileController as FrontProfileController;
-use App\Http\Controllers\Api\Front\Auth\LoginController as FrontLoginController;
-use App\Http\Controllers\Api\Admin\Auth\AdminAuthController as AdminLoginController;
-use App\Http\Controllers\Api\Front\Auth\RegisterUserController as FrontRegisterController;
+use App\Http\Controllers\Api\V1\Admin\ProfileController;
+use App\Http\Controllers\Api\V1\Admin\KycCheckController;
+use App\Http\Controllers\Api\V1\Admin\RoleUserController;
+use App\Http\Controllers\Api\V1\Admin\SubCategoryController;
+use App\Http\Controllers\Api\V1\Admin\CategoryApiController;
+use App\Http\Controllers\Api\V1\Front\ProfileController as FrontProfileController;
+use App\Http\Controllers\Api\V1\Front\Auth\LoginController as FrontLoginController;
+use App\Http\Controllers\Api\V1\Admin\Auth\AdminAuthController as AdminLoginController;
+use App\Http\Controllers\Api\V1\Admin\ItemReviewController;
+use App\Http\Controllers\Api\V1\Front\Auth\RegisterUserController as FrontRegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,5 +92,17 @@ Route::prefix('v1/admin')->group(function () {
         // Global System Metadata (Categories Control)
         Route::apiResource('categories', CategoryApiController::class);
         Route::apiResource('sub/categories', SubCategoryController::class);
+
+        // Item Reviews
+        Route::get('items/reviews',[ItemReviewController::class,'pendingIndex']);
+        Route::get('items/reviews/{id}/show', [ItemReviewController::class, 'pendingShow']);
+        Route::put('items/reviews/{id}/update-status', [ItemReviewController::class, 'updateStatus']);
+        Route::get('items/approved', [ItemReviewController::class, 'approveIndex']);
+        Route::get('items/soft-rejected', [ItemReviewController::class, 'softRejectedIndex']);
+        Route::get('items/hard-rejected', [ItemReviewController::class, 'hardRejectedIndex']);
+        Route::get('items/resubmitted', [ItemReviewController::class, 'resubmittedIndex']);
+
+
+
     });
 });

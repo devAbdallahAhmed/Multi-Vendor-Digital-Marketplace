@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
-use App\Services\ItemReviewService;
+use App\Services\Admin\ItemReviewService;
 use App\Services\NotificationService;
 use App\Http\Requests\Admin\ItemStatusUpdateRequest;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +35,7 @@ class ItemReviewController extends Controller
     {
         $item = Item::findOrFail($id);
 
-        $isAdmin = Auth::guard('admin')->user()->hasRole('superadmin');
+        $isAdmin = Auth::guard('admin')->user()->hasRole('super admin');
         $isPendingOrResubmitted = in_array($item->status, ['pending', 'resubmitted']);
 
         if (!$isAdmin && !$isPendingOrResubmitted) {
@@ -84,4 +84,6 @@ class ItemReviewController extends Controller
             'counts' => $this->reviewService->getStatusCounts()
         ]);
     }
+
+    
 }
