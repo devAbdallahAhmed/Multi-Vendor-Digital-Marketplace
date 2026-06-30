@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Front\Auth;
+namespace App\Http\Controllers\Api\V1\Front\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class RegisterUserController extends Controller
     'name' => $request->name,
     'email' => $request->email,
     'country' => $request->country,
-    'city' => $request->city,       
+    'city' => $request->city,
     'address'=>$request->address,
     'password' =>Hash::make($request->password)
     ]);
@@ -26,7 +26,7 @@ class RegisterUserController extends Controller
     return $this->SuccessResponse([
         'user' => new UserResource($user),
         'token' =>$token
-        
+
     ],'Successfully Registered In');
     }
 
