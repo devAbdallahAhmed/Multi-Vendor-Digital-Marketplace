@@ -11,6 +11,7 @@ class ItemHistory extends Model
         'item_id',
         'title',
         'body',
-        'status'
+        'status',
+        'reviewer_id'
     ];
 }

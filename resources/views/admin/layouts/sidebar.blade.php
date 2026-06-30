@@ -123,6 +123,62 @@
                     </li>
                 @endif
 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{ request()->is('admin/items/review*') ? 'show active' : '' }}"
+                        href="#navbar-items-review" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button">
+
+                        <span class="nav-link-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </span>
+
+                        <span class="nav-link-title">
+                            {{ __('Product Review') }}
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu {{ request()->is('admin/items/review*') ? 'show' : '' }}">
+
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.items.review') }}">
+                            <span>{{ __('Pending Items') }}</span>
+                            @if (isset($counts['pending']) && $counts['pending'] > 0)
+                                <span class="badge badge-sm bg-warning-lt ms-auto">{{ $counts['pending'] }}</span>
+                            @endif
+                        </a>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('admin.resubmitted.index') }}">
+                            <span>{{ __('Resubmitted Items') }}</span>
+                            @if (isset($counts['resubmitted']) && $counts['resubmitted'] > 0)
+                                <span class="badge badge-sm bg-info-lt ms-auto">{{ $counts['resubmitted'] }}</span>
+                            @endif
+                        </a>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('admin.soft.rejected.index') }}">
+                            <span>{{ __('Soft Rejected Items') }}</span>
+                            @if (isset($counts['soft_reject']) && $counts['soft_reject'] > 0)
+                                <span
+                                    class="badge badge-sm bg-secondary-lt ms-auto">{{ $counts['soft_reject'] }}</span>
+                            @endif
+                        </a>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                            href="{{ route('admin.hard.rejected.index') }}">
+                            <span>{{ __('Hard Rejected Items') }}</span>
+                            @if (isset($counts['hard_reject']) && $counts['hard_reject'] > 0)
+                                <span class="badge badge-sm bg-danger-lt ms-auto">{{ $counts['hard_reject'] }}</span>
+                            @endif
+                        </a>
+
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.approve.index') }}">
+                            <span>{{ __('Approved Items') }}</span>
+                            @if (isset($counts['approved']) && $counts['approved'] > 0)
+                                <span class="badge badge-sm bg-success-lt ms-auto">{{ $counts['approved'] }}</span>
+                            @endif
+                        </a>
+
+                    </div>
+                </li>
                 {{-- Vendors --}}
                 <li class="nav-item">
                     <a class="nav-link" href="#">

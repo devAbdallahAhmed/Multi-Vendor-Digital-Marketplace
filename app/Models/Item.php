@@ -68,4 +68,13 @@ class Item extends Model
     {
         return $this->belongsTo(SubCategory::class);
     }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+    public function histories()
+    {
+        return $this->hasMany(ItemHistory::class, 'item_id')->orderBy('id', 'desc');
+    }
 }

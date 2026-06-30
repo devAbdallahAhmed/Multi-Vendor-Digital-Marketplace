@@ -11,7 +11,10 @@ use App\Models\Category;
 use App\Models\Admin\SubCategory;
 use App\Policies\SubCategoryPolicy;
 use Illuminate\Support\ServiceProvider;
-
+use App\Events\ItemStatusUpdated;
+use App\Listeners\LogItemHistory;
+use App\Listeners\SendItemStatusEmail;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,5 +41,16 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(SubCategory::class, SubCategoryPolicy::class);
+
+
+        Event::listen(
+            ItemStatusUpdated::class,
+            [LogItemHistory::class, 'handle']
+        );
+
+        Event::listen(
+            ItemStatusUpdated::class,
+            [SendItemStatusEmail::class, 'handle']
+        );
     }
 }

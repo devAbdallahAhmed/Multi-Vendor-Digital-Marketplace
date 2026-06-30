@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('item_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('author_id')->constrained('admins')->onDelete('cascade');
             $table->foreignId('reviewer_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->string('title')->nullable();
