@@ -121,25 +121,40 @@ function setDynamicOption(response) {
     if (screenshotsInput) screenshotsInput.innerHTML = "";
     if (response && response.files) {
         response.files.forEach((file) => {
-            if (previewFileInput) {
-                var previewOption = document.createElement("option");
-                previewOption.value = file.path;
-                previewOption.text = file.name;
-                previewFileInput.add(previewOption);
+            let mime = file.mime_type || "";
+            let name = file.name || "";
+
+            if (mime.startsWith("image/") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png") || name.endsWith(".webp")) {
+                if (screenshotsInput) {
+                    var screenOption = document.createElement("option");
+                    screenOption.value = file.path;
+                    screenOption.text = file.name;
+                    screenshotsInput.add(screenOption);
+                }
+                if (previewFileInput && (mime.startsWith("image/") && !name.endsWith(".zip") && !name.endsWith(".rar"))) {
+                    var previewOption = document.createElement("option");
+                    previewOption.value = file.path;
+                    previewOption.text = file.name;
+                    previewFileInput.add(previewOption);
+                }
             }
 
-            if (screenshotsInput) {
-                var screenOption = document.createElement("option");
-                screenOption.value = file.path;
-                screenOption.text = file.name;
-                screenshotsInput.add(screenOption);
+            if (mime.startsWith("video/") || mime.startsWith("audio/")) {
+                if (previewFileInput) {
+                    var previewMimeOption = document.createElement("option");
+                    previewMimeOption.value = file.path;
+                    previewMimeOption.text = file.name;
+                    previewFileInput.add(previewMimeOption);
+                }
             }
 
-            if (uploadSource) {
-                var uploadOption = document.createElement("option");
-                uploadOption.value = file.path;
-                uploadOption.text = file.name;
-                uploadSource.add(uploadOption);
+            if (name.endsWith(".zip") || name.endsWith(".rar") || name.endsWith(".pdf") || mime.startsWith("video/") || mime.startsWith("audio/")) {
+                if (uploadSource) {
+                    var uploadOption = document.createElement("option");
+                    uploadOption.value = file.path;
+                    uploadOption.text = file.name;
+                    uploadSource.add(uploadOption);
+                }
             }
         });
     }
@@ -207,7 +222,7 @@ function removeFile(id) {
         headers: {
             "X-CSRF-TOKEN": csrfToken,
             "Content-Type": "application/json",
-            Accept: "application/json",
+            "Accept": "application/json",
         },
     })
         .then((response) => {
@@ -222,8 +237,6 @@ function removeFile(id) {
                 if (listItem) {
                     listItem.remove();
                 }
-
-                notyf.success(data.message || "Item removed successfully");
 
                 setDynamicOption(data);
             } else {

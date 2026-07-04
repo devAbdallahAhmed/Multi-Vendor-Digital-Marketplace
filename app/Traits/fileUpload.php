@@ -21,7 +21,7 @@ trait FileUpload
         }
     }
 
-    public function uploadFileWithDetails(UploadedFile $file, string $dir = 'uploads', string $disk = 'local'): array
+    public function uploadFileWithDetails(UploadedFile $file, string $dir = 'uploads/items',  $disk = 'local'): array
     {
         if (!in_array($disk, ['public', 'local'])) {
             throw new Exception('Invalid disk type');
@@ -44,7 +44,6 @@ trait FileUpload
             throw $th;
         }
     }
-
     public function deleteFile($path, $disk = 'local')
     {
         $cleanPath = ltrim($path, '/');
@@ -60,15 +59,9 @@ trait FileUpload
         }
     }
 
-
-    function movePublicAsset(array $screenShots = [], ?string $previewFile = null)
+    public function movePublicAsset(array $screenShots = [])
     {
-
-        $publicFiles = $screenShots;
-        if ($previewFile) {
-            $publicFiles[] = $previewFile;
-        }
-        foreach ($publicFiles as $filePath) {
+        foreach ($screenShots as $filePath) {
             $storagePath = storage_path('app/private/' . $filePath);
             $publicTargetPath = public_path($filePath);
 
@@ -80,6 +73,6 @@ trait FileUpload
 
                 File::move($storagePath, $publicTargetPath);
             }
-            }
+        }
     }
 }

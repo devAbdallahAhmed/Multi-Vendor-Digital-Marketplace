@@ -88,7 +88,7 @@
                                     <label for="my_tags_input" class="form-label fw-semibold text-secondary mb-2">
                                         Search Tags <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" name="tags[]" id="my_tags_input" class="form-control" required
+                                    <input type="text" name="tags" id="my_tags_input" class="form-control" required
                                         placeholder="Type a tag and press Enter">
                                     <small class="text-muted d-block mt-1">Tags help customers find your items through
                                         search.</small>

@@ -1,4 +1,8 @@
 <?php
+
+use App\Models\Item;
+use Illuminate\Support\Facades\Storage;
+
 function kycCount()
 {
     return \App\Models\KycVerification::where('status', 'pending')->count();
@@ -61,5 +65,54 @@ if (!function_exists('getIcon')) {
         }
 
         return $fileIcon;
+    }
+}
+
+
+if (!function_exists('statusCount')) {
+    function statusCount()
+    {
+        return Item::with('author')->where('status', 'active')->count();
+    }
+}
+
+if (!function_exists('formatDate')) {
+    function formatDate($date)
+    {
+        return $date ? $date->format('Y-m-d') : 'N/A';
+    }
+}
+
+
+if (!function_exists('getFileSize')) {
+    function getFileSize($path)
+    {
+        $cleanPath = ltrim($path, '/');
+
+        $privatePath = storage_path('app/private/' . $cleanPath);
+        if (\Illuminate\Support\Facades\File::exists($privatePath)) {
+            return formatBytes(\Illuminate\Support\Facades\File::size($privatePath));
+        }
+
+        $publicPath = public_path($cleanPath);
+        if (\Illuminate\Support\Facades\File::exists($publicPath)) {
+            return formatBytes(\Illuminate\Support\Facades\File::size($publicPath));
+        }
+
+        return 'N/A';
+    }
+}
+
+if (!function_exists('formatBytes')) {
+    function formatBytes($bytes, $precision = 2)
+    {
+        if ($bytes <= 0) return '0 B';
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+
+        return round($bytes, $precision) . ' ' . $units[$pow];
     }
 }

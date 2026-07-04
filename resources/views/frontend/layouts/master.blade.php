@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/magnific-popup.css') }}">
     <!-- line awesome -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/line-awesome.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.8.4/plyr.css" />
     <!-- Tabler Icons CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css')}}"
         integrity="sha512-XrgoTBs7P5YtpkeKqKOKkruURsawIaRrhe8QrcWeMnFeyRZiOcRNjBAX+AQeXOvx9/9fSY32dVct1PccRoCICQ=="
@@ -251,11 +252,12 @@
     <script src="{{ asset('assets/front/js/infiniteslidev2.js') }}"></script>
     <!-- select 2  -->
     <script src="{{ asset('assets/front/js/select2.min.js') }}"></script>
-
+    <script src="https://cdn.plyr.io/3.8.4/plyr.js"></script>
     <!-- main js -->
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
 
 
+    @stack('scripts')
 </body>
 
 </html>
