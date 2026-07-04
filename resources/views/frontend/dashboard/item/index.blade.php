@@ -37,11 +37,12 @@
                                         @if ($item->preview_type === 'image' && $item->preview_image)
                                             <img src="{{ asset($item->preview_image) }}" alt="{{ $item->name }}"
                                                 class="rounded-3 border w-100 h-100" style="object-fit:cover;">
-                                        @else
-                                            <div
-                                                class="bg-light border rounded-3 d-flex align-items-center justify-content-center w-100 h-100">
-                                                <i class="ti ti-photo text-muted fs-2"></i>
-                                            </div>
+                                        @elseif ($item->preview_type === 'video' && $item->preview_video)
+                                            <img src="{{ asset('defaults/video.webp') }}" alt="{{ $item->name }}"
+                                                class="rounded-3 border w-100 h-100" style="object-fit:cover;">
+                                        @elseif ($item->preview_type === 'audio' && $item->preview_audio)
+                                            <img src="{{ asset('defaults/audio.webp') }}" alt="{{ $item->name }}"
+                                                class="rounded-3 border w-100 h-100" style="object-fit: cover;">
                                         @endif
 
                                     </div>

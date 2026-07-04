@@ -7,6 +7,9 @@ use App\Traits\FileUpload;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ItemService
 {
@@ -21,34 +24,40 @@ class ItemService
 
     public function storeItem(array $validatedData, ?string $messageForReviewer): Item
     {
-        $itemData = $validatedData;
-        $itemData['category_id'] = $validatedData['category'];
-        $itemData['sub_category_id'] = $validatedData['sub_category'];
-        $itemData['author_id'] = Auth::id();
-        $itemData['status'] = 'pending';
+        return DB::transaction(function () use ($validatedData, $messageForReviewer) {
 
-        if (in_array($validatedData['preview_type'] ?? '', ['image', 'video', 'audio'])) {
-            $itemData["preview_" . $validatedData['preview_type']] = $validatedData['preview_file'];
-        }
+            $itemData = $validatedData;
 
-        $itemData['is_main_file_external'] = ($validatedData['source_type'] === 'upload') ? 0 : 1;
-        $itemData['main_file'] = ($validatedData['source_type'] === 'upload') ? $validatedData['upload_source'] : $validatedData['link_source'];
+            $itemData['category_id'] = $validatedData['category'];
+            $itemData['sub_category_id'] = $validatedData['sub_category'];
+            $itemData['author_id'] = Auth::id();
+            $itemData['status'] = 'pending';
 
-        $item = $this->itemRepository->createItem($itemData);
+            unset($itemData['category'], $itemData['sub_category']);
 
-        $this->movePublicAsset($validatedData['screenshots'] ?? [], $validatedData['preview_file'] ?? null);
+            if (in_array($validatedData['preview_type'] ?? '', ['image', 'video', 'audio'])) {
+                $itemData["preview_" . $validatedData['preview_type']] = $validatedData['preview_file'];
+            }
 
-        $this->itemRepository->createHistory([
-            'author_id' => Auth::id(),
-            'item_id'   => $item->id,
-            'title'     => 'Initial submission',
-            'body'      => $messageForReviewer,
-            'status'    => 'pending'
-        ]);
+            $isUpload = ($validatedData['source_type'] === 'upload');
+            $itemData['is_main_file_external'] = $isUpload ? 0 : 1;
+            $itemData['main_file'] = $isUpload ? $validatedData['upload_source'] : $validatedData['link_source'];
 
-        $this->itemRepository->clearAuthorUploadedFiles();
+            $item = $this->itemRepository->createItem($itemData);
 
-        return $item;
+            $this->itemRepository->createHistory([
+                'author_id' => Auth::id(),
+                'item_id'   => $item->id,
+                'title'     => 'Initial submission',
+                'body'      => $messageForReviewer,
+                'status'    => 'pending'
+            ]);
+
+            $this->movePublicAsset($validatedData['screenshots'] ?? []);
+            $this->itemRepository->clearAuthorUploadedFiles();
+
+            return $item;
+        });
     }
 
     public function updateItem(Item $item, array $validatedData): Item
@@ -57,31 +66,35 @@ class ItemService
         $oldPreviewFile = $item->{"preview_" . $oldPreviewType} ?? null;
 
         $item->fill($validatedData);
+        if (!empty($validatedData['preview_file'])) {
+            $item->preview_image = null;
+            $item->preview_video = null;
+            $item->preview_audio = null;
 
-        $item->preview_image = null;
-        $item->preview_video = null;
-        $item->preview_audio = null;
-
-        if (in_array($validatedData['preview_type'] ?? '', ['image', 'video', 'audio'])) {
+            $item->preview_type = $validatedData['preview_type'];
             $propertyName = "preview_" . $validatedData['preview_type'];
             $item->{$propertyName} = $validatedData['preview_file'];
+        } else {
+            $item->preview_type = $oldPreviewType;
         }
 
         if (isset($validatedData['source_type'])) {
-            $item->is_main_file_external = ($validatedData['source_type'] === 'upload') ? 0 : 1;
-            $item->main_file = ($validatedData['source_type'] === 'upload') ? $validatedData['upload_source'] : $validatedData['link_source'];
+            if (!empty($validatedData['upload_source']) || !empty($validatedData['link_source'])) {
+                $item->is_main_file_external = ($validatedData['source_type'] === 'upload') ? 0 : 1;
+                $item->main_file = ($validatedData['source_type'] === 'upload') ? $validatedData['upload_source'] : $validatedData['link_source'];
+            }
         }
-
         if ($item->status === 'soft_reject') {
             $item->status = 'resubmitted';
         }
 
         $item->save();
 
-        $this->movePublicAsset($validatedData['screenshots'] ?? [], $validatedData['preview_file'] ?? null);
+        $this->movePublicAsset($validatedData['screenshots'] ?? []);
 
         if (($validatedData['preview_file'] ?? null) && $oldPreviewFile && $validatedData['preview_file'] !== $oldPreviewFile) {
-            $this->deleteFile($oldPreviewFile, 'public');
+            $oldDisk = in_array($oldPreviewType, ['video', 'audio']) ? 'local' : 'public';
+            $this->deleteFile($oldPreviewFile, $oldDisk);
         }
 
         return $item;

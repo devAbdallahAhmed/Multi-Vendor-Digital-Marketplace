@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(KycVerification::class)->latestOfMany();
     }
+
+    public function products()
+    {
+        return $this->hasMany(Item::class, 'author_id', 'id')->where('status' ,'active');
+    }
 }
