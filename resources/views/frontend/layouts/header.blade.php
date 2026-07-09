@@ -1,5 +1,7 @@
 @php
+    use Illuminate\Support\Facades\Auth;
     $categories = \App\Models\Category::with('subCategories')->get();
+    $cartCount = \App\Models\cartItem::where('user_id', Auth::user()->id)->count();
 @endphp
 <!-- ============================ Sale Offer Start =========================== -->
 <div class="sale-offer ">
@@ -88,9 +90,9 @@
 
             <!-- Header Right start -->
             <div class="header-right flx-align">
-                <a href="cart.html" class="header-right__button cart-btn position-relative">
+                <a href="{{ route('cart.index') }}" class="header-right__button cart-btn position-relative">
                     <i class="ti ti-basket"></i>
-                    <span class="qty-badge font-12">0</span>
+                    <span class="qty-badge font-12" id="cart-count">{{ $cartCount }}</span>
                 </a>
 
                 <div class="header-right__inner gap-3 flx-align d-lg-flex d-none">
@@ -129,7 +131,7 @@
                         <ul class="nav-submenu">
                             @foreach ($category->subCategories as $subCategory)
                                 <li class="nav-submenu__item">
-                                    <a href="{{ route('products', ['category' => $category->slug ,'sub-category' => $subCategory->slug]) }}"
+                                    <a href="{{ route('products', ['category' => $category->slug, 'sub-category' => $subCategory->slug]) }}"
                                         class="nav-submenu__link">{{ $subCategory->name }}</a>
                                 </li>
                             @endforeach

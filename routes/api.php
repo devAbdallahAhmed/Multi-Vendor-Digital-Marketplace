@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\V1\Front\Auth\LoginController as FrontLoginControll
 use App\Http\Controllers\Api\V1\Admin\Auth\AdminAuthController as AdminLoginController;
 use App\Http\Controllers\Api\V1\Admin\ItemReviewController;
 use App\Http\Controllers\Api\V1\Front\Auth\RegisterUserController as FrontRegisterController;
-
+use App\Http\Controllers\Api\V1\Front\ApiCartItemController;
 /*
 |--------------------------------------------------------------------------
 | API Routes - Version 1 (v1)
@@ -37,6 +37,11 @@ Route::prefix('v1/front')->group(function () {
 
     // Authenticated User & Author Routes
     Route::middleware('auth:sanctum')->group(function () {
+
+        // Cart Item
+        Route::get('cart', [ApiCartItemController::class, 'index']);
+        Route::post('cart/store/{id}', [ApiCartItemController::class, 'store']);
+        Route::delete('cart/destroy/{id}', [ApiCartItemController::class, 'destroy']);
 
         // General Profile
         Route::get('/profile', [FrontProfileController::class, 'index']);
@@ -94,15 +99,12 @@ Route::prefix('v1/admin')->group(function () {
         Route::apiResource('sub/categories', SubCategoryController::class);
 
         // Item Reviews
-        Route::get('items/reviews',[ItemReviewController::class,'pendingIndex']);
+        Route::get('items/reviews', [ItemReviewController::class, 'pendingIndex']);
         Route::get('items/reviews/{id}/show', [ItemReviewController::class, 'pendingShow']);
         Route::put('items/reviews/{id}/update-status', [ItemReviewController::class, 'updateStatus']);
         Route::get('items/approved', [ItemReviewController::class, 'approveIndex']);
         Route::get('items/soft-rejected', [ItemReviewController::class, 'softRejectedIndex']);
         Route::get('items/hard-rejected', [ItemReviewController::class, 'hardRejectedIndex']);
         Route::get('items/resubmitted', [ItemReviewController::class, 'resubmittedIndex']);
-
-
-
     });
 });

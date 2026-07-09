@@ -14,7 +14,8 @@
         "php-flasher/flasher-laravel": "^2.5",
         "php-flasher/flasher-notyf-laravel": "^2.5",
         "spatie/laravel-permission": "^6.25",
-        "spatie/laravel-sluggable": "^3.8"
+        "spatie/laravel-sluggable": "^3.8",
+        "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
