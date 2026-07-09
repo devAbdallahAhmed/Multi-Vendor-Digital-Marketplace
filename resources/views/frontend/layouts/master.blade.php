@@ -5,29 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> Digital Market Place HTML Template</title>
-    <!-- Favicon -->
     <link rel="shortcut icon" href="assets/images/logo/favicon-two.png">
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/bootstrap.min.css') }}">
-    <!-- Fontawesome -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/fontawesome-all.min.css') }}">
-    <!-- Slick -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/slick.css') }}">
-    <!-- magnific popup -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/magnific-popup.css') }}">
-    <!-- line awesome -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/line-awesome.min.css') }}">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.8.4/plyr.css" />
-    <!-- Tabler Icons CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css')}}"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css"
         integrity="sha512-XrgoTBs7P5YtpkeKqKOKkruURsawIaRrhe8QrcWeMnFeyRZiOcRNjBAX+AQeXOvx9/9fSY32dVct1PccRoCICQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Main css -->
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
-
 
     <style>
         .fw-600 {
@@ -93,36 +86,27 @@
             box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
         }
     </style>
-
+    @routes
 </head>
 
 <body>
 
-    <!--==================== Preloader Start ====================-->
     <div class="preloader_area">
         <div class="preloader_img">
             <img src="assets/images/thumbs/preloader.gif" alt="Preloader">
         </div>
     </div>
-    <!--==================== Preloader End ====================-->
 
-    <!--==================== Overlay Start ====================-->
     <div class="overlay"></div>
-    <!--==================== Overlay End ====================-->
 
-    <!--==================== Sidebar Overlay End ====================-->
     <div class="side-overlay"></div>
-    <!--==================== Sidebar Overlay End ====================-->
 
-    <!-- ==================== Scroll to Top End Here ==================== -->
     <div class="progress-wrap">
         <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
             <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
         </svg>
     </div>
-    <!-- ==================== Scroll to Top End Here ==================== -->
 
-    <!-- ==================== Mobile Menu Start Here ==================== -->
     <div class="mobile-menu d-lg-none d-block">
         <button type="button" class="close-button"> <i class="las la-times"></i> </button>
         <div class="mobile-menu__inner">
@@ -131,7 +115,6 @@
             </a>
             <div class="mobile-menu__menu">
                 <div class="header-right__inner d-lg-none my-3 gap-1 d-flex flx-align">
-
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -216,46 +199,32 @@
             </div>
         </div>
     </div>
-    <!-- ==================== Mobile Menu End Here ==================== -->
 
     <main class="change-gradient">
-        <!-- ==================== Header Start Here ==================== -->
         @include('frontend.layouts.header')
-        <!-- ==================== Header End Here ==================== -->
 
-        <!-- ==================== Dynamic Content Here ==================== -->
         @yield('content')
 
-        <!-- ==================== Footer Start Here ==================== -->
         @include('frontend.layouts.footer')
-        <!-- ==================== Footer End Here ==================== -->
-
     </main>
 
-    <!-- Jquery js -->
     <script src="{{ asset('assets/front/js/jquery-3.7.1.min.js') }}"></script>
-    <!-- Bootstrap Bundle Js -->
-    <script src="{{ asset('assets/front/js/boostrap.bundle.min.js') }}"></script>
-    <!-- CountDown -->
+    <script src="{{ asset('assets/front/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/countdown.js') }}"></script>
-    <!-- counter up -->
     <script src="{{ asset('assets/front/js/counterup.min.js') }}"></script>
-    <!-- Slick js -->
     <script src="{{ asset('assets/front/js/slick.min.js') }}"></script>
-    <!-- magnific popup -->
     <script src="{{ asset('assets/front/js/jquery.magnific-popup.js') }}"></script>
-    <!-- apex chart -->
     <script src="{{ asset('assets/front/js/apexchart.js') }}"></script>
-    <!-- marquee -->
     <script src="{{ asset('assets/front/js/marquee.min.js') }}"></script>
-    <!-- infinite slide  -->
     <script src="{{ asset('assets/front/js/infiniteslidev2.js') }}"></script>
-    <!-- select 2  -->
     <script src="{{ asset('assets/front/js/select2.min.js') }}"></script>
     <script src="https://cdn.plyr.io/3.8.4/plyr.js"></script>
-    <!-- main js -->
-    <script src="{{ asset('assets/front/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
+    <script src="{{ asset('assets/front/js/main.js') }}"></script>
+        <script src="{{ asset('assets/front/js/default/default-variables.js') }}"></script>
+
+    <script src="{{ asset('assets/front/js/default/cart.js') }}"></script>
 
     @stack('scripts')
 </body>

@@ -2,6 +2,8 @@
 
 use App\Models\Item;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CartItem;
+use Illuminate\Support\Facades\Auth;
 
 function kycCount()
 {
@@ -114,5 +116,30 @@ if (!function_exists('formatBytes')) {
         $bytes /= pow(1024, $pow);
 
         return round($bytes, $precision) . ' ' . $units[$pow];
+    }
+}
+
+
+if (!function_exists('getCartCount')) {
+    function getCartCount(): int
+    {
+        return CartItem::where('user_id', Auth::user()->id)->count();
+    }
+}
+if (!function_exists('getCartTotal')) {
+    function getCartTotal(): float
+    {
+        $cartItems = CartItem::where('user_id', Auth::user()->id)->with('item')->get();
+        $total = 0;
+
+        foreach ($cartItems as $cartItem) {
+            if ($cartItem->item->discount_price > 0) {
+                $total += $cartItem->item->discount_price;
+            } else {
+                $total += $cartItem->item->price;
+            }
+        }
+
+        return (float) $total;
     }
 }
