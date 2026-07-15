@@ -9,6 +9,9 @@ use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\CartItemController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\PaymentController;
+
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 //                           ---Product---
@@ -29,8 +32,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('delete-cart/{id}', [CartItemController::class, 'destroy'])->name('cart.delete');
     // checkout
     Route::get('checkout', CheckoutController::class)->name('checkout');
+    // Payment Route
+    Route::get('payment/paypal',[PaymentController::class,'payWithPaypal'])->name('payment.paypal');
+    Route::get('payment/paypal/success', [PaymentController::class, 'paypalSuccess'])->name('payment.paypal.success');
+    Route::get('payment/paypal/error', [PaymentController::class, 'paypalError'])->name('payment.paypal.error');
+
+
+    //
     Route::get('kyc-verification', [KycVerificationController::class, 'index'])->name('kyc.verification')->middleware('checkKyc');
     Route::post('kyc-verification', [KycVerificationController::class, 'store'])->name('kyc.verification.store')->middleware('checkKyc');
+
 
     Route::group([
         'middleware' => 'is_author',

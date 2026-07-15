@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
 use App\Http\Controllers\Admin\KycSettingController;
+use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubCategory;
 use App\Http\Controllers\Frontend\KycVerificationController;
@@ -84,12 +85,16 @@ Route::middleware('auth:admin')
         Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
 
         // Item Reviewer
-     Route::get('items/review', [ItemReviewController::class, 'pendingIndex'])->name('items.review');
+        Route::get('items/review', [ItemReviewController::class, 'pendingIndex'])->name('items.review');
         Route::get('items/review/{id}/show', [ItemReviewController::class, 'pendingShow'])->name('items-review.show');
         Route::post('/item-review/update-status/{id}', [ItemReviewController::class, 'updateStatus'])->name('item.review.status');
         Route::get('items/review/approved', [ItemReviewController::class, 'approveIndex'])->name('approve.index');
         Route::get('items/review/hard-rejected', [ItemReviewController::class, 'hardRejectedIndex'])->name('hard.rejected.index');
         Route::get('items/review/soft-rejected', [ItemReviewController::class, 'softRejectedIndex'])->name('soft.rejected.index');
         Route::get('items/review/resubmitted', [ItemReviewController::class, 'resubmittedIndex'])->name('resubmitted.index');
+
+
+        // Payment Settings
+        Route::get('payment-setting', [PaymentSettingController::class, 'index'])->name('payment-setting.index');
+    Route::put('/paypal-settings', [PaymentSettingController::class, 'updatePaypalSetting'])->name('paypal.setting');
     });
-   

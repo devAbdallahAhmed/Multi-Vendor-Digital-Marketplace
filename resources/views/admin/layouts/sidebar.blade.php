@@ -7,14 +7,14 @@
         </button>
 
         {{-- Logo --}}
-        <h1 class="navbar-brand navbar-brand-autodark py-4">
+        <h1 class="navbar-brand navbar-brand-autodark py-5">
             <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none">
-                <div class="brand-logo-icon">
+                <div class="brand-logo-icon ">
                     <i class="bi bi-grid-1x2-fill"></i>
                 </div>
 
                 <div>
-                    <span class="brand-title">PulseCRM</span>
+                    <span class="brand-title">{{ config('settings.site_name') }}</span>
                     <div class="brand-subtitle">Admin Panel</div>
                 </div>
             </a>
@@ -22,7 +22,6 @@
 
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-2">
-
                 {{-- Dashboard --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
@@ -205,6 +204,17 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.payment-setting.index') }}">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-gear"></i>
+                        </span>
+
+                        <span class="nav-link-title">
+                            {{ __('Payment Settings') }}
+                        </span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

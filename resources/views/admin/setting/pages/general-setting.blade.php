@@ -70,6 +70,75 @@
 
                 </div>
 
+                <div class="col-md-6">
+
+                    <div class="border rounded-3 p-3 bg-light">
+                        <x-admin.input-select name="country" class="tom-select-class" label="{{ __('Country') }}">
+                            <option value="">{{ __('Select Country') }}</option>
+                            @foreach (config('option.countries') as $key => $country)
+                                <option @selected(config('settings.country')) value="{{ $key }}"
+                                    {{ config('settings.country') == $country ? 'selected' : '' }}>
+                                    {{ $country }}
+                                </option>
+                            @endforeach
+                        </x-admin.input-select>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        <x-admin.input-select name="time_zone" class="tom-select-class" label="{{ __('Time Zone') }}">
+                            @foreach (config('option.time_zone') as $key => $timeZone)
+                                <option @selected(config('settings.time_zone')) value="{{ $key }}">
+                                    {{ $key }} - {{ $timeZone }}
+                                </option>
+                            @endforeach
+                        </x-admin.input-select>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        <x-admin.input-select name="default_currency" class="tom-select-class"
+                            label="{{ __(' Default Currency') }}">
+                            @foreach (config('option.currency_list') as $key => $currency_list)
+                                <option @selected(config('settings.default_currency')) value="{{ $key }}">
+                                    {{ $key }} - {{ $currency_list }}
+                                </option>
+                            @endforeach
+                        </x-admin.input-select>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        <x-admin.input-text  name="currency_icon"
+                            label="{{ __('Currency Icons') }}" :value="config('settings.currency_icon')" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        <x-admin.input-select name="currency_position" class="tom-select-class"
+                            label="{{ __('Currency Position') }}">
+                            <option @selected(config('settings.currency_position') == 'left') value="left">{{ __('Left') }}</option>
+                            <option @selected(config('settings.currency_position') == 'right') value="right">{{ __('Right') }}</option>
+
+                        </x-admin.input-select>
+
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -112,3 +181,21 @@
     </form>
 
 </div>
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var selects = document.querySelectorAll(".tom-select-class");
+
+            selects.forEach(function(selectElement) {
+                new TomSelect(selectElement, {
+                    create: false,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
