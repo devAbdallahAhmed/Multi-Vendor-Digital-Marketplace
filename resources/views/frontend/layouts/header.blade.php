@@ -1,7 +1,7 @@
 @php
     use Illuminate\Support\Facades\Auth;
     $categories = \App\Models\Category::with('subCategories')->get();
-    $cartCount = \App\Models\cartItem::where('user_id', Auth::user()->id)->count();
+    $cartCount = \App\Models\cartItem::where('user_id', Auth::user()?->id)->count();
 @endphp
 <!-- ============================ Sale Offer Start =========================== -->
 <div class="sale-offer ">

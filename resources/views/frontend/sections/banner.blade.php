@@ -1,5 +1,5 @@
  <section class="hero section-bg z-index-1">
-     <img src="assets/images/gradients/banner-gradient.png" alt="" class="bg--gradient white-version">
+     <img src="{{ asset('assets/front/images/gradients/banner-gradient.png') }}" alt="" class="bg--gradient white-version">
 
      <div class="container container-two">
          <div class="row gy-sm-5 gy-4">

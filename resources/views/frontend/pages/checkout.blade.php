@@ -1,7 +1,6 @@
 @extends('frontend.layouts.master')
 
 @section('content')
-
     <!-- ======================== Breadcrumb Two Section Start ===================== -->
     <section class="breadcrumb border-bottom p-0 d-block section-bg position-relative z-index-1"
         style="background: url({{ asset('assets//front/images/thumbs/breadcrumb_bg.jpg') }});">
@@ -18,8 +17,7 @@
                                         class="breadcrumb-list__link text-body hover-text-main">Home</a>
                                 </li>
                                 <li class="breadcrumb-list__item font-14 text-body">
-                                    <span class="breadcrumb-list__icon font-10"><i
-                                            class="fas fa-chevron-right"></i></span>
+                                    <span class="breadcrumb-list__icon font-10"><i class="fas fa-chevron-right"></i></span>
                                 </li>
                                 <li class="breadcrumb-list__item font-14 text-body">
                                     <span class="breadcrumb-list__text">{{ __('Checkout') }}</span>
@@ -42,78 +40,15 @@
                 <div class="col-xl-8 col-lg-7">
                     <div class="payment_area">
                         <div class="row">
+
                             <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
                                 <a href="#" class="payment_mathod" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_1.png" alt="payment" class="img-fluid w-100">
+                                    <img src="{{ asset('assets/front/images/thumbs/payment_2.png') }}" alt="payment"
+                                        class="img-fluid w-100">
                                 </a>
                             </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_2.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_3.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_4.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_5.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_6.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_7.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_8.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_1.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_2.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_3.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-6 col-md-4 wow fadeInUp">
-                                <a href="#" class="payment_mathod" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    <img src="assets/images/thumbs/payment_4.png" alt="payment" class="img-fluid w-100">
-                                </a>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -122,7 +57,7 @@
                         <h4>Total Cart <span>({{ getCartCount() }})</span></h4>
                         <ul>
                             <li>Subtotal :<span>${{ getCartTotal() }}</span></li>
-                           
+
                         </ul>
                         <a href="#" class="btn btn-main btn-lg">now payment</a>
                     </div>
@@ -178,7 +113,4 @@
         </div>
     </section>
     <!-- ======================= Cart Payment Section End ========================= -->
-
-
-
 @endsection
