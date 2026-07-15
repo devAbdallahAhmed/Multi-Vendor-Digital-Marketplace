@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;;
+
+use App\Factories\PaymentFactory;
 
 class PaymentController extends Controller
 {
-    public function payWithPaypal(){
-    $totalAmount = getCartTotal();
-    
+    public function pay(string $gateway, PaymentFactory $factory)
+    {
+        return $factory->make($gateway)->pay(getCartTotal());
     }
 
-  public function  paypalSuccess(){
-
-  }
-
-    public function  paypalError() {}
+    public function success(string $gateway, Request $request, PaymentFactory $factory)
+    {
+        return $factory->make($gateway)->success($request);
+    }
 }

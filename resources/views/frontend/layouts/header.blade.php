@@ -3,144 +3,97 @@
     $categories = \App\Models\Category::with('subCategories')->get();
     $cartCount = \App\Models\cartItem::where('user_id', Auth::user()?->id)->count();
 @endphp
-<!-- ============================ Sale Offer Start =========================== -->
-<div class="sale-offer ">
-    <div class="container container-full ">
-        <div class="sale-offer__content flx-between position-relative">
-            <div class="sale-offer__countdown">
 
-                <div class="countdown" data-date="14-10-2026" data-time="12:00">
-                    <div class="day"><span class="num"></span><span class="word"></span></div>
-                    <div class="hour"><span class="num"></span><span class="word"></span></div>
-                    <div class="min"><span class="num"></span><span class="word"></span></div>
-                    <div class="sec"><span class="num"></span><span class="word"></span></div>
-                </div>
-
-            </div>
-            <div class="sale-offer__discount flx-align gap-2">
-                <span class="sale-offer__text text-heading text-capitalize">New Year Flash Sale Offer</span>
-                <strong class="sale-offer__qty text-heading font-heading">45% OFF</strong>
-                <a href="#" class="btn btn-sm btn-white fw-500">Shop Now</a>
-            </div>
-            <div class="sale-offer__button">
-                <button type="submit" class="sale-offer__close text-heading"><i class="las la-times"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
-<header class="header">
+<header class="prem-header">
     <div class="container container-full">
-        <nav class="header-inner flx-between">
-            <!-- Logo Start -->
-            <div class="logo">
-                <a href="index.html" class="link white-version">
-                    <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo">
-                </a>
-                <a href="index.html" class="link dark-version">
-                    <img src="{{ asset('assets/front/images/logo/white-logo.png') }}" alt="Logo">
-                </a>
-            </div>
-            <!-- Logo End  -->
+        <div class="prem-header-inner">
+            
+            <a href="index.html" class="prem-logo">
+                <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo">
+            </a>
 
-            <!-- Menu Start  -->
-            <div class="header-menu d-lg-block d-none">
-                <ul class="nav-menu flx-align ">
-                    <li class="nav-menu__item">
-                        <a href="javascript:void(0)" class="nav-menu__link">Home</a>
-                    </li>
-                    <li class="nav-menu__item">
-                        <a href="{{ route('products') }}" class="nav-menu__link">Products</a>
+            <ul class="prem-nav d-none d-lg-flex">
+                <li class="prem-nav-item">
+                    <a href="{{ route('home') }}" class="prem-nav-link">Home</a>
+                </li>
+                <li class="prem-nav-item">
+                    <a href="{{ route('products') }}" class="prem-nav-link">Products</a>
+                </li>
+                <li class="prem-nav-item">
+                    <a href="javascript:void(0)" class="prem-nav-link">Pages <i class="fas fa-chevron-down font-10"></i></a>
+                    <ul class="prem-dropdown-menu">
+                        <li><a href="profile.html" class="prem-dropdown-item">Test 01</a></li>
+                        <li><a href="profile.html" class="prem-dropdown-item">Test 02</a></li>
+                    </ul>
+                </li>
+                <li class="prem-nav-item">
+                    <a href="javascript:void(0)" class="prem-nav-link">Blog <i class="fas fa-chevron-down font-10"></i></a>
+                    <ul class="prem-dropdown-menu">
+                        <li><a href="blog.html" class="prem-dropdown-item">Blog</a></li>
+                        <li><a href="blog-details.html" class="prem-dropdown-item">Blog Details</a></li>
+                        <li><a href="blog-details-sidebar.html" class="prem-dropdown-item">Blog Sidebar</a></li>
+                    </ul>
+                </li>
+                <li class="prem-nav-item">
+                    <a href="contact.html" class="prem-nav-link">Contact</a>
+                </li>
+                <li class="prem-nav-item">
+                    <a href="{{ route('kyc.verification') }}" class="prem-nav-link prem-start-selling">Start Selling</a>
+                </li>
+            </ul>
 
-                    </li>
-                    <li class="nav-menu__item has-submenu">
-                        <a href="javascript:void(0)" class="nav-menu__link">Pages</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="profile.html" class="nav-submenu__link">Test 01</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="profile.html" class="nav-submenu__link">Test 02</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item">
-                        <a href="javascript:void(0)" class="nav-menu__link">Blog</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="blog.html" class="nav-submenu__link"> Blog</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="blog-details.html" class="nav-submenu__link"> Blog Details</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="blog-details-sidebar.html" class="nav-submenu__link"> Blog Details
-                                    Sidebar</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item">
-                        <a href="contact.html" class="nav-menu__link">Contact</a>
-                    </li>
-                    <li class="nav-menu__item">
-                        <a href="{{ route('kyc.verification') }}" class="nav-menu__link">Start Selling</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Menu End  -->
-
-            <!-- Header Right start -->
-            <div class="header-right flx-align">
-                <a href="{{ route('cart.index') }}" class="header-right__button cart-btn position-relative">
+            <div class="prem-header-right">
+                
+                <a href="{{ route('cart.index') }}" class="prem-cart-btn">
                     <i class="ti ti-basket"></i>
-                    <span class="qty-badge font-12" id="cart-count">{{ $cartCount }}</span>
+                    <span class="prem-cart-badge" id="cart-count">{{ $cartCount }}</span>
                 </a>
 
-                <div class="header-right__inner gap-3 flx-align d-lg-flex d-none">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img src="assets/images/icons/user.svg" alt="">
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('login') }}">Sign Up</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                        </ul>
-                    </div>
+                <div class="prem-nav-item d-none d-lg-block">
+                    <button class="prem-user-btn">
+                        <i class="ti ti-user"></i>
+                    </button>
+                    <ul class="prem-dropdown-menu" style="right: 0; left: auto;">
+                        <li><a class="prem-dropdown-item" href="{{ route('login') }}">Sign Up / Login</a></li>
+                        <li><a class="prem-dropdown-item" href="#">Profile</a></li>
+                        <li><a class="prem-dropdown-item" href="#">Settings</a></li>
+                    </ul>
                 </div>
-                <button type="button" class="toggle-mobileMenu d-lg-none"> <i class="las la-bars"></i>
+
+                <button type="button" class="prem-mobile-toggle">
+                    <i class="las la-bars"></i>
                 </button>
             </div>
-            <!-- Header Right End  -->
-        </nav>
+            
+        </div>
     </div>
 </header>
-<!-- ==================== Header End Here ==================== -->
 
-<!-- ==================== Category Menu Start ==================== -->
-<section class="category_menu_area d-none d-lg-block">
+<section class="prem-category-bar">
     <div class="container container-full">
-        <ul class="category_menu">
-
+        <ul class="prem-cat-list">
             @foreach ($categories as $category)
-                <li class="category_menu_list has-submenu">
-                    <a class="category_menu_link"
-                        href="{{ route('products', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                <li class="prem-cat-item">
+                    <a class="prem-cat-link" href="{{ route('products', ['category' => $category->slug]) }}">
+                        {{ $category->name }}
+                        @if ($category->subCategories->count() > 0)
+                            <i class="fas fa-chevron-down font-10 ms-1"></i>
+                        @endif
+                    </a>
 
                     @if ($category->subCategories->count() > 0)
-                        <ul class="nav-submenu">
+                        <ul class="prem-cat-dropdown">
                             @foreach ($category->subCategories as $subCategory)
-                                <li class="nav-submenu__item">
-                                    <a href="{{ route('products', ['category' => $category->slug, 'sub-category' => $subCategory->slug]) }}"
-                                        class="nav-submenu__link">{{ $subCategory->name }}</a>
+                                <li>
+                                    <a href="{{ route('products', ['category' => $category->slug, 'sub-category' => $subCategory->slug]) }}" class="prem-dropdown-item">
+                                        {{ $subCategory->name }}
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
                     @endif
                 </li>
             @endforeach
-
-
         </ul>
     </div>
 </section>

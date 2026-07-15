@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PayPalSettingUpdateRequest;
+use App\Http\Requests\Admin\StripeSettingUpdateRequest;
 use App\Models\Setting;
 use App\Services\NotificationService;
 use App\Services\SettingService;
@@ -17,6 +18,29 @@ class PaymentSettingController extends Controller
     }
 
     function updatePaypalSetting(PayPalSettingUpdateRequest $request)
+    {
+
+        $validated = $request->validated();
+
+        foreach ($validated as $key => $value) {
+
+            Setting::UpdateOrCreate([
+                'key' => $key,
+                'value' => $value
+            ]);
+        }
+        $service = app()->make(SettingService::class);
+        $service->clearCacheSetting();
+        NotificationService::updated();
+        return redirect()->back();
+    }
+
+    function stripeSetting()
+    {
+        return view('admin.payment-setting.pages.stripe-setting');
+    }
+
+    function updateStripe(StripeSettingUpdateRequest $request)
     {
 
         $validated = $request->validated();

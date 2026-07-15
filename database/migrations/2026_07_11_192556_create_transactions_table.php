@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('payment_id')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
+            $table->string('payment_gateway')->nullable();
             $table->double('amount')->default(0);
             $table->double('paid_amount')->default(0);
             $table->double('paid_in_amount')->default(0);

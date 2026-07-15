@@ -1,110 +1,51 @@
- <section class="hero section-bg z-index-1">
-     <img src="{{ asset('assets/front/images/gradients/banner-gradient.png') }}" alt="" class="bg--gradient white-version">
+@php
+    $trending = ['PHP Scripts', 'Laravel Themes', 'UI Kits', 'Plugins'];
+@endphp
 
-     <div class="container container-two">
-         <div class="row gy-sm-5 gy-4">
-             <div class="col-xl-6 col-lg-9 col-12">
-                 <div class="hero-inner position-relative">
-                     <div>
-                         <h1 class="hero-inner__title">2 million+ well chosen digital</h1>
-                         <p class="hero-inner__desc font-18">Explore the best premium themes and plugins
-                             available for sale. Our unique collection is hand-curated by experts. Find and buy
-                             the perfect premium theme today.</p>
+<section class="premium-hero">
+    <div class="container">
+        <div class="hero-content">
 
-                         <div class="position-relative">
-                             <div class="search-box">
-                                 <input type="text"
-                                     class="common-input common-input--lg shadow-sm auto-suggestion-input"
-                                     placeholder="Search theme, plugins & more...">
-                                 <button type="submit" class="btn btn-main btn-icon icon border-0"><img
-                                         src="assets/images/icons/search.svg" alt=""></button>
-                             </div>
+            <!-- Badge -->
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                10,000+ hand-curated digital assets
+            </div>
 
-                             <ul class="auto-suggestion-list">
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Business in
-                                         HTML</a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Business in
-                                         WordPress</a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Business in
-                                         CMS</a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Ecommerce in
-                                         HTML</a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Ecommerce in
-                                         WordPress</a>
-                                 </li>
-                                 <li>
-                                     <a href="#" class="auto-suggestion-list__item w-100 text-body">Ecommerce in
-                                         CMS</a>
-                                 </li>
-                             </ul>
-                         </div>
-                         <!-- Tech List Start -->
-                         <div class="popular-search d-flex flex-wrap align-items-start gap-3">
-                             <h6 class="popular-search__title font-18 fw-700 mb-0 mt-1 flex-shrink-0 flx-align gap-1">
-                                 <span class="d-md-flex d-none">Popular</span> Search:
-                             </h6>
-                             <ul class="search-list">
-                                 <li class="search-list__item">
-                                     <a href="all-product.html" class="search-list__link font-14 text-heading">theme</a>
-                                 </li>
-                                 <li class="search-list__item">
-                                     <a href="all-product.html"
-                                         class="search-list__link font-14 text-heading">plugins</a>
-                                 </li>
-                                 <li class="search-list__item">
-                                     <a href="all-product.html" class="search-list__link font-14 text-heading">ui
-                                         template</a>
-                                 </li>
-                                 <li class="search-list__item">
-                                     <a href="all-product.html" class="search-list__link font-14 text-heading">mobile
-                                         app</a>
-                                 </li>
-                                 <li class="search-list__item">
-                                     <a href="all-product.html" class="search-list__link font-14 text-heading">html
-                                         template</a>
-                                 </li>
-                                 <li class="search-list__item">
-                                     <a href="all-product.html"
-                                         class="search-list__link font-14 text-heading">dashboard</a>
-                                 </li>
-                             </ul>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-             <div class="col-xl-3 col-12 col-md-6 col-lg-4">
-                 <div class="hero-thumb">
-                     <ul class="direction_right">
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img1.png') }}"
-                                     alt="" /></a></li>
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img3.png') }}"
-                                     alt="" /></a></li>
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img2.png') }}"
-                                     alt="" /></a></li>
-                     </ul>
-                 </div>
-             </div>
-             <div class="col-xl-3 col-12 col-md-6 col-lg-4 pt-5 sm_margin">
-                 <div class="hero-thumb">
-                     <ul class="direction_left">
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img4.png') }}"
-                                     alt="" /></a></li>
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img5.png') }}"
-                                     alt="" /></a></li>
-                         <li><a href="#"><img src="{{ asset('assets/front/images/thumbs/product-img6.png') }}"
-                                     alt="" /></a></li>
-                     </ul>
-                 </div>
-             </div>
-         </div>
-     </div>
- </section>
+            <!-- Title -->
+            <h1 class="hero-title">
+                Discover premium digital <br>
+                <span class="text-gradient">assets</span> for your next vision
+            </h1>
+
+            <!-- Description -->
+            <p class="hero-desc">
+                WordPress themes, PHP scripts, HTML templates, and mobile UI kits — vetted by our editorial team and
+                trusted by 200k creators.
+            </p>
+
+            <!-- Search Form -->
+            <form action="#" method="GET" class="hero-search-form">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+
+                <input type="text" name="query" placeholder="Search themes, plugins, and templates..."
+                    class="hero-search-input" required>
+
+                <button type="submit" class="hero-search-btn">Search</button>
+            </form>
+
+            <!-- Trending Tags -->
+            <div class="trending-area">
+                <span class="trending-label">Trending:</span>
+                @foreach ($trending as $t)
+                    <a href="#" class="trending-tag">{{ $t }}</a>
+                @endforeach
+            </div>
+
+        </div>
+    </div>
+</section>

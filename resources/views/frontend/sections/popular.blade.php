@@ -1,102 +1,84 @@
- <section class="popular padding-y-120 overflow-hidden">
-            <div class="container container-two">
-                <div class="section-heading style-left mb-0">
-                    <h5 class="section-heading__title">Frequently Used Categories</h5>
-                    <a href="all-product.html"
-                        class="font-18 fw-600 text-heading hover-text-main text-decoration-underline font-heading">Explore
-                        More</a>
+
+<section class="premium-categories-section">
+    <div class="container">
+
+        <div class="premium-categories-header">
+            <h2 class="premium-categories-title">Frequently Used Categories</h2>
+            <a href="all-product.html" class="premium-explore-link">
+                Explore More
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+
+        <div class="premium-categories-grid">
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-brand-wordpress"></i>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-brand-wordpress"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">WordPress</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-settings-plus"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">Plugin</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-brand-html5"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">HTML</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-file-type-js"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">Java Script</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-device-mobile-heart"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">Mobile App</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-brand-php"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">PHP Script</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-brand-php"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">PHP Script</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-device-mobile-heart"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">Mobile App</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-file-type-js"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">Java Script</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
-                    <div class="col-auto">
-                        <a href="all-product.html" class="popular-item w-100">
-                            <span class="popular-item__icon">
-                                <i class="ti ti-brand-html5"></i>
-                            </span>
-                            <h6 class="popular-item__title font-18">HTML</h6>
-                            <span class="popular-item__qty text-body">15,296</span>
-                        </a>
-                    </div>
+                <h3 class="premium-category-name">WordPress</h3>
+                <span class="premium-category-qty">15,296</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-settings-plus"></i>
                 </div>
-            </div>
-        </section>
+                <h3 class="premium-category-name">Plugin</h3>
+                <span class="premium-category-qty">8,405</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-brand-html5"></i>
+                </div>
+                <h3 class="premium-category-name">HTML</h3>
+                <span class="premium-category-qty">12,104</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-file-type-js"></i>
+                </div>
+                <h3 class="premium-category-name">Java Script</h3>
+                <span class="premium-category-qty">5,820</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-device-mobile-heart"></i>
+                </div>
+                <h3 class="premium-category-name">Mobile App</h3>
+                <span class="premium-category-qty">3,250</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-brand-php"></i>
+                </div>
+                <h3 class="premium-category-name">PHP Script</h3>
+                <span class="premium-category-qty">9,142</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-brand-react"></i>
+                </div>
+                <h3 class="premium-category-name">React JS</h3>
+                <span class="premium-category-qty">4,530</span>
+            </a>
+
+            <a href="all-product.html" class="premium-category-card">
+                <div class="premium-category-icon">
+                    <i class="ti ti-layout-dashboard"></i>
+                </div>
+                <h3 class="premium-category-name">UI Templates</h3>
+                <span class="premium-category-qty">6,890</span>
+            </a>
+
+        </div>
+    </div>
+</section>

@@ -126,6 +126,15 @@ if (!function_exists('getCartCount')) {
         return CartItem::where('user_id', Auth::user()->id)->count();
     }
 }
+
+if (!function_exists('getCartItems')) {
+    function getCartItems()
+    {
+        return CartItem::where('user_id', Auth::user()->id)->with('item')->get();
+    }
+}
+
+
 if (!function_exists('getCartTotal')) {
     function getCartTotal(): float
     {

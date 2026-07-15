@@ -16,6 +16,7 @@
         "spatie/laravel-permission": "^6.25",
         "spatie/laravel-sluggable": "^3.8",
         "srmklive/paypal": "~3.0",
+        "stripe/stripe-php": "^20.3",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
