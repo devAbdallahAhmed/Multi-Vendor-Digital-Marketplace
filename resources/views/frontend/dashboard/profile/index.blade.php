@@ -9,7 +9,6 @@
                         <div class="profile-info__inner mb-40 text-center">
 
                             <div class="avatar-upload mb-24">
-
                                 <div class="avatar-preview" style="background-image: url({{ asset($user->avatar) }})">
                                     <div id="imagePreview">
                                     </div>
@@ -62,38 +61,44 @@
 
                     </div>
                 </div>
+
                 <div class="col-xxl-9 col-xl-8">
                     <div class="dashboard-card">
                         <div class="dashboard-card__header pb-0">
                             <ul class="nav tab-bordered nav-pills" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link font-18 font-heading active" id="pills-personalInfo-tab"
-                                        data-bs-toggle="pill" data-bs-target="#pills-personalInfo" type="button"
-                                        role="tab" aria-controls="pills-personalInfo"
+                                        data-bs-toggle="pill" data-toggle="pill" data-bs-target="#pills-personalInfo"
+                                        data-target="#pills-personalInfo" type="button" role="tab"
+                                        aria-controls="pills-personalInfo"
                                         aria-selected="true">{{ __('Personal Info') }}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link font-18 font-heading" id="pills-payouts-tab"
-                                        data-bs-toggle="pill" data-bs-target="#pills-payouts" type="button" role="tab"
+                                        data-bs-toggle="pill" data-toggle="pill" data-bs-target="#pills-payouts"
+                                        data-target="#pills-payouts" type="button" role="tab"
                                         aria-controls="pills-payouts" aria-selected="false">{{ __('Payouts') }}</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link font-18 font-heading" id="pills-changePassword-tab"
-                                        data-bs-toggle="pill" data-bs-target="#pills-changePassword" type="button"
-                                        role="tab" aria-controls="pills-changePassword"
+                                        data-bs-toggle="pill" data-toggle="pill" data-bs-target="#pills-changePassword"
+                                        data-target="#pills-changePassword" type="button" role="tab"
+                                        aria-controls="pills-changePassword"
                                         aria-selected="false">{{ __('Change Password') }}</button>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="profile-info-content">
-                            <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-content mt-4" id="pills-tabContent">
+
                                 <div class="tab-pane fade show active" id="pills-personalInfo" role="tabpanel"
                                     aria-labelledby="pills-personalInfo-tab" tabindex="0">
                                     <form action="{{ route('profile.update') }}" autocomplete="off" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        @method('PUT') <div class="row">
+                                        @method('PUT')
+                                        <div class="row">
                                             <div class="col-sm-6 col-xs-6">
                                                 <x-frontend.input-text name="name" :label="__('Full Name')"
                                                     value="{{ $user->name }}" :placeholder="__('Full Name')" />
@@ -102,7 +107,6 @@
                                                 <x-frontend.input-text type="file" name="avatar" :label="__('Avatar')" />
                                             </div>
                                             <div class="col-sm-6 col-xs-6">
-
                                                 <x-frontend.input-text name="email" :label="__('Email')"
                                                     value="{{ $user->email }}" :placeholder="__('Email')" />
                                             </div>
@@ -118,11 +122,9 @@
                                             <div class="col-sm-6 col-xs-6">
                                                 <x-frontend.input-text name="city" :label="__('City')" :value="$user->city"
                                                     :placeholder="__('City')" />
-
                                             </div>
 
                                             <div class="col-sm-6 col-xs-6">
-
                                                 <x-frontend.input-text name="address" :label="__('Address')" :value="$user->address"
                                                     :placeholder="__('Address')" />
                                             </div>
@@ -133,6 +135,7 @@
                                         </div>
                                     </form>
                                 </div>
+
                                 <div class="tab-pane fade" id="pills-payouts" role="tabpanel"
                                     aria-labelledby="pills-payouts-tab" tabindex="0">
                                     <form action="#" autocomplete="off">
@@ -182,6 +185,7 @@
                                         </div>
                                     </form>
                                 </div>
+
                                 <div class="tab-pane fade" id="pills-changePassword" role="tabpanel"
                                     aria-labelledby="pills-changePassword-tab" tabindex="0">
                                     <form action="{{ route('profile.updatePassword') }}" method="POST"
@@ -208,6 +212,7 @@
                                         </div>
                                     </form>
                                 </div>
+
                             </div>
                         </div>
 

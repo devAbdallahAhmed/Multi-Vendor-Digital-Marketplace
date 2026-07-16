@@ -11,6 +11,13 @@ use App\Services\SettingService;
 
 class SettingController extends Controller
 {
+    public $settingService;
+
+    public  function __construct(SettingService $settingService)
+    {
+        $this->settingService = $settingService;
+    }
+
     function index()
     {
         return view('admin.setting.index');
@@ -18,15 +25,27 @@ class SettingController extends Controller
 
     function updateGeneralSetting(GeneralSettingRequest $request)
     {
-        $validatedDate =  $request->validated();
-        foreach ($validatedDate as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
-        }
-        $setting = app()->make(SettingService::class);
-        $setting->clearCacheSetting();
+        $this->settingService->updateSettings($request->validated());
+        NotificationService::updated();
+
+        return redirect()->back();
+    }
+
+
+    function commissionSettings()
+    {
+
+        return view('admin.setting.pages.commission-setting');
+    }
+
+    function updateCommissionSetting(Request $request)
+    {
+        $validated  = $request->validate([
+            'author_commission' => 'required|numeric'
+        ]);
+
+        $this->settingService->updateSettings($validated);
+
         NotificationService::updated();
 
         return redirect()->back();
