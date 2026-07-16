@@ -15,6 +15,7 @@ class StripeService implements PaymentGatewayInterface
     public function pay(float $amount)
     {
         Stripe::setApiKey(config('settings.stripe_secret_key'));
+
         $session = StripeSession::create([
             'line_items' => [[
                 'price_data' => [
@@ -25,14 +26,12 @@ class StripeService implements PaymentGatewayInterface
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            // في ملف StripeService.php
             'success_url' => route('payment.success', ['gateway' => 'stripe']) . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('payment.cancel', ['gateway' => 'stripe']),
         ]);
 
-        return redirect()->away($session->url);
+        return $session->url;
     }
-
     public function success(Request $request)
     {
         Stripe::setApiKey(config('settings.stripe_secret_key'));

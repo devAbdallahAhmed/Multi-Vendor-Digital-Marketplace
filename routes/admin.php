@@ -98,5 +98,5 @@ Route::middleware('auth:admin')
         Route::get('payment-setting', [PaymentSettingController::class, 'index'])->name('payment-setting.index');
         Route::put('/paypal-settings', [PaymentSettingController::class, 'updatePaypalSetting'])->name('paypal.setting');
         Route::get('/stripe-settings', [PaymentSettingController::class, 'stripeSetting'])->name('stripe.setting.index');
-        Route::put('/stripe-setting', [PaymentSettingController::class, 'updateStripe'])->name('stripe.setting');
+        Route::put('/stripe-setting', [PaymentSettingController::class, 'updateStripeSetting'])->name('stripe.setting');
     });

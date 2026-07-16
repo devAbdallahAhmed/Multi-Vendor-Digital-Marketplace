@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Admin\ApiPaymentSettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\KycApiController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\V1\Admin\Auth\AdminAuthController as AdminLoginCont
 use App\Http\Controllers\Api\V1\Admin\ItemReviewController;
 use App\Http\Controllers\Api\V1\Front\Auth\RegisterUserController as FrontRegisterController;
 use App\Http\Controllers\Api\V1\Front\ApiCartItemController;
+use App\Http\Controllers\Api\V1\Front\ApiPaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes - Version 1 (v1)
@@ -36,7 +38,7 @@ Route::prefix('v1/front')->group(function () {
     Route::post('/register', [FrontRegisterController::class, 'register']);
 
     // Authenticated User & Author Routes
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware(['auth:sanctum', 'throttle:5,1'])->group(function () {
 
         // Cart Item
         Route::get('cart', [ApiCartItemController::class, 'index']);
@@ -51,6 +53,9 @@ Route::prefix('v1/front')->group(function () {
         Route::get('kyc/status', [KycApiController::class, 'status']);
         Route::post('kyc/submit', [KycApiController::class, 'submit']);
         Route::post('kyc/resubmit', [KycApiController::class, 'resubmit']);
+
+
+        Route::post('/payment/{gateway}/process', [ApiPaymentController::class, 'processPayment']);
 
         // Specialized Author Routes (Protected by Role)
         Route::middleware(['is_author'])->group(function () {
@@ -106,5 +111,11 @@ Route::prefix('v1/admin')->group(function () {
         Route::get('items/soft-rejected', [ItemReviewController::class, 'softRejectedIndex']);
         Route::get('items/hard-rejected', [ItemReviewController::class, 'hardRejectedIndex']);
         Route::get('items/resubmitted', [ItemReviewController::class, 'resubmittedIndex']);
+
+
+
+        // Payment Gateway
+        Route::put('/stripe-setting', [ApiPaymentSettingController::class, 'updateStripeSetting'])->name('stripe.setting');
+        Route::put('/paypal-setting', [ApiPaymentSettingController::class, 'updatePaypalSetting'])->name('paypal.setting');
     });
 });

@@ -1,40 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PayPalSettingUpdateRequest;
 use App\Http\Requests\Admin\StripeSettingUpdateRequest;
-use App\Models\Setting;
-use App\Services\NotificationService;
 use App\Services\SettingService;
+use App\Traits\ApiResponseTrait;
 
-class PaymentSettingController extends Controller
+class ApiPaymentSettingController extends Controller
 {
-    public function index()
-    {
-        return view('admin.payment-setting.pages.paypal-setting');
-    }
+    use ApiResponseTrait;
 
     public function updatePaypalSetting(PayPalSettingUpdateRequest $request, SettingService $settingService)
     {
         $settingService->updateSettings($request->validated());
-        NotificationService::updated();
 
-        return redirect()->back();
-    }
-
-    public function stripeSetting()
-    {
-        return view('admin.payment-setting.pages.stripe-setting');
+        return $this->successResponse(null, 'PayPal settings updated successfully.');
     }
 
     public function updateStripeSetting(StripeSettingUpdateRequest $request, SettingService $settingService)
     {
         $settingService->updateSettings($request->validated());
 
-        NotificationService::updated();
-
-        return redirect()->back();
+        return $this->successResponse(null, 'Stripe settings updated successfully.');
     }
 }

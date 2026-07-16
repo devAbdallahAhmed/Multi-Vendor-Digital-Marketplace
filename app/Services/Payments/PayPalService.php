@@ -54,10 +54,13 @@ class PayPalService implements PaymentGatewayInterface
 
         if (isset($response['id']) && $response['status'] == 'CREATED') {
             foreach ($response['links'] as $link) {
-                if ($link['rel'] === 'approve') return redirect()->away($link['href']);
+                if ($link['rel'] === 'approve') {
+                    return $link['href'];
+                }
             }
         }
-        return redirect()->back()->with('error', 'Something went wrong.');
+
+        throw new \Exception('Something went wrong with PayPal processing.');
     }
 
     public function success(Request $request)
