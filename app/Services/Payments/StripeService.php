@@ -30,7 +30,16 @@ class StripeService implements PaymentGatewayInterface
             'cancel_url' => route('payment.cancel', ['gateway' => 'stripe']),
         ]);
 
-        return $session->url;
+        $url = $session->url;
+
+        if (request()->expectsJson() || request()->is('api/*')) {
+            return response()->json([
+                'status' => 'success',
+                'url' => $url
+            ]);
+        }
+
+        return redirect()->away($url);
     }
     public function success(Request $request)
     {

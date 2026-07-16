@@ -55,14 +55,23 @@ class PayPalService implements PaymentGatewayInterface
         if (isset($response['id']) && $response['status'] == 'CREATED') {
             foreach ($response['links'] as $link) {
                 if ($link['rel'] === 'approve') {
-                    return $link['href'];
+
+                    $url = $link['href'];
+
+                    if (request()->expectsJson() || request()->is('api/*')) {
+                        return response()->json([
+                            'status' => 'success',
+                            'url' => $url
+                        ]);
+                    }
+
+                    return redirect()->away($url);
                 }
             }
         }
 
         throw new \Exception('Something went wrong with PayPal processing.');
     }
-
     public function success(Request $request)
     {
         $response = $this->provider->capturePaymentOrder($request->token);

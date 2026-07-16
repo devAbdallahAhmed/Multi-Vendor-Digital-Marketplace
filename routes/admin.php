@@ -80,9 +80,6 @@ Route::middleware('auth:admin')
         //  Categories Routes
         Route::resource('categories', CategoryController::class);
         Route::resource('sub-categories', SubCategory::class);
-        //                              setting
-        Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-        Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
 
         // Item Reviewer
         Route::get('items/review', [ItemReviewController::class, 'pendingIndex'])->name('items.review');
@@ -99,4 +96,11 @@ Route::middleware('auth:admin')
         Route::put('/paypal-settings', [PaymentSettingController::class, 'updatePaypalSetting'])->name('paypal.setting');
         Route::get('/stripe-settings', [PaymentSettingController::class, 'stripeSetting'])->name('stripe.setting.index');
         Route::put('/stripe-setting', [PaymentSettingController::class, 'updateStripeSetting'])->name('stripe.setting');
-    });
+
+
+        // Settings Routes
+    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+    Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
+    Route::get('commission-setting', [SettingController::class, 'commissionSettings'])->name('commission.setting');
+    Route::put('commission-setting', [SettingController::class, 'updateCommissionSetting'])->name('commission.setting.update');
+});

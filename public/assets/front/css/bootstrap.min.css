@@ -13610,74 +13610,211 @@ fieldset:disabled .btn {
     color: #ffffff !important;
     transform: translateY(-2px);
 }
-  /* Breadcrumb Style */
-    .prem-breadcrumb {
-        padding: 100px 0 80px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        z-index: 1;
-        border-bottom: none !important;
-    }
-    .prem-breadcrumb::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.95));
-        z-index: -1;
-    }
-    .prem-breadcrumb-title { font-size: 3rem; font-weight: 800; color: #ffffff; margin-top: 10px; }
-    
-    /* Product Container Cards */
-    .prem-product-card {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-        border: 1px solid #f1f5f9;
-        margin-bottom: 30px;
-    }
+/* Breadcrumb Style */
+.prem-breadcrumb {
+    padding: 100px 0 80px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
+    border-bottom: none !important;
+}
+.prem-breadcrumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.8),
+        rgba(2, 6, 23, 0.95)
+    );
+    z-index: -1;
+}
+.prem-breadcrumb-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 10px;
+}
 
-    /* Image/Video Styling */
-    .wsus__product_details_img {
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-    }
+/* Product Container Cards */
+.prem-product-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 30px;
+}
 
-    /* Tab Styling */
-    .nav-pills .nav-link {
-        font-weight: 600;
-        color: #64748b;
-        padding: 12px 24px;
-        border-radius: 12px;
-        transition: 0.3s;
-    }
-    .nav-pills .nav-link.active {
-        background-color: #0f172a !important;
-        color: #ffffff !important;
-    }
+/* Image/Video Styling */
+.wsus__product_details_img {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
 
-    /* Sidebar Cards */
-    .wsus__sidebar_licence, .wsus__sidebar_author_info, .wsus__sidebar_pro_info {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 20px;
-        border: 1px solid #f1f5f9;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-        margin-bottom: 20px;
-    }
+/* Tab Styling */
+.nav-pills .nav-link {
+    font-weight: 600;
+    color: #64748b;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+.nav-pills .nav-link.active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
 
-    /* Typography */
-    h2, h3, h4 { color: #0f172a; font-weight: 800 !important; }
-    
-    /* Buttons */
-    .btn-main {
-        background: #0f172a !important;
-        color: #ffffff !important;
-        padding: 14px 28px !important;
-        border-radius: 12px !important;
-        font-weight: 700 !important;
-    }
-    .btn-main:hover { background: #3b82f6 !important; }
+/* Sidebar Cards */
+.wsus__sidebar_licence,
+.wsus__sidebar_author_info,
+.wsus__sidebar_pro_info {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 20px;
+}
+
+/* Typography */
+h2,
+h3,
+h4 {
+    color: #0f172a;
+    font-weight: 800 !important;
+}
+
+/* Buttons */
+.btn-main {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    padding: 14px 28px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+}
+.btn-main:hover {
+    background: #3b82f6 !important;
+}
+
+.dashboard-sidebar {
+    width: 275px;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    border-color: #f1f5f9 !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+}
+
+.sidebar-logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
+}
+
+.letter-spacing-tight {
+    letter-spacing: -0.02em;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: #64748b !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: #f8fafc;
+    color: #0f172a !important;
+    transform: translateX(4px);
+}
+
+.sidebar-link.active {
+    background: #eff6ff;
+    color: #2563eb !important;
+    font-weight: 600;
+    box-shadow: inset 4px 0 0 #2563eb;
+}
+
+.sidebar-link.active .sidebar-icon {
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.sidebar-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar-link:hover .sidebar-icon {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+.sidebar-primary {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.sidebar-info {
+    background: #cffafe;
+    color: #0891b2;
+}
+
+.sidebar-warning {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.sidebar-success {
+    background: #dcfce3;
+    color: #16a34a;
+}
+
+.sidebar-danger {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.sidebar-secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.logout-btn {
+    background: red;
+    color: #e11d48;
+    border: 1px solid #ffe4e6;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.logout-btn:hover {
+    background: red;
+    color: #be123c;
+    border-color: #fecdd3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(225, 29, 72, 0.15);
+}
