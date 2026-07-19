@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\RoleUserController;
 use App\Http\Controllers\Admin\KycSettingController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubCategory;
@@ -103,4 +104,8 @@ Route::middleware('auth:admin')
     Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
     Route::get('commission-setting', [SettingController::class, 'commissionSettings'])->name('commission.setting');
     Route::put('commission-setting', [SettingController::class, 'updateCommissionSetting'])->name('commission.setting.update');
+
+    // Order Handing
+    Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
+    Route::get('orders/{id}/show', [OrderController::class, 'show'])->name('orders.show');
 });

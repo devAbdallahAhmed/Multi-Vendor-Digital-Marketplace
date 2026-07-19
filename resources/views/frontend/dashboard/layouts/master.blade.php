@@ -91,7 +91,7 @@
     </section>
 
     <script src="{{ asset('assets/front/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/boostrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/countdown.js') }}"></script>
     <script src="{{ asset('assets/front/js/counterup.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/slick.min.js') }}"></script>

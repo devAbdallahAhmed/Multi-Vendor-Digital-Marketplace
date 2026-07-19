@@ -13818,3 +13818,23 @@ h4 {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(225, 29, 72, 0.15);
 }
+.sidebar-link {
+    color: #64748b;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background: #eff6ff;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.sidebar-icon {
+    font-size: 1.1rem;
+}
+
+.nav-btn:hover {
+    background: #f1f5f9 !important;
+}

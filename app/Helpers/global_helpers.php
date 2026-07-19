@@ -12,12 +12,15 @@ function kycCount()
 
 
 if (!function_exists('hasPermission')) {
-    function  hasPermission($permissions)
+    function hasPermission($permissions)
     {
         $user = auth()->guard('admin')->user();
 
-        $hasPermission = $user->hasAnyPermission($permissions);
+        if (!$user) {
+            return false;
+        }
 
+        $hasPermission = $user->hasAnyPermission($permissions);
         $isSuperAdmin = $user->hasRole('super admin');
 
         if ($hasPermission || $isSuperAdmin) {
