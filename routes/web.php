@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\CartItemController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\PaymentController;
 
 /**
@@ -51,6 +52,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('kyc-verification', [KycVerificationController::class, 'index'])->name('kyc.verification')->middleware('checkKyc');
     Route::post('kyc-verification', [KycVerificationController::class, 'store'])->name('kyc.verification.store')->middleware('checkKyc');
 
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{id}/show', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('transaction', [OrderController::class, 'transaction'])->name('orders.transaction');
+    Route::get('sales', [OrderController::class, 'sales'])->middleware('is_author')->name('sales.index');
     /**
      * Author (Vendor) Management Routes
      * Restricted to authenticated users with 'is_author' permission.

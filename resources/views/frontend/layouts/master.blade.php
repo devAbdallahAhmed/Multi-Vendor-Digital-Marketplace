@@ -91,11 +91,6 @@
 
 <body>
 
-    <div class="preloader_area">
-        <div class="preloader_img">
-            <img src="assets/images/thumbs/preloader.gif" alt="Preloader">
-        </div>
-    </div>
 
     <div class="overlay"></div>
 

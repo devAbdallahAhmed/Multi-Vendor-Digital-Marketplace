@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
             $table->foreignId('author_id')->constrained('users');
-            $table->foreignId('item_id')->constrained('items'); 
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('item_id')->constrained('items');
+            $table->string('purchase_key')->unique();
             $table->double('price')->default(0);
             $table->integer('quantity')->default(1);
             $table->double('total')->default(0);

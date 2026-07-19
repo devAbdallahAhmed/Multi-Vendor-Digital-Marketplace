@@ -14,4 +14,8 @@ class AuthorSale extends Model
         'author_commission_rate',
         'author_earning'
     ];
+
+    public function item(){
+        return $this->belongsTo(Item::class);
+    }
 }
