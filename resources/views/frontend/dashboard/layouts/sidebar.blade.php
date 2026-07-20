@@ -21,7 +21,7 @@
 
         <ul class="nav flex-column gap-1">
             <li class="nav-item">
-                <a href="#"
+                <a href="{{ route('dashboard') }}"
                     class="nav-link sidebar-link active d-flex align-items-center gap-2 py-2 px-3 rounded-3">
                     <i class="bi bi-grid-1x2-fill"></i>
                     <span class="small">Dashboard</span>
@@ -49,8 +49,9 @@
                     </a>
                 </li>
 
-                  <li class="nav-item">
-                    <a href="{{ route('sales.index') }}" class="nav-link sidebar-link d-flex align-items-center gap-2 py-2 px-3 rounded-3">
+                <li class="nav-item">
+                    <a href="{{ route('sales.index') }}"
+                        class="nav-link sidebar-link d-flex align-items-center gap-2 py-2 px-3 rounded-3">
                         <i class="bi bi-wallet2"></i>
                         <span class="small">{{ __('Sales') }}</span>
                     </a>

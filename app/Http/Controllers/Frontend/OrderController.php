@@ -8,32 +8,39 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\PurchaseItem;
 use App\Models\Transaction;
+use App\Services\PurchaseItemServices;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    protected $purchaseItemServices;
+
+    public function __construct(PurchaseItemServices $purchaseItemServices)
+    {
+        $this->purchaseItemServices = $purchaseItemServices;
+    }
     public function index()
     {
-        $categories = Category::with('subCategories')->get();
-        $orders = PurchaseItem::with('item')->where('user_id', Auth::user()->id)->paginate(25);
-        return view('frontend.dashboard.order.index', compact('orders', 'categories'));
+        $data =   $this->purchaseItemServices->getALLPurchase();
+        return view('frontend.dashboard.order.index', $data);
     }
 
     public function  show(int $id)
     {
-        $order = PurchaseItem::findOrFail($id);
+        $order = $this->purchaseItemServices->ShowSingleOrder($id);
         return view('frontend.dashboard.order.show', compact('order'));
     }
 
     public function transaction()
     {
-        $transactions = Transaction::where('user_id', Auth::user()->id)->latest()->paginate(20);
+        $transactions = $this->purchaseItemServices->transaction();
         return view('frontend.dashboard.order.transaction', compact('transactions'));
     }
 
     public function sales()
     {
-        $sales = AuthorSale::with('item')->where('author_id', Auth::id())->latest()->paginate(20);
-        return view('frontend.dashboard.order.sells', compact('sales'));
+        $sales = $this->purchaseItemServices->salesService();
+        return view('frontend.dashboard.order.salas', compact('sales'));
     }
 }
