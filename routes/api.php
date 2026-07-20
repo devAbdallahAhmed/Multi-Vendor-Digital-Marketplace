@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\V1\Admin\ItemReviewController;
 use App\Http\Controllers\Api\V1\Front\Auth\RegisterUserController as FrontRegisterController;
 use App\Http\Controllers\Api\V1\Front\ApiCartItemController;
 use App\Http\Controllers\Api\V1\Front\ApiPaymentController;
+use App\Http\Controllers\Api\V1\Front\OrderController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes - Version 1 (v1)
@@ -54,7 +56,12 @@ Route::prefix('v1/front')->group(function () {
         Route::post('kyc/submit', [KycApiController::class, 'submit']);
         Route::post('kyc/resubmit', [KycApiController::class, 'resubmit']);
 
+        // Route View Purchases
+        Route::get('orders', [OrderController::class, 'index']);
+        Route::get('order/{id}/show', [OrderController::class, 'show']);
+        Route::get('sales', [OrderController::class, 'sales'])->middleware('is_author');
 
+        
         Route::post('/payment/{gateway}/process', [ApiPaymentController::class, 'processPayment']);
 
         // Specialized Author Routes (Protected by Role)
