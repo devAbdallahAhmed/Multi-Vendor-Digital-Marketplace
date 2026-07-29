@@ -155,3 +155,8 @@ if (!function_exists('getCartTotal')) {
         return (float) $total;
     }
 }
+
+function currencyPosition($amount = 0)
+{
+    return config('settings.currency_position') == 'left' ? config('settings.currency_icon') . $amount : $amount . config('settings.currency_icon');
+}

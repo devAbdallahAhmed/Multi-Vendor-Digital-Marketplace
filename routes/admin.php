@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentSettingController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubCategory;
+use App\Http\Controllers\Admin\WithdrawMethodController;
+use App\Http\Controllers\Admin\WithdrawRequestController;
 use App\Http\Controllers\Frontend\KycVerificationController;
 
 Route::middleware('guest:admin')
@@ -100,12 +102,19 @@ Route::middleware('auth:admin')
 
 
         // Settings Routes
-    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
-    Route::get('commission-setting', [SettingController::class, 'commissionSettings'])->name('commission.setting');
-    Route::put('commission-setting', [SettingController::class, 'updateCommissionSetting'])->name('commission.setting.update');
+        Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+        Route::put('general-setting', [SettingController::class, 'updateGeneralSetting'])->name('general.setting.update');
+        Route::get('commission-setting', [SettingController::class, 'commissionSettings'])->name('commission.setting');
+        Route::put('commission-setting', [SettingController::class, 'updateCommissionSetting'])->name('commission.setting.update');
 
-    // Order Handing
-    Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
-    Route::get('orders/{id}/show', [OrderController::class, 'show'])->name('orders.show');
-});
+        // Order Handing
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{id}/show', [OrderController::class, 'show'])->name('orders.show');
+
+
+        // Withdrawal Method
+        Route::resource('withdraw-method', WithdrawMethodController::class);
+
+        // Withdrawal Request
+        Route::resource('withdraw-request', WithdrawRequestController::class);
+    });

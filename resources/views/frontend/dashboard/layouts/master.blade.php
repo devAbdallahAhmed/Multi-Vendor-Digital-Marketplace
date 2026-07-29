@@ -73,7 +73,6 @@
         <div class="dashboard__inner d-flex">
 
             @include('frontend.dashboard.layouts.sidebar')
-
             <div class="dashboard-body">
                 @include('frontend.dashboard.layouts.nav')
 

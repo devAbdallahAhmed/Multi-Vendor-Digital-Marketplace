@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\AuthorWithdrawController;
 use App\Http\Controllers\Frontend\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
@@ -75,6 +76,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('item/{id}/download', [ItemController::class, 'download'])->name('items.download');
         Route::any('item/{id}/changelog', [ItemController::class, 'changelog'])->name('item.changelog');
         Route::get('item/{id}/history', [ItemController::class, 'history'])->name('item.history');
+        Route::post('Author/withdraw', [ProfileController::class, 'storeWithdrawInfo'])->name('withdraw_AuthorInfo');
+
+        // Author Withdraw Request
+        Route::get('withdraws', [AuthorWithdrawController::class, 'index'])->name('withdraw.index');
+        Route::get('withdraws/create', [AuthorWithdrawController::class, 'create'])->name('withdraw.create');
+        Route::post('withdraws/store', [AuthorWithdrawController::class, 'store'])->name('withdraw.store');
     });
 });
 

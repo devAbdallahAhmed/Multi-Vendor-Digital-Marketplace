@@ -8,6 +8,7 @@ use App\Models\PurchaseItem;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class OrderService
 {
@@ -48,6 +49,7 @@ class OrderService
             $transaction->status = 'completed';
             $transaction->save();
 
+
             // Author Commission
             foreach (getCartItems() as $cartItem) {
                 $amount = $cartItem->item->discount_price > 0 ? $cartItem->item->discount_price : $cartItem->item->price;
@@ -59,6 +61,10 @@ class OrderService
                 $sales->author_commission_rate = config('settings.author_commission');
                 $sales->author_earning = $amount *  (config('settings.author_commission') / 100);
                 $sales->save();
+
+                $author = User::where('id', $cartItem->item->author_id)->first();
+                $author->balance = $author->balance + $sales->author_earning;
+                $author->save();
             }
 
 

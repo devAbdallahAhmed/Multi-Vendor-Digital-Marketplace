@@ -86,7 +86,8 @@
                     <div class="p-4 text-center border-bottom bg-light-subtle">
                         <div class="position-relative d-inline-block mb-3">
                             <span class="avatar avatar-xl rounded-circle shadow"
-                                style="background-image: url({{ auth()->user('admin')->avatar ? asset(auth()->user('admin')->avatar) : asset('default.png') }});
+                                style="background-image: url({{ auth()->user('admin')->avatar ?
+                                 asset(auth()->user('admin')->avatar) : asset('defaults/poy.png') }});
                                          width: 80px;
                                          height: 80px;
                                          background-size: cover;
