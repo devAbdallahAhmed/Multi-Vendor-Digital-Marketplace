@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Purchase;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -56,10 +57,26 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->hasMany(Item::class, 'author_id', 'id')->where('status' ,'active');
+        return $this->hasMany(Item::class, 'author_id', 'id')->where('status', 'active');
     }
 
-    public function purchases(){
+    public function purchases()
+    {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function withdrawAuthorInfo()
+    {
+        return $this->hasOne(AuthorWithdrawInformation::class, 'author_id', 'id');
+    }
+
+    public function withdraws()
+    {
+        return $this->hasMany(Withdraws::class, 'author_id', 'id');
+    }
+
+    public function authorSales()
+    {
+        return $this->hasMany(AuthorSale::class, 'author_id', 'id');
     }
 }

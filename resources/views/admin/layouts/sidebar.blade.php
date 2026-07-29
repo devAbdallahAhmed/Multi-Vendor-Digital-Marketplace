@@ -88,7 +88,7 @@
                     </div>
                 </li>
 
-          
+
                 @if (hasPermission('manage categories'))
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ request()->is('admin/categories*') || request()->is('admin/sub-categories*') ? 'show active' : '' }}"
@@ -182,8 +182,8 @@
                 </li>
 
 
-                  {{-- Manage Orders --}}
-                 <li class="nav-item dropdown">
+                {{-- Manage Orders --}}
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {{ request()->is('admin/orders') ? 'show active' : '' }}"
                         href="#navbar-kyc" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button">
 
@@ -198,24 +198,37 @@
 
                     <div class="dropdown-menu {{ request()->is('admin/kyc*') ? 'show' : '' }}">
                         <a class="dropdown-item" href="{{ route('admin.orders.index') }}">
-                           {{__('All Orders')}}
+                            {{ __('All Orders') }}
                         </a>
 
                         <a class="dropdown-item" href="{{ route('admin.kyc-request.index') }}">
-                           {{__('Transaction')}}
+                            {{ __('Transaction') }}
                             <span class="badge badge-sm bg-yellow-lt text-uppercase ms-auto">0</span>
                         </a>
                     </div>
                 </li>
                 {{-- Vendors --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('admin.withdraw-method.index') }}">
                         <span class="nav-link-icon">
-                            <i class="bi bi-shop"></i>
+                            <i class="bi bi-wallet"></i>
                         </span>
 
                         <span class="nav-link-title">
-                            Vendors
+                            {{ __("Withdrawal methods")}}
+                        </span>
+                    </a>
+                </li>
+
+
+                                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.withdraw-request.index') }}">
+                        <span class="nav-link-icon">
+                            <i class="bi bi-wallet"></i>
+                        </span>
+
+                        <span class="nav-link-title">
+                            {{ __("Withdrawal Request")}}
                         </span>
                     </a>
                 </li>

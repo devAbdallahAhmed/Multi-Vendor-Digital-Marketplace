@@ -56,13 +56,14 @@
                         <span class="small">{{ __('Sales') }}</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('user.withdraw.index') }}" class="nav-link sidebar-link d-flex align-items-center gap-2 py-2 px-3 rounded-3">
+                        <i class="bi bi-gear-fill"></i>
+                        <span class="small">{{ __("Withdraws") }}</span>
+                    </a>
+                </li>
             @endcan
-            <li class="nav-item">
-                <a href="#" class="nav-link sidebar-link d-flex align-items-center gap-2 py-2 px-3 rounded-3">
-                    <i class="bi bi-gear-fill"></i>
-                    <span class="small">Settings</span>
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a href="{{ route('orders.index') }}"
                     class="nav-link sidebar-link d-flex align-items-center gap-2 py-2 px-3 rounded-3">

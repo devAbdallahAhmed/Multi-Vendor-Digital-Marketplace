@@ -32,8 +32,8 @@
         <div class="dropdown">
             <button class="btn btn-white border rounded-3 shadow-sm px-2 py-1 d-flex align-items-center gap-2"
                 data-bs-toggle="dropdown">
-                <img src="{{ asset('assets/front/images/thumbs/user-profile.png') }}" class="rounded-circle border"
-                    width="32" height="32" alt="User">
+                <img src="{{ asset(auth()->user()->avatar) }}" class="rounded-circle border" width="32"
+                    height="32" alt="User">
                 <div class="text-start d-none d-lg-block">
                     <div class="fw-bold text-dark" style="font-size: 0.8rem;">{{ Auth::user()->name ?? 'User' }}</div>
                 </div>
