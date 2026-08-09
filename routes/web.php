@@ -1,22 +1,20 @@
 <?php
 
-use App\Http\Controllers\Frontend\AuthorWithdrawController;
 use App\Http\Controllers\Frontend\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ItemController;
+use App\Http\Controllers\Frontend\AuthorWithdrawController;
 use App\Http\Controllers\Frontend\KycVerificationController;
-use App\Http\Controllers\Frontend\ProfileController;
-use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\CartItemController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\PaymentController;
+use App\Http\Controllers\Frontend\ItemController;
+use App\Http\Controllers\Frontend\ProductController;
+use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\ItemCommentController;
+use App\Http\Controllers\Frontend\ItemReviewController;
 
-/**
- * Public Routes
- * Routes accessible by all users without authentication.
- */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /**
@@ -57,6 +55,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('orders/{id}/show', [OrderController::class, 'show'])->name('orders.show');
     Route::get('transaction', [OrderController::class, 'transaction'])->name('orders.transaction');
     Route::get('sales', [OrderController::class, 'sales'])->middleware('is_author')->name('sales.index');
+
+    // Route Comments
+    Route::post('item/{id}/comment', [ItemCommentController::class, 'store'])->name('item-comment.store');
+
+    Route::post('item/{id}/review', [ItemReviewController::class, 'store'])->name('item-review.store');
+
+    Route::get('dashboard/reviews' ,[DashboardController::class , 'reviews'] )->name('reviews.index');
+
     /**
      * Author (Vendor) Management Routes
      * Restricted to authenticated users with 'is_author' permission.
@@ -78,11 +84,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('item/{id}/history', [ItemController::class, 'history'])->name('item.history');
         Route::post('Author/withdraw', [ProfileController::class, 'storeWithdrawInfo'])->name('withdraw_AuthorInfo');
 
-        // Author Withdraw Request
         Route::get('withdraws', [AuthorWithdrawController::class, 'index'])->name('withdraw.index');
         Route::get('withdraws/create', [AuthorWithdrawController::class, 'create'])->name('withdraw.create');
-        Route::post('withdraws/store', [AuthorWithdrawController::class, 'store'])->name('withdraw.store');
     });
 });
+// Author Withdraw Request
 
+Route::post('withdraws/store', [AuthorWithdrawController::class, 'store'])->name('withdraw.store');
 require __DIR__ . '/auth.php';

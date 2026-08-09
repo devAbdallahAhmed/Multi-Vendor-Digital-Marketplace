@@ -77,4 +77,19 @@ class Item extends Model
     {
         return $this->hasMany(ItemHistory::class, 'item_id')->orderBy('id', 'desc');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(ItemComment::class, 'item_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(ItemReview::class, 'item_id');
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(PurchaseItem::class, 'item_id');
+    }
 }
