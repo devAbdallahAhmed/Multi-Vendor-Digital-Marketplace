@@ -7,7 +7,7 @@
 <header class="prem-header">
     <div class="container container-full">
         <div class="prem-header-inner">
-            
+
             <a href="index.html" class="prem-logo">
                 <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo">
             </a>
@@ -43,7 +43,7 @@
             </ul>
 
             <div class="prem-header-right">
-                
+
                 <a href="{{ route('cart.index') }}" class="prem-cart-btn">
                     <i class="ti ti-basket"></i>
                     <span class="prem-cart-badge" id="cart-count">{{ $cartCount }}</span>
@@ -55,7 +55,7 @@
                     </button>
                     <ul class="prem-dropdown-menu" style="right: 0; left: auto;">
                         <li><a class="prem-dropdown-item" href="{{ route('login') }}">Sign Up / Login</a></li>
-                        <li><a class="prem-dropdown-item" href="#">Profile</a></li>
+                        <li><a class="prem-dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
                         <li><a class="prem-dropdown-item" href="#">Settings</a></li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@
                     <i class="las la-bars"></i>
                 </button>
             </div>
-            
+
         </div>
     </div>
 </header>

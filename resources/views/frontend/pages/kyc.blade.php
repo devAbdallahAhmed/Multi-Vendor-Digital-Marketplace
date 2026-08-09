@@ -79,9 +79,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">
                     <ul class="breadcrumb-list flx-align gap-2 mb-2 justify-content-center">
-                        <li class="breadcrumb-item font-14"><a href="{{ url('/') }}"
+                        <li class="breadcrumb-item font-14"><a href="{{route('home')}}"
                                 class="text-white opacity-75 text-decoration-none">Home</a></li>
-                        <li class="breadcrumb-item font-14 text-white">/</li>
                         <li class="breadcrumb-item font-14 text-white">Identity Verification</li>
                     </ul>
                     <h3 class="prem-breadcrumb-title mb-0">{{ __('Identity Verification') }}</h3>

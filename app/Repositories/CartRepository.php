@@ -16,7 +16,7 @@ class CartRepository
 
     public function checkItemActive(int $itemId): bool
     {
-        return Item::where('id', $itemId)->where('status', 'active')->exists();
+        return Item::where('id', $itemId)->where('status', 'active')->exists() ;
     }
 
     public function checkItemInCart(int $itemId, int $userId): bool

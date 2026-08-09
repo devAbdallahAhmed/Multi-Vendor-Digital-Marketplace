@@ -33,48 +33,65 @@
 
                                     <td class="py-3">
                                         <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0" style="width:65px;height:65px;">
+
+                                            <div class="flex-shrink-0 me-3" style="width: 65px; height: 65px;">
                                                 @if ($order->item->preview_type === 'image' && $order->item->preview_image)
                                                     <img src="{{ asset($order->item->preview_image) }}"
-                                                        alt="{{ $order->item->name }}" class="rounded-3 border w-100 h-100"
-                                                        style="object-fit:cover;">
-                                                @elseif ($order->item->preview_type === 'video' && $order->item->preview_video)
-                                                    <img src="{{ asset('defaults/video.webp') }}"
-                                                        alt="{{ $order->item->name }}" class="rounded-3 border w-100 h-100"
-                                                        style="object-fit:cover;">
-                                                @elseif ($order->item->preview_type === 'audio' && $order->item->preview_audio)
-                                                    <img src="{{ asset('defaults/audio.webp') }}"
-                                                        alt="{{ $order->item->name }}" class="rounded-3 border w-100 h-100"
+                                                        alt="{{ $order->item->name }}"
+                                                        class="rounded-3 border w-100 h-100 shadow-sm"
+                                                        style="object-fit: cover;">
+                                                @elseif ($order->item->preview_type === 'video')
+                                                    <img src="{{ asset('defaults/video.webp') }}" alt="Video Item"
+                                                        class="rounded-3 border w-100 h-100 shadow-sm"
+                                                        style="object-fit: cover;">
+                                                @elseif ($order->item->preview_type === 'audio')
+                                                    <img src="{{ asset('defaults/audio.webp') }}" alt="Audio Item"
+                                                        class="rounded-3 border w-100 h-100 shadow-sm"
+                                                        style="object-fit: cover;">
+                                                @else
+                                                    <img src="{{ asset('defaults/default.webp') }}" alt="Default Item"
+                                                        class="rounded-3 border w-100 h-100 shadow-sm"
                                                         style="object-fit: cover;">
                                                 @endif
                                             </div>
 
-                                            <div class="ms-3 flex-grow-1">
-                                                <h6 class="mb-1 fw-bold text-dark">
+                                            <div class="flex-grow-1">
+
+                                                <h6 class="mb-1 fw-bold text-dark text-truncate" style="max-width: 250px;"
+                                                    title="{{ $order->item->name }}">
                                                     {{ $order->item->name }}
                                                 </h6>
 
-                                                <div class="small text-muted mb-1 text-nowrap">
-                                                    <span class="text-primary fw-semibold">
+                                                <div class="small text-muted mb-2 d-flex align-items-center gap-1">
+                                                    <span
+                                                        class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 rounded-2">
+                                                        <i class="ti ti-folder me-1"></i>
                                                         {{ $order->item->category->name ?? 'Uncategorized' }}
                                                     </span>
-                                                    <span class="mx-1">/</span>
-                                                    <span>
+                                                    <span class="mx-1 text-muted">/</span>
+                                                    <span
+                                                        class="badge bg-secondary bg-opacity-10 text-secondary px-2 py-1 rounded-2">
                                                         {{ $order->item->sub_category->name ?? 'None' }}
                                                     </span>
                                                 </div>
 
-                                                <div class="text-warning small mb-1 d-flex align-items-center gap-1">
-                                                    @for ($i = 0; $i < 5; $i++)
-                                                        <i class="ti ti-star-filled"></i>
-                                                    @endfor
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="text-warning small d-flex align-items-center gap-1">
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            <i class="ti ti-star-filled"></i>
+                                                        @endfor
+                                                    </div>
+
+                                                    <a href="#"
+                                                        class="btn btn-sm py-0 px-2 btn-outline-primary d-flex align-items-center gap-1 fw-medium"
+                                                        style="font-size: 0.75rem;">
+                                                        <i class="ti ti-pencil"></i> {{ __('Write a review') }}
+                                                    </a>
                                                 </div>
-                                                <a href="#" class="text-decoration-none small fw-medium">Write a
-                                                    review</a>
+
                                             </div>
                                         </div>
                                     </td>
-
                                     <td class="py-3 text-muted">
                                         <i class="ti ti-calendar me-1"></i>
                                         {{ $order->created_at->format('M d, Y') }}
