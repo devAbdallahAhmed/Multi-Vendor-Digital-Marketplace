@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{ __('Dashboard') }}</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css" integrity="sha512-XrgoTBs7P5YtpkeKqKOKkruURsawIaRrhe8QrcWeMnFeyRZiOcRNjBAX+AQeXOvx9/9fSY32dVct1PccRoCICQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css"
+        integrity="sha512-XrgoTBs7P5YtpkeKqKOKkruURsawIaRrhe8QrcWeMnFeyRZiOcRNjBAX+AQeXOvx9/9fSY32dVct1PccRoCICQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/css/tabler.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/admin/css/tabler.min.css') }}" rel="stylesheet" />
@@ -19,7 +21,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/tagsinput.css') }}">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="{{ asset('assets/front/css/select2.min.css') }}">
+
 
     @stack('styles')
 </head>
@@ -48,7 +53,19 @@
     <script src="{{ asset('assets/admin/js/tagsinput.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="{{ asset('assets/admin/js/demo-theme.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var input = document.querySelector('#my_tags_input');
+            if (input) {
+                new Tagify(input);
+            }
+        });
+    </script>
+
+    <script src="{{ asset('assets/front/js/default/fileupload.js') }}"></script>
     @stack('scripts')
 </body>
 

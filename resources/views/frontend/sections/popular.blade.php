@@ -14,70 +14,40 @@
         </div>
 
         <div class="premium-categories-grid">
-
-            <a href="all-product.html" class="premium-category-card">
+            @forelse ( $featuredCategories as $category )
+            <a href="{{route('products', ['category'=> $category->slug])}}" class="premium-category-card">
                 <div class="premium-category-icon">
-                    <i class="ti ti-brand-wordpress"></i>
+                    <i class="{{ $category->icon }}"></i>
                 </div>
-                <h3 class="premium-category-name">WordPress</h3>
-                <span class="premium-category-qty">15,296</span>
+                <h3 class="premium-category-name">{{ $category->name }}</h3>
+                <span class="premium-category-qty">{{ $category->items_count }}</span>
             </a>
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-settings-plus"></i>
-                </div>
-                <h3 class="premium-category-name">Plugin</h3>
-                <span class="premium-category-qty">8,405</span>
-            </a>
+            @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5">
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-brand-html5"></i>
-                </div>
-                <h3 class="premium-category-name">HTML</h3>
-                <span class="premium-category-qty">12,104</span>
-            </a>
+                                <div class="d-flex flex-column align-items-center">
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-file-type-js"></i>
-                </div>
-                <h3 class="premium-category-name">Java Script</h3>
-                <span class="premium-category-qty">5,820</span>
-            </a>
+                                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3"
+                                        style="width:80px;height:80px;">
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-device-mobile-heart"></i>
-                </div>
-                <h3 class="premium-category-name">Mobile App</h3>
-                <span class="premium-category-qty">3,250</span>
-            </a>
+                                        <i class="ti ti-folder-off fs-1 text-secondary"></i>
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-brand-php"></i>
-                </div>
-                <h3 class="premium-category-name">PHP Script</h3>
-                <span class="premium-category-qty">9,142</span>
-            </a>
+                                    </div>
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-brand-react"></i>
-                </div>
-                <h3 class="premium-category-name">React JS</h3>
-                <span class="premium-category-qty">4,530</span>
-            </a>
+                                    <h5 class="fw-semibold mb-1">
+                                        No Categories Found
+                                    </h5>
 
-            <a href="all-product.html" class="premium-category-card">
-                <div class="premium-category-icon">
-                    <i class="ti ti-layout-dashboard"></i>
-                </div>
-                <h3 class="premium-category-name">UI Templates</h3>
-                <span class="premium-category-qty">6,890</span>
-            </a>
+
+                                </div>
+
+                            </td>
+                        </tr>
+            @endforelse
+
+
 
         </div>
     </div>

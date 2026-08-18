@@ -9,7 +9,8 @@
         <div class="prem-header-inner">
 
             <a href="index.html" class="prem-logo">
-                <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo">
+                <img src="{{ asset('assets/front/images/logo/white-logo-two.png') }}" alt="Logo"
+                    >
             </a>
 
             <ul class="prem-nav d-none d-lg-flex">
@@ -19,23 +20,9 @@
                 <li class="prem-nav-item">
                     <a href="{{ route('products') }}" class="prem-nav-link">Products</a>
                 </li>
+
                 <li class="prem-nav-item">
-                    <a href="javascript:void(0)" class="prem-nav-link">Pages <i class="fas fa-chevron-down font-10"></i></a>
-                    <ul class="prem-dropdown-menu">
-                        <li><a href="profile.html" class="prem-dropdown-item">Test 01</a></li>
-                        <li><a href="profile.html" class="prem-dropdown-item">Test 02</a></li>
-                    </ul>
-                </li>
-                <li class="prem-nav-item">
-                    <a href="javascript:void(0)" class="prem-nav-link">Blog <i class="fas fa-chevron-down font-10"></i></a>
-                    <ul class="prem-dropdown-menu">
-                        <li><a href="blog.html" class="prem-dropdown-item">Blog</a></li>
-                        <li><a href="blog-details.html" class="prem-dropdown-item">Blog Details</a></li>
-                        <li><a href="blog-details-sidebar.html" class="prem-dropdown-item">Blog Sidebar</a></li>
-                    </ul>
-                </li>
-                <li class="prem-nav-item">
-                    <a href="contact.html" class="prem-nav-link">Contact</a>
+                    <a href="{{ route('contact') }}" class="prem-nav-link">Contact</a>
                 </li>
                 <li class="prem-nav-item">
                     <a href="{{ route('kyc.verification') }}" class="prem-nav-link prem-start-selling">Start Selling</a>
@@ -54,9 +41,16 @@
                         <i class="ti ti-user"></i>
                     </button>
                     <ul class="prem-dropdown-menu" style="right: 0; left: auto;">
-                        <li><a class="prem-dropdown-item" href="{{ route('login') }}">Sign Up / Login</a></li>
-                        <li><a class="prem-dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                        <li><a class="prem-dropdown-item" href="#">Settings</a></li>
+                        @guest
+
+                            <li><a class="prem-dropdown-item" href="{{ route('login') }}">Sign Up / Login</a></li>
+                        @endguest
+                        @auth
+                            <li><a class="prem-dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><a class="prem-dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                            <li><a class="prem-dropdown-item" href="#">Settings</a></li>
+                        @endauth
+
                     </ul>
                 </div>
 
@@ -85,7 +79,8 @@
                         <ul class="prem-cat-dropdown">
                             @foreach ($category->subCategories as $subCategory)
                                 <li>
-                                    <a href="{{ route('products', ['category' => $category->slug, 'sub-category' => $subCategory->slug]) }}" class="prem-dropdown-item">
+                                    <a href="{{ route('products', ['category' => $category->slug, 'sub-category' => $subCategory->slug]) }}"
+                                        class="prem-dropdown-item">
                                         {{ $subCategory->name }}
                                     </a>
                                 </li>

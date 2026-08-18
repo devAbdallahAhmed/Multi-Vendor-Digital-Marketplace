@@ -207,6 +207,91 @@
                         </a>
                     </div>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {{ request()->is('admin/hero-section*', 'admin/featured-category*') ? 'show active' : '' }}"
+                        href="#navbar-sections" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button"
+                        aria-expanded="{{ request()->is('admin/hero-section*', 'admin/featured-category*') ? 'true' : 'false' }}">
+
+                        <span class="nav-link-icon">
+                            <i class="bi bi-shop"></i>
+                        </span>
+
+                        <span class="nav-link-title">
+                            {{ __('Sections') }}
+                        </span>
+                    </a>
+
+                    <div
+                        class="dropdown-menu {{ request()->is('admin/hero-section*', 'admin/featured-category*') ? 'show' : '' }}">
+                        <a class="dropdown-item {{ request()->is('admin/hero-section*') ? 'active' : '' }}"
+                            href="{{ route('admin.hero-section.index') }}">
+                            {{ __('Hero Section') }}
+                        </a>
+
+                        <a class="dropdown-item {{ request()->is('admin/featured-category*') ? 'active' : '' }}"
+                            href="{{ route('admin.featured-category.index') }}">
+                            {{ __('Featured Categories') }}
+                        </a>
+
+                        <a class="dropdown-item {{ request()->is('admin/featured-category*') ? 'active' : '' }}"
+                            href="{{ route('admin.highlighted-product-section.index') }}">
+                            {{ __(' Highlighted Products') }}
+                        </a>
+                        <a class="dropdown-item " href="{{ route('admin.monthly-picked-product-section.index') }}">
+                            {{ __('  Monthly Picked Products') }}
+                        </a>
+                        <a class="nav-link" href="{{ route('admin.featured-author-section.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-user-star"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Featured Author') }}
+                            </span>
+                        </a>
+                        <a class="nav-link" href="{{ route('admin.counter-section.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-chart-bar"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Counter Section') }}
+                            </span>
+                        </a>
+                        <a class="nav-link" href="{{ route('admin.banner-section.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-photo"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Banner Section') }}
+                            </span>
+                        </a>
+                        <a class="nav-link" href="{{ route('admin.footer-section.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-layout-bottombar"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Footer Section') }}
+                            </span>
+                        </a>
+                        <a class="nav-link" href="{{ route('admin.social-links.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-link"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Social Links') }}
+                            </span>
+                        </a>
+
+                        <a class="nav-link" href="{{ route('admin.contact-section.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-address-book"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                {{ __('Contact Section') }}
+                            </span>
+                        </a>
+                    </div>
+                </li>
                 {{-- Vendors --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.withdraw-method.index') }}">
@@ -215,20 +300,20 @@
                         </span>
 
                         <span class="nav-link-title">
-                            {{ __("Withdrawal methods")}}
+                            {{ __('Withdrawal methods') }}
                         </span>
                     </a>
                 </li>
 
 
-                                <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.withdraw-request.index') }}">
                         <span class="nav-link-icon">
                             <i class="bi bi-wallet"></i>
                         </span>
 
                         <span class="nav-link-title">
-                            {{ __("Withdrawal Request")}}
+                            {{ __('Withdrawal Request') }}
                         </span>
                     </a>
                 </li>
