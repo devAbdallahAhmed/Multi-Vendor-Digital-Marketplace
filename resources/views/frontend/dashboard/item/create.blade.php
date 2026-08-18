@@ -284,14 +284,6 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var input = document.querySelector('#my_tags_input');
-            if (input) {
-                new Tagify(input);
-            }
-        });
-    </script>
 
     <script src="{{ asset('assets/front/js/default/fileupload.js') }}"></script>
 @endpush

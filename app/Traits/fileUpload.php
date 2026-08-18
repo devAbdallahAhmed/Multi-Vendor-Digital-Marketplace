@@ -9,7 +9,7 @@ use Exception;
 
 trait FileUpload
 {
-    public function uploadFile(UploadedFile $file,  string $disk = 'local',string $dir = 'uploads')
+    public function uploadFile(UploadedFile $file,  string $disk = 'local', string $dir = 'uploads')
     {
         try {
             $extension = $file->getClientOriginalExtension();
@@ -21,7 +21,7 @@ trait FileUpload
         }
     }
 
-    public function uploadFileWithDetails(UploadedFile $file, string $dir = 'uploads/items',  $disk = 'local'): array
+    public function uploadFileWithDetails(UploadedFile $file, string $dir = 'uploads/items', $disk = 'local'): array
     {
         if (!in_array($disk, ['public', 'local'])) {
             throw new Exception('Invalid disk type');
@@ -31,12 +31,12 @@ trait FileUpload
             $extension = $file->getClientOriginalExtension();
             $fileName = time() . '_' . uniqid() . '.' . $extension;
 
-            $file->storeAs($dir, $fileName, $disk);
+            $path = $file->storeAs($dir, $fileName, $disk);
 
             return [
                 'name' => $file->getClientOriginalName(),
                 'extension' => $extension,
-                'path' => "/$dir/$fileName",
+                'path' => $path,
                 'size' => $file->getSize(),
                 'mime_type' => $file->getMimeType(),
             ];

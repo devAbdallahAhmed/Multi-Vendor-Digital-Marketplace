@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Auth\NewPasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\ItemReviewController;
 use App\Http\Controllers\Admin\KycCheckController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,16 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SubCategory;
 use App\Http\Controllers\Admin\WithdrawMethodController;
 use App\Http\Controllers\Admin\WithdrawRequestController;
-use App\Http\Controllers\Frontend\KycVerificationController;
+use App\Http\Controllers\Admin\FeaturedCategoryController;
+use  App\Http\Controllers\Admin\HighlightedProductController;
+use App\Http\Controllers\Admin\MonthlyPickedProductsController;
+use App\Http\Controllers\Admin\FeaturedAuthorSectionController;
+use App\Http\Controllers\Admin\CounterSectionController;
+use App\Http\Controllers\Admin\BannerSectionController;
+use App\Http\Controllers\Admin\FooterSectionController;
+use App\Http\Controllers\Admin\SocialLinkController;
+use App\Http\Controllers\Admin\ContactInfoSectionController;
+
 
 Route::middleware('guest:admin')
     ->prefix('admin/')
@@ -117,4 +127,39 @@ Route::middleware('auth:admin')
 
         // Withdrawal Request
         Route::resource('withdraw-request', WithdrawRequestController::class);
+
+        // HeroSection
+        Route::get('ajax/product-search', [HeroSectionController::class, 'productSearch'])->name('ajax.product-search');
+        Route::resource('hero-section', HeroSectionController::class);
+
+        //Featured Category Section
+        Route::resource('featured-category', FeaturedCategoryController::class);
+        Route::resource('highlighted-product-section', HighlightedProductController::class);
+        Route::resource('monthly-picked-product-section', MonthlyPickedProductsController::class);
+
+
+
+        ///
+
+        Route::get('featured-author-section', [FeaturedAuthorSectionController::class, 'index'])
+            ->name('featured-author-section.index');
+
+        Route::put('featured-author-section/{id}', [FeaturedAuthorSectionController::class, 'update'])
+            ->name('featured-author-section.update');
+
+
+        Route::get('counter-section', [CounterSectionController::class, 'index'])->name('counter-section.index');
+        Route::put('counter-section/{id}', [CounterSectionController::class, 'update'])->name('counter-section.update');
+
+
+        Route::get('banner-section', [BannerSectionController::class, 'index'])->name('banner-section.index');
+        Route::put('banner-section/{id}', [BannerSectionController::class, 'update'])->name('banner-section.update');
+
+
+        Route::get('footer-section', [FooterSectionController::class, 'index'])->name('footer-section.index');
+        Route::put('footer-section/{id}', [FooterSectionController::class, 'update'])->name('footer-section.update');
+
+        Route::resource('social-links', SocialLinkController::class);
+
+        Route::resource('contact-section', ContactInfoSectionController::class);
     });

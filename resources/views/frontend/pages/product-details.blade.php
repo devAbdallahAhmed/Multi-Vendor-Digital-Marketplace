@@ -54,17 +54,16 @@
                     <div class="col-xl-8 col-lg-7">
                         <div class="prem-product-card">
                             <div class="wsus__product_details_img">
-                                @if ($items->preview_type === 'image')
-                                    <img src="{{ asset($items->preview_image ?? $items->main_file) }}" alt="product"
+                                @if ($item->preview_type === 'image')
+                                    <img src="{{ asset($item->preview_image ?? $item->main_file) }}" alt="product"
                                         class="img-fluid w-100">
-                                @elseif ($items->preview_type === 'video')
+                                @elseif ($item->preview_type === 'video')
                                     <video id="player" playsinline controls class="w-100">
-                                        <source src="{{ asset($items->preview_video ?? $items->main_file) }}"
-                                            type="video/mp4" />
+                                        <source src="{{ asset($item->preview_video ?? $item->main_file) }}" type="video/mp4" />
                                     </video>
-                                @elseif ($items->preview_type === 'audio')
+                                @elseif ($item->preview_type === 'audio')
                                     <audio id="player" controls class="w-100">
-                                        <source src="{{ asset($items->main_file) }}" type="audio/mp3" />
+                                        <source src="{{ asset($item->main_file) }}" type="audio/mp3" />
                                     </audio>
                                 @endif
                             </div>
@@ -98,7 +97,7 @@
                                     <div class="tab-pane fade show active" id="pills-home">
                                         <div class="wsus__pro_description">
                                             <h4>{{ __('Item Description Details') }}</h4>
-                                            <div class="text-secondary mt-3">{!! $items->description !!}</div>
+                                            <div class="text-secondary mt-3">{!! $item->description !!}</div>
                                         </div>
                                     </div>
 
@@ -149,7 +148,7 @@
                                         </nav>
 
                                         @auth
-                                            <form action="{{ route('item-comment.store', $items->id) }}" method="POST">
+                                            <form action="{{ route('item-comment.store', $item->id) }}" method="POST">
                                                 @csrf
                                                 <div class="col-xl-12 mt-4">
                                                     <div class="wsus__comment_single_input">
@@ -183,26 +182,26 @@
                             <div class="card border-0 shadow-sm rounded-4 mb-4">
                                 <div class="card-body p-4">
                                     <div class="price-box text-center mb-4">
-                                        @if (isset($items->discount_price) && $items->discount_price > 0)
+                                        @if (isset($item->discount_price) && $item->discount_price > 0)
                                             <h2 class="fw-bold mb-0 text-primary">
-                                                {{ currencyPosition($items->discount_price) }}
+                                                {{ currencyPosition($item->discount_price) }}
                                                 <span
-                                                    class="text-muted text-decoration-line-through fs-6 ms-2">{{ currencyPosition($items->price) }}</span>
+                                                    class="text-muted text-decoration-line-through fs-6 ms-2">{{ currencyPosition($item->price) }}</span>
                                             </h2>
                                         @else
-                                            <h2 class="fw-bold mb-0 text-primary">{{ currencyPosition($items->price) }}</h2>
+                                            <h2 class="fw-bold mb-0 text-primary">{{ currencyPosition($item->price) }}</h2>
                                         @endif
                                     </div>
 
                                     <div class="d-grid gap-2 mb-4">
                                         <a class="btn btn-main btn-lg add-cart fw-bold d-flex justify-content-center align-items-center gap-2"
-                                            data-id="{{ $items->id }}" href="javascript:void(0);">
+                                            data-id="{{ $item->id }}" href="javascript:void(0);">
                                             <i class="fas fa-shopping-cart"></i> {{ __('Add to Cart') }}
                                         </a>
 
-                                        @if ($items->demo_link)
+                                        @if ($item->demo_link)
                                             <a class="btn btn-outline-dark btn-lg fw-bold d-flex justify-content-center align-items-center gap-2"
-                                                href="{{ $items->demo_link }}" target="_blank">
+                                                href="{{ $item->demo_link }}" target="_blank">
                                                 <i class="fas fa-external-link-alt"></i> {{ __('Live Preview') }}
                                             </a>
                                         @endif
@@ -212,28 +211,28 @@
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center px-0 text-muted">
                                             <span><i class="fas fa-shopping-basket me-2"></i> {{ __('Total Sales') }}</span>
-                                            <span class="fw-bold text-dark">{{ $items->sales_count ?? 0 }}</span>
+                                            <span class="fw-bold text-dark">{{ $item->sales_count ?? 0 }}</span>
                                         </li>
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center px-0 text-muted">
                                             <span><i class="fas fa-comments me-2"></i> {{ __('Comments') }}</span>
-                                            <span class="fw-bold text-dark">{{ $items->comments_count ?? 0 }}</span>
+                                            <span class="fw-bold text-dark">{{ $item->comments_count ?? 0 }}</span>
                                         </li>
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center px-0 text-muted">
                                             <span><i class="fas fa-star me-2 text-warning"></i> {{ __('Reviews') }}</span>
-                                            <span class="fw-bold text-dark">{{ $items->reviews_count ?? 0 }}</span>
+                                            <span class="fw-bold text-dark">{{ $item->reviews_count ?? 0 }}</span>
                                         </li>
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center px-0 text-muted">
                                             <span><i class="fas fa-folder-open me-2"></i> {{ __('Category') }}</span>
                                             <span
-                                                class="fw-bold text-dark">{{ $items->category->name ?? __('General') }}</span>
+                                                class="fw-bold text-dark">{{ $item->category->name ?? __('General') }}</span>
                                         </li>
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-center px-0 text-muted">
                                             <span><i class="fas fa-sync-alt me-2"></i> {{ __('Last Update') }}</span>
-                                            <span class="fw-bold text-dark">{{ $items->updated_at->format('d M, Y') }}</span>
+                                            <span class="fw-bold text-dark">{{ $item->updated_at->format('d M, Y') }}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -245,14 +244,14 @@
                                     <h5 class="fw-bold mb-4 border-bottom pb-3">{{ __('Author Profile') }}</h5>
 
                                     <div class="d-flex align-items-center mb-4">
-                                        <img src="{{ asset($items->author->avatar ?? 'defaults/boy.png') }}" alt="author"
+                                        <img src="{{ asset($item->author->avatar ?? 'defaults/boy.png') }}" alt="author"
                                             class="shadow-sm"
                                             style="width:70px; height:70px; border-radius:50%; object-fit: cover;">
                                         <div class="ms-3">
-                                            <h5 class="mb-1 fw-bold">{{ $items->author->name }}</h5>
+                                            <h5 class="mb-1 fw-bold">{{ $item->author->name }}</h5>
                                             <p class="small text-muted mb-0">
                                                 <i class="fas fa-calendar-alt me-1"></i> {{ __('Member since') }}
-                                                {{ $items->author->created_at->format('M Y') }}
+                                                {{ $item->author->created_at->format('M Y') }}
                                             </p>
                                         </div>
                                     </div>
@@ -328,7 +327,7 @@
                         </nav>
 
                         @auth
-                            <form action="{{ route('item-review.store', $items->id) }}" method="POST"
+                            <form action="{{ route('item-review.store', $item->id) }}" method="POST"
                                 class="wsus__comment_input_area mt-5">
                                 @csrf
 

@@ -6,10 +6,9 @@ use App\Repositories\ItemRepository;
 use App\Traits\FileUpload;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class ItemService
 {
@@ -28,20 +27,28 @@ class ItemService
 
             $itemData = $validatedData;
 
-            $itemData['category_id'] = $validatedData['category'];
-            $itemData['sub_category_id'] = $validatedData['sub_category'];
+            $itemData['category_id'] = $validatedData['category'] ?? null;
+            $itemData['sub_category_id'] = $validatedData['sub_category'] ?? null;
             $itemData['author_id'] = Auth::id();
             $itemData['status'] = 'pending';
 
-            unset($itemData['category'], $itemData['sub_category']);
-
-            if (in_array($validatedData['preview_type'] ?? '', ['image', 'video', 'audio'])) {
-                $itemData["preview_" . $validatedData['preview_type']] = $validatedData['preview_file'];
+            if (isset($validatedData['preview_type']) && in_array($validatedData['preview_type'], ['image', 'video', 'audio'])) {
+                $itemData["preview_" . $validatedData['preview_type']] = $validatedData['preview_file'] ?? null;
             }
 
-            $isUpload = ($validatedData['source_type'] === 'upload');
+            $isUpload = (($validatedData['source_type'] ?? '') === 'upload');
             $itemData['is_main_file_external'] = $isUpload ? 0 : 1;
-            $itemData['main_file'] = $isUpload ? $validatedData['upload_source'] : $validatedData['link_source'];
+            $itemData['main_file'] = $isUpload ? ($validatedData['upload_source'] ?? null) : ($validatedData['link_source'] ?? null);
+
+            unset(
+                $itemData['category'],
+                $itemData['sub_category'],
+                $itemData['preview_file'],
+                $itemData['source_type'],
+                $itemData['upload_source'],
+                $itemData['link_source'],
+                $itemData['message_for_reviewer']
+            );
 
             $item = $this->itemRepository->createItem($itemData);
 
@@ -53,7 +60,10 @@ class ItemService
                 'status'    => 'pending'
             ]);
 
-            $this->movePublicAsset($validatedData['screenshots'] ?? []);
+            if (!empty($validatedData['screenshots'])) {
+                $this->movePublicAsset($validatedData['screenshots']);
+            }
+
             $this->itemRepository->clearAuthorUploadedFiles();
 
             return $item;
@@ -119,12 +129,11 @@ class ItemService
         }
 
         $cleanPath = ltrim($item->main_file, '/');
-        $storagePath = storage_path('app/private/' . $cleanPath);
 
-        if (!File::exists($storagePath)) {
+        if (!Storage::disk('local')->exists($cleanPath)) {
             abort(404, 'The requested file does not exist on the server.');
         }
 
-        return ['type' => 'file', 'path' => $storagePath];
+        return ['type' => 'file', 'path' => $cleanPath];
     }
 }

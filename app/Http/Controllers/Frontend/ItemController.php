@@ -44,10 +44,20 @@ class ItemController extends Controller
 
     public function store(ItemStoreRequest $request)
     {
-        $this->itemService->storeItem($request->validated(), $request->message_for_reviewer);
-        NotificationService::created(__('Item created successfully.'));
+        try {
+            $this->itemService->storeItem($request->validated(), $request->message_for_reviewer);
 
-        return redirect()->route('user.items.index');
+            return response()->json([
+                'status' => 'success',
+                'message' => __('Item created successfully.'),
+                'redirect_url' => route('user.items.index')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function edit(string $id)
@@ -66,16 +76,29 @@ class ItemController extends Controller
 
     public function update(ItemUpdateRequest $request, string $id)
     {
-        $item = $this->itemRepository->findAuthorItemById($id);
+        try {
+            $item = $this->itemRepository->findAuthorItemById($id);
 
-        if ($item->status !== 'approved' && $item->status !== 'active' && $item->status !== 'soft_reject') {
-            abort(404);
+            if ($item->status !== 'approved' && $item->status !== 'active' && $item->status !== 'soft_reject') {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized action.'
+                ], 403);
+            }
+
+            $this->itemService->updateItem($item, $request->validated());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => __('Item updated successfully.'),
+                'redirect_url' => route('user.items.index')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        $this->itemService->updateItem($item, $request->validated());
-        NotificationService::updated(__('Item updated successfully.'));
-
-        return redirect()->route('user.items.index');
     }
 
     public function download(string $id)
@@ -122,16 +145,14 @@ class ItemController extends Controller
         return view('frontend.dashboard.item.history', compact('item', 'histories'));
     }
 
-    /**
-     * Handle chunk/file uploads from Dropzone for a selected category
-     */
     public function itemUploads(Request $request): \Illuminate\Http\JsonResponse
     {
         $sessionId = session()->get('selected_category');
-        $category = \App\Models\Category::findOrFail($sessionId);
+        $category = Category::findOrFail($sessionId);
         $supportedExtensions = \Illuminate\Support\Str::lower(implode(',', $category->file_types));
 
         $request->validate([
+            'file' => 'required|array',
             'file.*' => "required|mimes:{$supportedExtensions}|max:102400",
         ]);
 
@@ -154,9 +175,6 @@ class ItemController extends Controller
         return $this->respondWithFileList($sessionId);
     }
 
-    /**
-     * Delete a temporarily uploaded file from the list
-     */
     public function delete($id): \Illuminate\Http\JsonResponse
     {
         $sessionId = session()->get('selected_category');
@@ -174,9 +192,6 @@ class ItemController extends Controller
         return $this->respondWithFileList($sessionId, 'success');
     }
 
-    /**
-     * Helper to render and return the updated file list HTML for Dropzone
-     */
     private function respondWithFileList(int $categoryId, string $status = 'success'): \Illuminate\Http\JsonResponse
     {
         $uploadFiles = $this->itemRepository->getFilesByAuthorAndCategory($categoryId);
@@ -188,7 +203,4 @@ class ItemController extends Controller
             'html'   => $html
         ], 200);
     }
-
-  
 }
-

@@ -7,8 +7,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">
                     <ul class="breadcrumb-list flx-align gap-2 mb-2 justify-content-center">
-                        <li class="breadcrumb-item font-14"><a href="{{ url('/') }}" class="text-white opacity-75 text-decoration-none">Home</a></li>
-                        <li class="breadcrumb-item font-14 text-white">/</li>
+                        <li class="breadcrumb-item font-14"><a href="{{ url('/') }}"
+                                class="text-white opacity-75 text-decoration-none">Home</a></li>
                         <li class="breadcrumb-item font-14 text-white">Sign In</li>
                     </ul>
                     <h3 class="prem-breadcrumb-title mb-0">{{ __('Sign In') }}</h3>
@@ -37,8 +37,9 @@
                                         <label class="form-label fw-bold small text-secondary">
                                             <i class="fas fa-envelope me-1 text-primary"></i>{{ __('Email Address') }}
                                         </label>
-                                        <x-text-input id="email" class="form-control prem-input" type="email" name="email"
-                                            :value="old('email')" required autofocus placeholder="example@mail.com" />
+                                        <x-text-input id="email" class="form-control prem-input" type="email"
+                                            name="email" :value="old('email')" required autofocus
+                                            placeholder="example@mail.com" />
                                         <x-input-error :messages="$errors->get('email')" class="mt-1 small" />
                                     </div>
 
@@ -53,13 +54,15 @@
 
                                     <div class="col-12 d-flex justify-content-between align-items-center my-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" name="remember" type="checkbox" id="remember_me">
+                                            <input class="form-check-input" name="remember" type="checkbox"
+                                                id="remember_me">
                                             <label class="form-check-label text-muted small" for="remember_me">
                                                 {{ __('Remember Me') }}
                                             </label>
                                         </div>
                                         @if (Route::has('password.request'))
-                                            <a href="{{ route('password.request') }}" class="small text-primary fw-bold text-decoration-none">
+                                            <a href="{{ route('password.request') }}"
+                                                class="small text-primary fw-bold text-decoration-none">
                                                 {{ __('Forgot Password?') }}
                                             </a>
                                         @endif

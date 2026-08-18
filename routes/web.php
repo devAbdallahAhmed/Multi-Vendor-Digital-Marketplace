@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ItemCommentController;
 use App\Http\Controllers\Frontend\ItemReviewController;
+use App\Http\Controllers\Frontend\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -63,6 +64,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('dashboard/reviews' ,[DashboardController::class , 'reviews'] )->name('reviews.index');
 
+    Route::get('highlighted-products', [HomeController::class, 'highlightedProducts'])->name('highlighted-products');
+
+
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+    Route::post('/contact/send', [ContactController::class, 'sendMail'])->name('contact.send');
     /**
      * Author (Vendor) Management Routes
      * Restricted to authenticated users with 'is_author' permission.

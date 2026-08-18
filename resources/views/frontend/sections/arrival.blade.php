@@ -1,267 +1,124 @@
-<section class="premium-products position-relative z-index-1">
+<section class="premium-products position-relative z-index-1 py-5">
     <div class="container container-two">
 
-        <h3 class="premium-heading">Recently Arrived New Items</h3>
+        <h3 class="premium-heading mb-4">{{ __('Recently Arrived New Items') }}</h3>
 
-        <ul class="nav nav-pills premium-nav-pills" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="true">All Item</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-wordPress-tab" data-bs-toggle="pill" data-bs-target="#pills-wordPress" type="button" role="tab" aria-controls="pills-wordPress" aria-selected="false">WordPress</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-php-tab" data-bs-toggle="pill" data-bs-target="#pills-php" type="button" role="tab" aria-controls="pills-php" aria-selected="false">PHP</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-siteTemplate-tab" data-bs-toggle="pill" data-bs-target="#pills-siteTemplate" type="button" role="tab" aria-controls="pills-siteTemplate" aria-selected="false">Site Template</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-uiTemplate-tab" data-bs-toggle="pill" data-bs-target="#pills-uiTemplate" type="button" role="tab" aria-controls="pills-uiTemplate" aria-selected="false">UI Template</button>
-            </li>
+        <!-- Tab Navigation (Category Names) -->
+        <ul class="nav nav-pills premium-nav-pills mb-4" id="pills-tab" role="tablist">
+            @foreach ($featuredItems as $categoryName => $items)
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $loop->first ? 'active' : '' }}"
+                        id="pills-{{ Str::slug($categoryName) }}-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-{{ Str::slug($categoryName) }}" type="button" role="tab"
+                        aria-controls="pills-{{ Str::slug($categoryName) }}"
+                        aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                        {{ $categoryName }}
+                    </button>
+                </li>
+            @endforeach
         </ul>
 
+        <!-- Tab Content (Products) -->
         <div class="tab-content" id="pills-tabContent">
+            @foreach ($featuredItems as $categoryName => $items)
+                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                    id="pills-{{ Str::slug($categoryName) }}" role="tabpanel"
+                    aria-labelledby="pills-{{ Str::slug($categoryName) }}-tab" tabindex="0">
 
-            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
-                <div class="row gy-4">
-
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="premium-card">
-                            <div class="premium-card-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('assets/images/thumbs/product-img1.png') }}" alt="">
-                                </a>
-                                <button type="button" class="premium-wishlist-btn">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-
-                            <div class="premium-card-body">
-                                <div class="premium-card-meta">
-                                    <div class="premium-stars">
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <span class="premium-stars-text">(16)</span>
+                    <div class="row gy-4">
+                        @forelse($items as $item)
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <div class="premium-card h-100 shadow-sm rounded-3 overflow-hidden">
+                                    <div class="product-item__thumb d-flex">
+                                        <a href="{{ route('product.details', $item->slug) }}" class="link w-100">
+                                            @if ($item->preview_type == 'image')
+                                                <img src="{{ asset($item->preview_image ?? $item->main_file) }}"
+                                                    alt="" class="product-img">
+                                            @elseif ($item->preview_type === 'video')
+                                                <video class="player" playsinline loop muted>
+                                                    <source src="{{ asset($item->preview_video ?? $item->main_file) }}"
+                                                        type="video/mp4" />
+                                                </video>
+                                            @elseif ($item->preview_type === 'audio')
+                                                <audio class="audio-player" controls>
+                                                    <source src="{{ asset($item->preview_audio ?? $item->main_file) }}"
+                                                        type="audio/mp3" />
+                                                </audio>
+                                            @endif
+                                        </a>
                                     </div>
-                                    <span class="premium-sales">
-                                        <i class="ti ti-download"></i> 1200
-                                    </span>
-                                </div>
 
-                                <h6 class="premium-card-title">
-                                    <a href="product-details.html">SaaS dashboard digital products Title here</a>
-                                </h6>
+                                    <div class="premium-card-body p-3">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <ul class="star-rating">
+                                                @php
+                                                    $avgRating = round($item->reviews_avg_stars ?? 0);
+                                                @endphp
 
-                                <div class="premium-card-info">
-                                    <span class="premium-author">
-                                        by <a href="profile.html">themepix</a>
-                                    </span>
-                                    <div class="premium-price-wrap">
-                                        <span class="premium-price-old">$259</span>
-                                        <h6 class="premium-price-new">$120</h6>
-                                    </div>
-                                </div>
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $avgRating)
+                                                        <li class="star-rating__item font-11 text-warning"><i
+                                                                class="fas fa-star"></i></li>
+                                                    @else
+                                                        <li class="star-rating__item font-11 text-muted"
+                                                            style="opacity: 0.3;"><i class="fas fa-star"></i></li>
+                                                    @endif
+                                                @endfor
+                                            </ul>
+                                            <span class="star-rating__text text-heading fw-500 font-14">
+                                                ({{ $item->reviews_count ?? 0 }})
+                                            </span>
+                                        </div>
 
-                                <div class="premium-card-footer">
-                                    <a href="#" class="premium-btn-cart">
-                                        <i class="ti ti-shopping-cart-plus"></i>
-                                    </a>
-                                    <a href="product-details.html" class="premium-btn-demo">
-                                        Live Demo
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        <h6 class="premium-card-title mb-2">
+                                            <a href="{{ route('product.details', $item->slug ?? $item->id) }}"
+                                                class="text-dark text-decoration-none text-truncate d-block">
+                                                {{ $item->name }}
+                                            </a>
+                                        </h6>
 
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="premium-card">
-                            <div class="premium-card-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('assets/images/thumbs/product-img2.png') }}" alt="">
-                                </a>
-                                <button type="button" class="premium-wishlist-btn">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-                            <div class="premium-card-body">
-                                <div class="premium-card-meta">
-                                    <div class="premium-stars">
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <span class="premium-stars-text">(66)</span>
-                                    </div>
-                                    <span class="premium-sales">
-                                        <i class="ti ti-download"></i> 108
-                                    </span>
-                                </div>
-                                <h6 class="premium-card-title">
-                                    <a href="product-details.html">E-commerce Multi Vendor App Template</a>
-                                </h6>
-                                <div class="premium-card-info">
-                                    <span class="premium-author">
-                                        by <a href="profile.html">themepix</a>
-                                    </span>
-                                    <div class="premium-price-wrap">
-                                        <span class="premium-price-old">$199</span>
-                                        <h6 class="premium-price-new">$79</h6>
+                                        <div
+                                            class="premium-card-info d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                                            <span class="premium-author small text-muted">
+                                                {{ __('by') }} <a href="#"
+                                                    class="text-primary text-decoration-none">{{ $item->author->name ?? 'themepix' }}</a>
+                                            </span>
+                                            <div class="premium-price-wrap d-flex align-items-center gap-2">
+                                                @if (!empty($item->discount_price) && $item->discount_price < $item->price)
+                                                    <span
+                                                        class="premium-price-old text-decoration-line-through text-muted small">${{ number_format($item->price, 2) }}</span>
+                                                    <h6 class="premium-price-new text-success mb-0">
+                                                        ${{ number_format($item->discount_price, 2) }}</h6>
+                                                @else
+                                                    <h6 class="premium-price-new text-dark mb-0">
+                                                        ${{ number_format($item->price, 2) }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="product_item_footer">
+                                            <a class="product_cart add-cart" data-id="{{ $item->id }}"
+                                                href="javascript:void(0);">
+                                                <i class="ti ti-shopping-cart-plus"></i> {{ __('Add To Cart') }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="premium-card-footer">
-                                    <a href="#" class="premium-btn-cart">
-                                        <i class="ti ti-shopping-cart-plus"></i>
-                                    </a>
-                                    <a href="product-details.html" class="premium-btn-demo">
-                                        Live Demo
-                                    </a>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="premium-card">
-                            <div class="premium-card-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('assets/images/thumbs/product-img3.png') }}" alt="">
-                                </a>
-                                <button type="button" class="premium-wishlist-btn">
-                                    <i class="fas fa-heart"></i>
-                                </button>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <p class="text-muted mb-0">{{ __('No items found in this category yet.') }}</p>
                             </div>
-                            <div class="premium-card-body">
-                                <div class="premium-card-meta">
-                                    <div class="premium-stars">
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <span class="premium-stars-text">(78)</span>
-                                    </div>
-                                    <span class="premium-sales">
-                                        <i class="ti ti-download"></i> 2415
-                                    </span>
-                                </div>
-                                <h6 class="premium-card-title">
-                                    <a href="product-details.html">Admin Panel Vue React Tailwind Kit</a>
-                                </h6>
-                                <div class="premium-card-info">
-                                    <span class="premium-author">
-                                        by <a href="profile.html">themepix</a>
-                                    </span>
-                                    <div class="premium-price-wrap">
-                                        <span class="premium-price-old">$149</span>
-                                        <h6 class="premium-price-new">$59</h6>
-                                    </div>
-                                </div>
-                                <div class="premium-card-footer">
-                                    <a href="#" class="premium-btn-cart">
-                                        <i class="ti ti-shopping-cart-plus"></i>
-                                    </a>
-                                    <a href="product-details.html" class="premium-btn-demo">
-                                        Live Demo
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="premium-card">
-                            <div class="premium-card-thumb">
-                                <a href="product-details.html">
-                                    <img src="{{ asset('assets/images/thumbs/product-img4.png') }}" alt="">
-                                </a>
-                                <button type="button" class="premium-wishlist-btn">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                            </div>
-                            <div class="premium-card-body">
-                                <div class="premium-card-meta">
-                                    <div class="premium-stars">
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <i class="fas fa-star font-11"></i>
-                                        <span class="premium-stars-text">(89)</span>
-                                    </div>
-                                    <span class="premium-sales">
-                                        <i class="ti ti-download"></i> 4257
-                                    </span>
-                                </div>
-                                <h6 class="premium-card-title">
-                                    <a href="product-details.html">Corporate Business HTML Website</a>
-                                </h6>
-                                <div class="premium-card-info">
-                                    <span class="premium-author">
-                                        by <a href="profile.html">themepix</a>
-                                    </span>
-                                    <div class="premium-price-wrap">
-                                        <span class="premium-price-old">$99</span>
-                                        <h6 class="premium-price-new">$39</h6>
-                                    </div>
-                                </div>
-                                <div class="premium-card-footer">
-                                    <a href="#" class="premium-btn-cart">
-                                        <i class="ti ti-shopping-cart-plus"></i>
-                                    </a>
-                                    <a href="product-details.html" class="premium-btn-demo">
-                                        Live Demo
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
                     </div>
 
                 </div>
-            </div>
-
-            <div class="tab-pane fade" id="pills-wordPress" role="tabpanel" aria-labelledby="pills-wordPress-tab" tabindex="0">
-                <div class="row gy-4">
-                    <div class="col-12 text-center py-5">
-                        <h4 class="text-muted">WordPress Items (Add Loop Here)</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="pills-php" role="tabpanel" aria-labelledby="pills-php-tab" tabindex="0">
-                <div class="row gy-4">
-                    <div class="col-12 text-center py-5">
-                        <h4 class="text-muted">PHP Items (Add Loop Here)</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="pills-siteTemplate" role="tabpanel" aria-labelledby="pills-siteTemplate-tab" tabindex="0">
-                <div class="row gy-4">
-                    <div class="col-12 text-center py-5">
-                        <h4 class="text-muted">Site Templates (Add Loop Here)</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="pills-uiTemplate" role="tabpanel" aria-labelledby="pills-uiTemplate-tab" tabindex="0">
-                <div class="row gy-4">
-                    <div class="col-12 text-center py-5">
-                        <h4 class="text-muted">UI Templates (Add Loop Here)</h4>
-                    </div>
-                </div>
-            </div>
-
+            @endforeach
         </div>
 
         <div class="text-center mt-5">
-            <a href="all-product.html" class="premium-view-all">
-                View All Products
+            <a href="#" class="premium-view-all btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                {{ __('View All Products') }}
             </a>
         </div>
 
