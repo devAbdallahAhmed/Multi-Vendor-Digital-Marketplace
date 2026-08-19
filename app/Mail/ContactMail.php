@@ -17,22 +17,20 @@ class ContactMail extends Mailable
     public $subjectLine;
     public $content;
     public $fromMail;
-    public $toMail;
 
-    public function __construct($name, $subjectLine, $content, $fromMail, $toMail)
+    public function __construct($name, $subjectLine, $content, $fromMail)
     {
         $this->name = $name;
         $this->subjectLine = $subjectLine;
         $this->content = $content;
         $this->fromMail = $fromMail;
-        $this->toMail = $toMail;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
             from: new Address($this->fromMail, $this->name),
-            to: [$this->toMail],
+            to: [config('settings.smtp_recipient_email')],
             subject: $this->subjectLine,
         );
     }

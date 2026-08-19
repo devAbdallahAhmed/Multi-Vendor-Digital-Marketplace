@@ -12,7 +12,6 @@
                 </div>
             </div>
         </div>
-        <!-- END PAGE HEADER -->
         <!-- BEGIN PAGE BODY -->
         @include('admin.setting.pages.side-setting')
         <!-- END PAGE BODY -->

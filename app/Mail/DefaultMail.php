@@ -29,6 +29,7 @@ class DefaultMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: config('settings.smtp_sender_email'),
             subject: $this->mailSubject,
         );
     }

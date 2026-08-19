@@ -31,7 +31,7 @@
                 <div class="footer-widget">
                     <div class="footer-widget__logo">
                         <a href="index.html">
-                            <img src="{{ asset('assets/front/images/logo/white-logo-two.png') }}" alt="">
+                            <img src="{{ asset(config('settings.footer_logo')) }}" alt="">
                         </a>
                     </div>
                     <p class="footer-widget__desc">{{ $footerSection?->description }}</p>
