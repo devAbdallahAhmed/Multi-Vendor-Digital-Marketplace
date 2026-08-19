@@ -1,18 +1,17 @@
 <style>
-   
+
 </style>
 
 @extends('frontend.layouts.master')
 
 @section('content')
     <section class="prem-breadcrumb"
-        style="background: url('{{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }}') center center/cover no-repeat;">
+        style="background: url('{{ asset(config('settings.breadcrumb')) }}') center center/cover no-repeat;">
         <div class="container container-two">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">
                     <ul class="prem-breadcrumb-list">
                         <li class="breadcrumb-item font-14"><a href="{{ url('/') }}">Home</a></li>
-                        <li class="breadcrumb-item font-14"><span class="font-10"><i class="fas fa-chevron-right"></i></span>
                         </li>
                         <li class="breadcrumb-item font-14 active"><span class="text-white opacity-50">Cart</span></li>
                     </ul>
@@ -91,10 +90,10 @@
                     <a href="{{ route('products') }}" class="btn btn-solid-secondary flx-align gap-2">
                         <i class="las la-arrow-left"></i> {{ __('Continue Shopping') }}
                     </a>
-                    @if(getCartCount() > 0)
-                    <a href="{{ route('checkout') }}" class="btn btn-main-prem flx-align gap-2">
-                        {{ __('Next') }} <i class="las la-arrow-right"></i>
-                    </a>
+                    @if (getCartCount() > 0)
+                        <a href="{{ route('checkout') }}" class="btn btn-main-prem flx-align gap-2">
+                            {{ __('Next') }} <i class="las la-arrow-right"></i>
+                        </a>
                     @endif
                 </div>
             </div>

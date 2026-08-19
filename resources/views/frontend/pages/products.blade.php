@@ -1,8 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('content')
-    <section class="prem-breadcrumb"
-        style="background-image: url('{{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }}');">
+    <section class="prem-breadcrumb" style="background-image: url('{{ asset(config('settings.breadcrumb')) }}');">
         <div class="container container-two">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">

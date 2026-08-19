@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="prem-breadcrumb"
-        style="background: url('{{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }}') center center/cover no-repeat;">
+        style="background: url('{{ asset(config('settings.breadcrumb')) }}') center center/cover no-repeat;">
         <div class="container container-two">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">

@@ -7,6 +7,7 @@
         z-index: 1;
         border-bottom: none !important;
     }
+
     .prem-breadcrumb::before {
         content: '';
         position: absolute;
@@ -14,6 +15,7 @@
         background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.95));
         z-index: -1;
     }
+
     .prem-breadcrumb-title {
         font-size: 3rem;
         font-weight: 800;
@@ -21,6 +23,7 @@
         margin-top: 10px;
         letter-spacing: -0.5px;
     }
+
     .prem-breadcrumb-list {
         display: flex;
         align-items: center;
@@ -30,34 +33,42 @@
         padding: 0;
         margin: 0;
     }
+
     .prem-breadcrumb-list a {
         color: #38bdf8;
         text-decoration: none;
         font-weight: 600;
         transition: color 0.3s ease;
     }
+
     .prem-breadcrumb-list a:hover {
         color: #ec4899;
     }
+
     .prem-breadcrumb-list span {
         color: #94a3b8;
     }
+
     .login-container {
         padding: 100px 0;
         background-color: #f8fafc;
     }
+
     .login-card {
         border-radius: 24px !important;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
         border: 1px solid #f1f5f9 !important;
         overflow: hidden;
     }
+
     .login-card-header {
         padding: 40px 40px 20px 40px !important;
     }
+
     .login-card-body {
         padding: 0 40px 40px 40px !important;
     }
+
     .prem-input {
         background: #f8fafc !important;
         border: 2px solid #e2e8f0 !important;
@@ -65,11 +76,13 @@
         border-radius: 12px !important;
         transition: all 0.3s ease !important;
     }
+
     .prem-input:focus {
         border-color: #3b82f6 !important;
         background: #ffffff !important;
         box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
     }
+
     .prem-btn-submit {
         background: #0f172a !important;
         border-radius: 12px !important;
@@ -78,6 +91,7 @@
         transition: all 0.3s ease !important;
         border: none !important;
     }
+
     .prem-btn-submit:hover {
         background: #3b82f6 !important;
         transform: translateY(-2px);
@@ -88,7 +102,8 @@
 @extends('frontend.layouts.master')
 
 @section('content')
-    <section class="prem-breadcrumb" style="background: url('{{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }}') center center/cover no-repeat;">
+    <section class="prem-breadcrumb"
+        style="background: url('{{ asset(config('settings.breadcrumb')) }}') center center/cover no-repeat;">
         <div class="container container-two">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center">
@@ -130,7 +145,9 @@
                                             <label class="form-label fw-bold small text-secondary">
                                                 <i class="fas fa-user me-1 text-primary"></i>{{ __('Full Name') }}
                                             </label>
-                                            <x-text-input id="name" class="form-control prem-input" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Enter your full name" />
+                                            <x-text-input id="name" class="form-control prem-input" type="text"
+                                                name="name" :value="old('name')" required autofocus autocomplete="name"
+                                                placeholder="Enter your full name" />
                                             <x-input-error :messages="$errors->get('name')" class="mt-1 small" />
                                         </div>
                                     </div>
@@ -140,7 +157,9 @@
                                             <label class="form-label fw-bold small text-secondary">
                                                 <i class="fas fa-envelope me-1 text-primary"></i>{{ __('Email Address') }}
                                             </label>
-                                            <x-text-input id="email" class="form-control prem-input" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="example@mail.com" />
+                                            <x-text-input id="email" class="form-control prem-input" type="email"
+                                                name="email" :value="old('email')" required autocomplete="username"
+                                                placeholder="example@mail.com" />
                                             <x-input-error :messages="$errors->get('email')" class="mt-1 small" />
                                         </div>
                                     </div>
@@ -150,7 +169,9 @@
                                             <label class="form-label fw-bold small text-secondary">
                                                 <i class="fas fa-lock me-1 text-primary"></i>{{ __('Password') }}
                                             </label>
-                                            <x-text-input id="password" class="form-control prem-input" type="password" name="password" required autocomplete="new-password" placeholder="Create a strong password" />
+                                            <x-text-input id="password" class="form-control prem-input" type="password"
+                                                name="password" required autocomplete="new-password"
+                                                placeholder="Create a strong password" />
                                             <x-input-error :messages="$errors->get('password')" class="mt-1 small" />
                                         </div>
                                     </div>
@@ -158,9 +179,12 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="form-label fw-bold small text-secondary">
-                                                <i class="fas fa-shield-alt me-1 text-primary"></i>{{ __('Confirm Password') }}
+                                                <i
+                                                    class="fas fa-shield-alt me-1 text-primary"></i>{{ __('Confirm Password') }}
                                             </label>
-                                            <x-text-input id="password_confirmation" class="form-control prem-input" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password" />
+                                            <x-text-input id="password_confirmation" class="form-control prem-input"
+                                                type="password" name="password_confirmation" required
+                                                autocomplete="new-password" placeholder="Repeat your password" />
                                             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 small" />
                                         </div>
                                     </div>

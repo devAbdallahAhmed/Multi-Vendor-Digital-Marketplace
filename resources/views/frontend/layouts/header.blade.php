@@ -9,8 +9,7 @@
         <div class="prem-header-inner">
 
             <a href="index.html" class="prem-logo">
-                <img src="{{ asset('assets/front/images/logo/white-logo-two.png') }}" alt="Logo"
-                    >
+                <img src="{{ asset(config('settings.logo')) }}" alt="Logo">
             </a>
 
             <ul class="prem-nav d-none d-lg-flex">

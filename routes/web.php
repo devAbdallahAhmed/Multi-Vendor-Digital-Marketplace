@@ -15,7 +15,6 @@ use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ItemCommentController;
 use App\Http\Controllers\Frontend\ItemReviewController;
 use App\Http\Controllers\Frontend\ContactController;
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /**

@@ -42,7 +42,7 @@
 @extends('frontend.layouts.master')
 @section('content')
     <section class="breadcrumb border-bottom p-0 d-block section-bg position-relative z-index-1"
-        style="background: url({{ asset('assets/front/images/thumbs/breadcrumb_bg.jpg') }});">
+        style="background: url({{ asset(config('settings.breadcrumb')) }});">
         <div class="breadcrumb-two">
             <img src="{{ asset('assets/images/gradients/breadcrumb-gradient-bg.png') }}" alt="" class="bg--gradient">
             <div class="container container-two">

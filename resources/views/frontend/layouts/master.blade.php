@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> Digital Market Place HTML Template</title>
-    <link rel="shortcut icon" href="assets/images/logo/favicon-two.png">
+    <link rel="shortcut icon" href="{{ asset(config('settings.favicon')) }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/fontawesome-all.min.css') }}">
@@ -106,7 +106,7 @@
         <button type="button" class="close-button"> <i class="las la-times"></i> </button>
         <div class="mobile-menu__inner">
             <a href="index.html" class="mobile-menu__logo">
-                <img src="{{ asset('assets/front/images/logo/logo-two.png') }}" alt="Logo" class="white-version">
+                <img src="{{asset(config('settings.logo')) }}" alt="Logo" class="white-version">
             </a>
             <div class="mobile-menu__menu">
                 <div class="header-right__inner d-lg-none my-3 gap-1 d-flex flx-align">
