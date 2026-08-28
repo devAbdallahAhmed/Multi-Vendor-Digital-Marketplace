@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SocialLink;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class SocialLinkController extends Controller
@@ -31,7 +32,8 @@ class SocialLinkController extends Controller
         $link->url = $request->url;
         $link->save();
 
-        return redirect()->route('admin.social-links.index')->with('success', 'Social Link created successfully');
+        NotificationService::created('Social Link created successfully');
+        return redirect()->route('admin.social-links.index');
     }
 
     public function edit(SocialLink $socialLink)
@@ -49,8 +51,9 @@ class SocialLinkController extends Controller
         $socialLink->icon = $request->icon;
         $socialLink->url = $request->url;
         $socialLink->save();
+        NotificationService::created('Social Link updated successfully');
 
-        return redirect()->route('admin.social-links.index')->with('success', 'Social Link updated successfully');
+        return redirect()->route('admin.social-links.index');
     }
 
     public function destroy(SocialLink $socialLink)

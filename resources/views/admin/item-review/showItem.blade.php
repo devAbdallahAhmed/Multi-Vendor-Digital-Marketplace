@@ -39,13 +39,13 @@
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link fw-semibold" id="history-tab" data-bs-toggle="tab"
+                                    <button class="nav-link active fw-semibold" id="history-tab" data-bs-toggle="tab"
                                         data-bs-target="#history-content" type="button" role="tab">
                                         {{ __('History') }}
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link fw-semibold" id="status-tab" data-bs-toggle="tab"
+                                    <button class="nav-link show fw-semibold" id="status-tab" data-bs-toggle="tab"
                                         data-bs-target="#status-content" type="button" role="tab">
                                         {{ __('Status & Action') }}
                                     </button>

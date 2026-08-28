@@ -1,79 +1,79 @@
-<style>
-    .prem-breadcrumb {
-        padding: 80px 0;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        z-index: 1;
-    }
-
-    .prem-breadcrumb::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.95));
-        z-index: -1;
-    }
-
-    .prem-breadcrumb-title {
-        color: #ffffff;
-        font-weight: 800;
-        font-size: 2.5rem;
-    }
-
-    .login-container {
-        padding: 100px 0;
-        background-color: #f8fafc;
-    }
-
-    .login-card {
-        border-radius: 24px !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
-        border: 1px solid #f1f5f9 !important;
-        overflow: hidden;
-    }
-
-    .login-card-header {
-        padding: 40px 40px 20px 40px !important;
-    }
-
-    .login-card-body {
-        padding: 0 40px 40px 40px !important;
-    }
-
-    .prem-input {
-        background: #f8fafc !important;
-        border: 2px solid #e2e8f0 !important;
-        padding: 14px 20px !important;
-        border-radius: 12px !important;
-        transition: all 0.3s ease !important;
-    }
-
-    .prem-input:focus {
-        border-color: #3b82f6 !important;
-        background: #ffffff !important;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
-    }
-
-    .prem-btn-submit {
-        background: #0f172a !important;
-        border-radius: 12px !important;
-        padding: 14px !important;
-        font-size: 1.05rem !important;
-        transition: all 0.3s ease !important;
-        border: none !important;
-    }
-
-    .prem-btn-submit:hover {
-        background: #3b82f6 !important;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
-    }
-</style>
-
 @extends('frontend.layouts.master')
 
 @section('content')
+    <style>
+        .prem-breadcrumb {
+            padding: 80px 0;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .prem-breadcrumb::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.95));
+            z-index: -1;
+        }
+
+        .prem-breadcrumb-title {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 2.5rem;
+        }
+
+        .login-container {
+            padding: 100px 0;
+            background-color: #f8fafc;
+        }
+
+        .login-card {
+            border-radius: 24px !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08) !important;
+            border: 1px solid #f1f5f9 !important;
+            overflow: hidden;
+        }
+
+        .login-card-header {
+            padding: 40px 40px 20px 40px !important;
+        }
+
+        .login-card-body {
+            padding: 0 40px 40px 40px !important;
+        }
+
+        .prem-input {
+            background: #f8fafc !important;
+            border: 2px solid #e2e8f0 !important;
+            padding: 14px 20px !important;
+            border-radius: 12px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .prem-input:focus {
+            border-color: #3b82f6 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+        }
+
+        .prem-btn-submit {
+            background: #0f172a !important;
+            border-radius: 12px !important;
+            padding: 14px !important;
+            font-size: 1.05rem !important;
+            transition: all 0.3s ease !important;
+            border: none !important;
+        }
+
+        .prem-btn-submit:hover {
+            background: #3b82f6 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+
     <section class="prem-breadcrumb" style="background: url('{{ asset(config('settings.breadcrumb')) }}');">
         <div class="container container-two">
             <div class="row justify-content-center">
@@ -107,7 +107,6 @@
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-12">
-
                                         <x-frontend.input-select name="document_type" :label="__('Document Type')" :required="true"
                                             class="form-select prem-input">
                                             <option value="" disabled selected>{{ __('Select Document Type') }}
@@ -122,17 +121,17 @@
                                     </div>
 
                                     <div class="col-12">
-
                                         <x-frontend.input-text name="document_number" :label="__('Document Number')"
                                             class="form-control prem-input" type="text" :required="true"
                                             placeholder="{{ __('Enter ID or Passport Number') }}" />
                                     </div>
 
                                     <div class="col-12">
-
-                                        <x-frontend.input-text type="file" multiple name="documents[]" :label="__('Upload Document Scans')"
-                                            :required="true" class="form-control prem-input"
-                                            accept=".jpg,.jpeg,.png,.pdf" />
+                                        <label class="form-label fw-semibold text-dark">
+                                            {{ __('Upload Document Scans') }} <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="file" multiple name="documents[]" required
+                                            class="form-control prem-input" accept=".jpg,.jpeg,.png,.pdf" />
                                         <div class="form-text text-muted small mt-1">
                                             {{ __('Supported formats: JPG, PNG, PDF. Maximum size: 5MB.') }}
                                         </div>

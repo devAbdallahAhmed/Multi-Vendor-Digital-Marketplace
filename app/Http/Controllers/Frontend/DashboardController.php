@@ -10,7 +10,11 @@ class DashboardController extends Controller
 {
     function index()
     {
-        return view('frontend.dashboard.index');
+        $purchaseCount = \App\Models\Purchase::where('user_id', auth()->id())->count();
+        $reviewCount = \App\Models\ItemReview::where('user_id', auth()->id())->count();
+        $totalSpend = \App\Models\PurchaseItem::where('user_id', auth()->id())->sum('price');
+
+        return view('frontend.dashboard.index', compact('purchaseCount', 'reviewCount', 'totalSpend'));
     }
 
     public function reviews()

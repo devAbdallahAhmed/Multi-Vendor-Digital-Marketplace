@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title> Digital Market Place HTML Template</title>
+    <title> Digital Product Marketplace </title>
     <link rel="shortcut icon" href="{{ asset(config('settings.favicon')) }}">
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/bootstrap.min.css') }}">
@@ -23,68 +23,7 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}">
 
     <style>
-        .fw-600 {
-            font-weight: 600;
-        }
 
-        .card {
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .rounded-4 {
-            border-radius: 1.25rem !important;
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-            transform: scale(1.01);
-        }
-
-        .upload-wrapper input[type="file"] {
-            border: none;
-            background: transparent;
-        }
-    </style>
-    <style>
-        .fw-600 {
-            font-weight: 600;
-        }
-
-        .rounded-4 {
-            border-radius: 1.25rem !important;
-        }
-
-        .card {
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .btn-primary {
-            background-color: #0d6efd;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
-        }
-
-        .form-control:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
-        }
     </style>
     @routes
 </head>
@@ -104,95 +43,7 @@
 
     <div class="mobile-menu d-lg-none d-block">
         <button type="button" class="close-button"> <i class="las la-times"></i> </button>
-        <div class="mobile-menu__inner">
-            <a href="index.html" class="mobile-menu__logo">
-                <img src="{{asset(config('settings.logo')) }}" alt="Logo" class="white-version">
-            </a>
-            <div class="mobile-menu__menu">
-                <div class="header-right__inner d-lg-none my-3 gap-1 d-flex flx-align">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img src="{{ asset('assets/front/images/icons/user.svg') }}" alt="">
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('login') }}">Sign Up</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                        </ul>
-                    </div>
-                </div>
 
-                <ul class="nav-menu flx-align nav-menu--mobile">
-                    <li class="nav-menu__item has-submenu">
-                        <a href="javascript:void(0)" class="nav-menu__link">Home</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="index.html" class="nav-submenu__link"> Home One</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="index-two.html" class="nav-submenu__link"> Home Two</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="index-three.html" class="nav-submenu__link"> Home Three</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item has-submenu">
-                        <a href="javascript:void(0)" class="nav-menu__link">Products</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="all-product.html" class="nav-submenu__link"> All Products</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="product-details.html" class="nav-submenu__link"> Product Details</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item has-submenu">
-                        <a href="javascript:void(0)" class="nav-menu__link">Pages</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="profile.html" class="nav-submenu__link"> Profile</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="cart.html" class="nav-submenu__link"> Shopping Cart</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="cart-personal.html" class="nav-submenu__link"> Mailing Address</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="cart-payment.html" class="nav-submenu__link"> Payment Method</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="cart-thank-you.html" class="nav-submenu__link"> Preview Order</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="dashboard.html" class="nav-submenu__link"> Dashboard</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item has-submenu">
-                        <a href="javascript:void(0)" class="nav-menu__link">Blog</a>
-                        <ul class="nav-submenu">
-                            <li class="nav-submenu__item">
-                                <a href="blog.html" class="nav-submenu__link"> Blog</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="blog-details.html" class="nav-submenu__link"> Blog Details</a>
-                            </li>
-                            <li class="nav-submenu__item">
-                                <a href="blog-details-sidebar.html" class="nav-submenu__link"> Blog Details
-                                    Sidebar</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-menu__item">
-                        <a href="contact.html" class="nav-menu__link">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
     </div>
 
     <main class="change-gradient">
@@ -215,10 +66,8 @@
     <script src="{{ asset('assets/front/js/select2.min.js') }}"></script>
     <script src="https://cdn.plyr.io/3.8.4/plyr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-
     <script src="{{ asset('assets/front/js/main.js') }}"></script>
-        <script src="{{ asset('assets/front/js/default/default-variables.js') }}"></script>
-
+    <script src="{{ asset('assets/front/js/default/default-variables.js') }}"></script>
     <script src="{{ asset('assets/front/js/default/cart.js') }}"></script>
 
     @stack('scripts')

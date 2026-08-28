@@ -1,6 +1,7 @@
 @extends('frontend.layouts.master')
 
 @section('content')
+    <!-- Breadcrumb Section -->
     <section class="prem-breadcrumb" style="background-image: url('{{ asset(config('settings.breadcrumb')) }}');">
         <div class="container container-two">
             <div class="row justify-content-center">
@@ -10,39 +11,33 @@
                         <li><span><i class="fas fa-chevron-right font-10"></i></span></li>
                         <li>
                             <span>
-                                @if (request()->has('category'))
-                                    {{ ucfirst(request()->category) }}
-                                @else
-                                    {{ __('Products') }}
-                                @endif
+                                {{ request()->has('category') ? ucfirst(request()->category) : __('Products') }}
                             </span>
                         </li>
                     </ul>
                     <h3 class="prem-breadcrumb-title">
-                        @if (request()->has('category'))
-                            {{ __('Explore') }} {{ ucfirst(request()->category) }}
-                        @else
-                            {{ __('Our Digital Products') }}
-                        @endif
+                        {{ request()->has('category') ? __('Explore') . ' ' . ucfirst(request()->category) : __('Our Digital Products') }}
                     </h3>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Shop Section -->
     <section class="prem-shop-section">
         <div class="container container-two">
             <div class="row">
 
+                <!-- Search & Filters Top -->
                 <div class="col-lg-12">
                     <div class="prem-filter-top">
                         <button type="button" class="prem-btn-filter">
-                            <i class="ti ti-filter"></i> Filters
+                            <i class="ti ti-filter"></i> {{ __('Filters') }}
                         </button>
                         <ul class="prem-nav-pills nav" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-product-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-product" type="button" role="tab">All Item</button>
+                                    data-bs-target="#pills-product" type="button" role="tab">{{ __('All Item') }}</button>
                             </li>
                         </ul>
                     </div>
@@ -88,16 +83,19 @@
                     </form>
                 </div>
 
+                <!-- Sidebar Category & Ratings -->
                 <div class="col-xl-3 col-lg-4">
                     <div class="prem-sidebar-widget">
-                        <h4 class="prem-widget-title">Category</h4>
+                        <h4 class="prem-widget-title">{{ __('Category') }}</h4>
                         <ul class="prem-category-list">
-                            <li><a href="{{ route('products') }}">All Categories <span
-                                        class="qty">{{ $totalProductsCount }}</span></a></li>
+                            <li>
+                                <a href="{{ route('products') }}">{{ __('All Categories') }}
+                                    <span class="qty">{{ $totalProductsCount ?? 0 }}</span>
+                                </a>
+                            </li>
                             @foreach ($categories as $category)
                                 <li>
-                                    <a
-                                        href="{{ route('products', ['category' => $category->slug, 'search' => request('search'), 'rating' => request('rating')]) }}">
+                                    <a href="{{ route('products', ['category' => $category->slug, 'search' => request('search'), 'rating' => request('rating')]) }}">
                                         {{ $category->name }}
                                         <span class="qty">{{ $category->items_count }}</span>
                                     </a>
@@ -117,86 +115,27 @@
                         <div class="prem-sidebar-widget">
                             <h4 class="prem-widget-title">{{ __('Rating') }}</h4>
 
-                            <div class="prem-radio-group">
-                                <label for="fiveStar">
-                                    <input type="radio" name="rating" id="fiveStar" value="5"
-                                        {{ request('rating') == '5' ? 'checked' : '' }}>
-                                    <span>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </span>
-                                </label>
-                                <span class="qty">({{ $productCountByRating[5] ?? 0 }})</span>
-                            </div>
-
-                            <div class="prem-radio-group">
-                                <label for="fourStar">
-                                    <input type="radio" name="rating" id="fourStar" value="4"
-                                        {{ request('rating') == '4' ? 'checked' : '' }}>
-                                    <span>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </span>
-                                </label>
-                                <span class="qty">({{ $productCountByRating[4] ?? 0 }})</span>
-                            </div>
-
-                            <div class="prem-radio-group">
-                                <label for="threeStar">
-                                    <input type="radio" name="rating" id="threeStar" value="3"
-                                        {{ request('rating') == '3' ? 'checked' : '' }}>
-                                    <span>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </span>
-                                </label>
-                                <span class="qty">({{ $productCountByRating[3] ?? 0 }})</span>
-                            </div>
-
-                            <div class="prem-radio-group">
-                                <label for="twoStar">
-                                    <input type="radio" name="rating" id="twoStar" value="2"
-                                        {{ request('rating') == '2' ? 'checked' : '' }}>
-                                    <span>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </span>
-                                </label>
-                                <span class="qty">({{ $productCountByRating[2] ?? 0 }})</span>
-                            </div>
-
-                            <div class="prem-radio-group">
-                                <label for="oneStar">
-                                    <input type="radio" name="rating" id="oneStar" value="1"
-                                        {{ request('rating') == '1' ? 'checked' : '' }}>
-                                    <span>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </span>
-                                </label>
-                                <span class="qty">({{ $productCountByRating[1] ?? 0 }})</span>
-                            </div>
+                            @for ($rating = 5; $rating >= 1; $rating--)
+                                <div class="prem-radio-group">
+                                    <label for="{{ $rating }}Star">
+                                        <input type="radio" name="rating" id="{{ $rating }}Star" value="{{ $rating }}"
+                                            {{ request('rating') == $rating ? 'checked' : '' }}>
+                                        <span>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i class="{{ $i <= $rating ? 'fas' : 'far' }} fa-star"></i>
+                                            @endfor
+                                        </span>
+                                    </label>
+                                    <span class="qty">({{ $productCountByRating[$rating] ?? 0 }})</span>
+                                </div>
+                            @endfor
 
                             <button type="submit" class="btn btn-primary w-100 mt-3">{{ __('Filter') }}</button>
                         </div>
                     </form>
                 </div>
 
+                <!-- Product Grid -->
                 <div class="col-xl-9 col-lg-8">
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-product" role="tabpanel">

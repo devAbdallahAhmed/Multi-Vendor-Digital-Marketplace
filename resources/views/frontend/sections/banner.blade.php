@@ -6,17 +6,17 @@
             @if (!empty($hero->badge))
                 <div class="hero-badge">
                     <span class="pulse-dot"></span>
-                    {{ $hero->badge }}
+                    {{ $hero?->badge }}
                 </div>
             @endif
 
             <!-- Title -->
             <h1 class="hero-title" style="color: #1e293b;">
-                {{ $hero->title }} <span class="text-gradient">Marketplace</span>
+                {{ $hero?->title }} <span class="text-gradient">Marketplace</span>
             </h1>
             <!-- Description -->
             <p class="hero-desc">
-                {{ $hero->subtitle }}
+                {{ $hero?->subtitle }}
             </p>
 
             <!-- Search Form -->

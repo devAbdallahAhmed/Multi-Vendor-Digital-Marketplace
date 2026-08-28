@@ -11,18 +11,20 @@
         <div class="product-item__thumb d-flex">
             <a href="{{ route('product.details', $item->slug) }}" class="link w-100">
                 @if ($item->preview_type == 'image')
-                    <img src="{{ asset($item->preview_image ?? $item->main_file) }}" alt="" class="product-img">
+                    <img src="{{ asset($item->preview_image ?? $item->main_file) }}" alt="{{ $item->name }}"
+                        class="product-img">
                 @elseif ($item->preview_type === 'video')
                     <video class="player" playsinline loop muted>
-                        <source src="{{ asset($item->preview_video ?? $item->main_file) }}" type="video/mp4" />
+                        <source data-src="{{ asset($item->preview_video ?? $item->main_file) }}" type="video/mp4" />
                     </video>
                 @elseif ($item->preview_type === 'audio')
                     <audio class="audio-player" controls>
-                        <source src="{{ asset($item->preview_audio ?? $item->main_file) }}" type="audio/mp3" />
+                        <source data-src="{{ asset($item->preview_audio ?? $item->main_file) }}" type="audio/mp3" />
                     </audio>
                 @endif
             </a>
         </div>
+
         <div class="product-item__content">
             <div class="product-item__bottom flx-between gap-2">
                 <div class="d-flex flex-wrap justify-content-between align-items-center w-100">
@@ -46,10 +48,10 @@
                             ({{ $item->reviews_count ?? 0 }})
                         </span>
                     </div>
+
                     <span class="product-item__sales font-14">
                         <i class="ti ti-download"></i> {{ $item->sales_count ?? 0 }}
                     </span>
-
                 </div>
             </div>
 
@@ -80,6 +82,7 @@
                     @endif
                 </div>
             </div>
+
             <div class="product_item_footer">
                 <a class="product_cart add-cart" data-id="{{ $item->id }}" href="javascript:void(0);">
                     <i class="ti ti-shopping-cart-plus"></i> {{ __('Add To Cart') }}

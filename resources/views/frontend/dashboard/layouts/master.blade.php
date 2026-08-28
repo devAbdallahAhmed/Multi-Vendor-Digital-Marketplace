@@ -9,7 +9,8 @@
     <link rel="shortcut icon" href="{{ asset('assets/front/images/logo/favicon-two.png') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.21.0/tabler-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
@@ -55,7 +56,8 @@
                         <span class="qty-badge font-12">0</span>
                     </a>
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <img src="{{ asset('assets/front/images/icons/user.svg') }}" alt="">
                         </button>
                         <ul class="dropdown-menu">
@@ -65,7 +67,7 @@
                         </ul>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </div>
 
@@ -108,6 +110,8 @@
     <script src="{{ asset('assets/front/js/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/default/dashboard.js') }}"></script>
 
+
     @stack('scripts')
 </body>
+
 </html>

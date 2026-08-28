@@ -15,7 +15,7 @@
                         </div>
                         <button type="button" class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
                             data-bs-target="#selectCategoryModal" style="border-radius: 8px;">
-                            <i class="ti ti-plus"><a href="{{ route('user.items.index') }}"></a></i> Change Category
+                            <i class="ti ti-plus"></i> Change Category
                         </button>
                     </div>
                 </div>
@@ -33,11 +33,12 @@
 
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <x-frontend.input-text name="name" label="{{ __('Name') }}" required />
+                                <x-frontend.input-text name="name" label="{{ __('Name') }}"
+                                    value="{{ old('name') }}" required />
                             </div>
                             <div class="col-md-12">
                                 <x-frontend.textarea id="editor" name="description" label="{{ __('Description') }}"
-                                    required />
+                                    required>{{ old('description') }}</x-frontend.textarea>
                             </div>
                         </div>
                     </div>
@@ -68,7 +69,7 @@
                                 <x-frontend.input-select name="sub_category" label="{{ __('Sub Category') }}" required>
                                     <option value="" selected disabled>Select</option>
                                     @foreach ($category->subCategories as $subcategory)
-                                        <option value="{{ $subcategory->id }}">
+                                        <option value="{{ $subcategory->id }}" @selected(old('sub_category') == $subcategory->id)>
                                             {{ $subcategory->name }}
                                         </option>
                                     @endforeach
@@ -76,11 +77,13 @@
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-text name="version" label="{{ __('Version') }}" required />
+                                <x-frontend.input-text name="version" label="{{ __('Version') }}"
+                                    value="{{ old('version') }}" required />
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-text name="demo_link" label="{{ __('Demo Link (Optional)') }}" />
+                                <x-frontend.input-text name="demo_link" label="{{ __('Demo Link (Optional)') }}"
+                                    value="{{ old('demo_link') }}" />
                             </div>
 
                             <div class="col-md-12">
@@ -89,7 +92,7 @@
                                         Search Tags <span class="text-danger">*</span>
                                     </label>
                                     <input type="text" name="tags" id="my_tags_input" class="form-control" required
-                                        placeholder="Type a tag and press Enter">
+                                        placeholder="Type a tag and press Enter" value="{{ old('tags') }}">
                                     <small class="text-muted d-block mt-1">Tags help customers find your items through
                                         search.</small>
                                 </div>
@@ -144,18 +147,19 @@
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}"
-                                    id="preview_file_input" required>
-                                    <option value="image">{{ __('Image') }}</option>
-                                    <option value="video">{{ __('Video') }}</option>
-                                    <option value="audio">{{ __('Audio') }}</option>
+                                <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}" required>
+                                    <option value="image" @selected(old('preview_type') == 'image')>{{ __('Image') }}</option>
+                                    <option value="video" @selected(old('preview_type') == 'video')>{{ __('Video') }}</option>
+                                    <option value="audio" @selected(old('preview_type') == 'audio')>{{ __('Audio') }}</option>
                                 </x-frontend.input-select>
                             </div>
 
                             <div class="col-md-6">
-                                <x-frontend.input-select name="preview_file" label="{{ __('Preview File') }}" required>
+                                <x-frontend.input-select name="preview_file" label="{{ __('Preview File') }}"
+                                    id="preview_file_input" required>
                                     @foreach ($uploadFiles as $file)
-                                        <option value="{{ $file->path }}">{{ $file->name }}</option>
+                                        <option value="{{ $file->path }}" @selected(old('preview_file') == $file->path)>
+                                            {{ $file->name }}</option>
                                     @endforeach
                                 </x-frontend.input-select>
                             </div>
@@ -163,20 +167,23 @@
                             <div class="col-md-12">
                                 <label class="form-label mb-2 font-18 font-heading fw-600">Main File<code>*</code></label>
                                 <div class="input-group mb-3">
-                                    <select name="source_type" class="form-select" id="main_resource_select">
-                                        <option value="" selected disabled>{{ __('Select') }}</option>
-                                        <option value="upload">{{ __('Upload') }}</option>
-                                        <option value="link">{{ __('Link') }}</option>
+                                    <select name="source_type" class="form-select" id="main_resource_select" required>
+                                        <option value="upload" @selected(old('source_type') == 'upload')>{{ __('Upload') }}</option>
+                                        <option value="link" @selected(old('source_type') == 'link')>{{ __('Link') }}</option>
                                     </select>
 
-                                    <select name="upload_source" class="form-select d-none" id="upload_source">
+                                    <select name="upload_source"
+                                        class="form-select {{ old('source_type') == 'upload' ? '' : 'd-none' }}"
+                                        id="upload_source">
                                         @foreach ($uploadFiles as $file)
-                                            <option value="{{ $file->path }}">{{ $file->name }}</option>
+                                            <option value="{{ $file->path }}" @selected(old('upload_source') == $file->path)>
+                                                {{ $file->name }}</option>
                                         @endforeach
                                     </select>
 
-                                    <input type="text" name="link_source" class="form-control d-none"
-                                        id="link_source">
+                                    <input type="text" name="link_source"
+                                        class="form-control {{ old('source_type') == 'link' ? '' : 'd-none' }}"
+                                        id="link_source" value="{{ old('link_source') }}">
                                 </div>
                             </div>
 
@@ -184,7 +191,8 @@
                                 <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')"
                                     multiple="multiple" id="screenshot_input">
                                     @foreach ($uploadFiles as $file)
-                                        <option value="{{ $file->path }}">{{ $file->name }}</option>
+                                        <option value="{{ $file->path }}" @selected(is_array(old('screenshots')) && in_array($file->path, old('screenshots')))>
+                                            {{ $file->name }}</option>
                                     @endforeach
                                 </x-frontend.input-select>
                             </div>
@@ -204,13 +212,14 @@
                                 <x-frontend.input-select name="support" id="option_support"
                                     label="{{ __('Item Will Be Supported') }}">
                                     <option value="" disabled>Select</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
+                                    <option value="1" @selected(old('support') == '1')>Yes</option>
+                                    <option value="0" @selected(old('support') == '0')>No</option>
                                 </x-frontend.input-select>
                             </div>
 
-                            <div class="col-md-12 d-none" id="support_instruction">
-                                <x-frontend.textarea name="support_instruction" :label="__('Support Instruction')"></x-frontend.textarea>
+                            <div class="col-md-12 {{ old('support') == '1' ? '' : 'd-none' }}" id="support_instruction">
+                                <x-frontend.textarea name="support_instruction"
+                                    :label="__('Support Instruction')">{{ old('support_instruction') }}</x-frontend.textarea>
                             </div>
                         </div>
                     </div>
@@ -225,10 +234,12 @@
 
                         <div class="row g-4">
                             <div class="col-md-12">
-                                <x-frontend.input-text name="price" label="{{ __('Regular Price') }}" required />
+                                <x-frontend.input-text name="price" label="{{ __('Regular Price') }}"
+                                    value="{{ old('price') }}" required />
                             </div>
                             <div class="col-md-12">
-                                <x-frontend.input-text name="discount_price" label="{{ __('Discount Price') }}" />
+                                <x-frontend.input-text name="discount_price" label="{{ __('Discount Price') }}"
+                                    value="{{ old('discount_price') }}" />
                             </div>
                         </div>
                     </div>
@@ -246,8 +257,8 @@
                                 <x-frontend.input-select name="is_free" id="is_free"
                                     label="{{ __('Is Item Will Be Free? ') }}">
                                     <option value="" disabled>Select</option>
-                                    <option value="0"> No </option>
-                                    <option value="1"> Yes </option>
+                                    <option value="0" @selected(old('is_free') == '0')> No </option>
+                                    <option value="1" @selected(old('is_free') == '1')> Yes </option>
                                 </x-frontend.input-select>
                             </div>
                         </div>
@@ -263,7 +274,8 @@
 
                         <div class="row g-4">
                             <div class="col-md-12" id="message_reviewer">
-                                <x-frontend.textarea name="message_for_reviewer" :label="__(' Message')"></x-frontend.textarea>
+                                <x-frontend.textarea name="message_for_reviewer"
+                                    :label="__(' Message')">{{ old('message_for_reviewer') }}</x-frontend.textarea>
                             </div>
                         </div>
                     </div>
@@ -283,7 +295,5 @@
 @endsection
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-
-
     <script src="{{ asset('assets/front/js/default/fileupload.js') }}"></script>
 @endpush

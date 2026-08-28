@@ -73,7 +73,7 @@
                                                         </h4>
 
                                                         <small class="text-muted">
-                                                            {{ count($category->file_types) }}
+                                                            {{ is_array($category->file_types) ? count($category->file_types) : 0 }}
                                                             {{ __('File Types') }}
                                                         </small>
 
@@ -88,7 +88,7 @@
 
                                                 <div class="d-flex flex-wrap gap-2">
 
-                                                    @foreach ($category->file_types as $type)
+                                                    @foreach ($category->file_types ?? [] as $type)
                                                         <span
                                                             class="badge bg-primary-lt text-primary rounded-pill px-3 py-2">
 

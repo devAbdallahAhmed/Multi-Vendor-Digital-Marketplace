@@ -40,4 +40,18 @@ class ProfileController extends Controller
         NotificationService::updated();
         return redirect()->back();
     }
+
+    public function getStates(Request $request)
+    {
+        $countryName = $request->input('country');
+
+        $countriesAndStates = config('option.countries_states', []);
+
+        $states = $countriesAndStates[$countryName] ?? [];
+
+        return response()->json([
+            'status' => 'success',
+            'states' => array_values($states)
+        ]);
+    }
 }

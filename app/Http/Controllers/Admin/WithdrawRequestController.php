@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Withdraws;
 use Illuminate\Support\Facades\DB;
 use App\Events\WithdrawProcessed;
+use App\Services\NotificationService;
+
 class WithdrawRequestController extends Controller
 {
     /**
@@ -63,7 +65,7 @@ class WithdrawRequestController extends Controller
         $withdraw = Withdraws::findOrFail($id);
 
         if ($withdraw->status !== 'pending') {
-            flash()->error(__('This request has already been processed.'));
+            NotificationService::updated(__('This request has already been processed.'));
             return redirect()->back();
         }
 
@@ -79,7 +81,7 @@ class WithdrawRequestController extends Controller
 
             event(new WithdrawProcessed($withdraw));
 
-            flash()->success(__('Withdraw request updated and user notified successfully.'));
+            NotificationService::updated('Withdraw request updated and user notified successfully.');
         } catch (\Exception $e) {
             flash()->error(__('Something went wrong! Please try again.'));
         }

@@ -8,9 +8,8 @@
                     <h5 class="fw-bold mb-1">My Orders</h5>
                     <p class="text-muted mb-0">Manage your Orders.</p>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#selectCategoryModal">
-                    <i class="ti ti-plus"></i> Add Item
-                </button>
+
+
             </div>
 
             <div class="card-body p-0">

@@ -9,7 +9,7 @@ use Exception;
 
 trait FileUpload
 {
-    public function uploadFile(UploadedFile $file,  string $disk = 'local', string $dir = 'uploads')
+    public function uploadFile(UploadedFile $file, string $dir = 'uploads', string $disk = 'local')
     {
         try {
             $extension = $file->getClientOriginalExtension();

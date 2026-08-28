@@ -39,7 +39,9 @@ class Item extends Model
         'price',
         'discount_price',
         'is_supported',
-        'support_instruction'
+        'support_instruction',
+        'status',
+        'is_free'
     ];
 
     function getSlugOptions(): SlugOptions
@@ -49,7 +51,7 @@ class Item extends Model
             ->saveSlugsTo('slug');
     }
     protected $casts = [
-        'tags' => 'array',
+        'tags'=> 'array',
         'screenshots' => 'array',
     ];
 
