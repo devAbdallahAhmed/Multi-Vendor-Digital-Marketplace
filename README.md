@@ -79,7 +79,25 @@ The entire backend is supported by a well-documented RESTful API.
 
 Follow these steps to get the project running on your local machine:
 
-**1. Clone the repository**
 ```bash
+# 1. Clone the repository and navigate to the directory
 git clone [https://github.com/devAbdallahAhmed/Multi-Vendor-Digital-Marketplace.git](https://github.com/devAbdallahAhmed/Multi-Vendor-Digital-Marketplace.git)
 cd Multi-Vendor-Digital-Marketplace
+
+# 2. Install Backend & Frontend Dependencies
+composer install
+npm install
+npm run build
+
+# 3. Configure Environment Variables (Don't forget to add DB & Stripe keys in .env)
+cp .env.example .env
+php artisan key:generate
+
+# 4. Run Migrations & Seeders
+php artisan migrate --seed
+
+# 5. Link Storage (Crucial for displaying images & digital products)
+php artisan storage:link
+
+# 6. Start the Local Development Server
+php artisan serve
