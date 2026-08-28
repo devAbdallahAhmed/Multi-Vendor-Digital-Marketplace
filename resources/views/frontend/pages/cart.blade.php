@@ -39,14 +39,18 @@
                                 <tr>
                                     <td class="details">
                                         <div class="d-flex align-items-center gap-3">
-                                            <div class="prem-thumb">
-                                                <a href="product-details.html">
+                                            <div class="prem-thumb"
+                                                style="width: 50px; height: 50px; min-width: 50px; overflow: hidden; border-radius: 8px;">
+                                                <a href="product-details.html" class="d-block w-100 h-100">
                                                     @if ($cart->item->preview_type === 'image')
-                                                        <img src="{{ asset($cart->item->preview_image) }}" alt="">
+                                                        <img src="{{ asset($cart->item->preview_image) }}" alt=""
+                                                            style="width: 50px; height: 50px; object-fit: cover;">
                                                     @elseif ($cart->item->preview_type === 'video')
-                                                        <img src="{{ asset('defaults/video.webp') }}" alt="">
+                                                        <img src="{{ asset('defaults/video.webp') }}" alt=""
+                                                            style="width: 50px; height: 50px; object-fit: cover;">
                                                     @elseif ($cart->item->preview_type === 'audio')
-                                                        <img src="{{ asset('defaults/audio.webp') }}" alt="">
+                                                        <img src="{{ asset('defaults/audio.webp') }}" alt=""
+                                                            style="width: 50px; height: 50px; object-fit: cover;">
                                                     @endif
                                                 </a>
                                             </div>

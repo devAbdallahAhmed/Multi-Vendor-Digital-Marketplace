@@ -13,9 +13,12 @@
             </div>
         </div>
         <!-- END PAGE HEADER -->
+
         <!-- BEGIN PAGE BODY -->
         @include('admin.setting.pages.side-setting')
         <!-- END PAGE BODY -->
+
+
         <div class="col-12 col-md-9 d-flex flex-column">
             @include('admin.setting.pages.general-setting')
         </div>

@@ -168,22 +168,23 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}"
-                                            :value="$item->preview_type">
-                                            <option value="image">{{ __('Image') }}</option>
-                                            <option value="video">{{ __('Video') }}</option>
-                                            <option value="audio">{{ __('Audio') }}</option>
+                                        <x-frontend.input-select name="preview_type" label="{{ __('Preview Type') }}">
+                                            <option value="" disabled>{{ __('Select') }}</option>
+                                            <option value="image" @selected(old('preview_type', $item->preview_type) == 'image')>{{ __('Image') }}
+                                            </option>
+                                            <option value="video" @selected(old('preview_type', $item->preview_type) == 'video')>{{ __('Video') }}
+                                            </option>
+                                            <option value="audio" @selected(old('preview_type', $item->preview_type) == 'audio')>{{ __('Audio') }}
+                                            </option>
                                         </x-frontend.input-select>
                                     </div>
 
                                     <div class="col-md-6">
                                         <x-frontend.input-select name="preview_file" label="{{ __('Preview File') }}">
-                                            <option value="" id="preview_file_input" disabled>
-                                                {{ __('Select File') }}</option>
+                                            <option value="" disabled>{{ __('Select File') }}</option>
 
                                             @foreach ($uploadFiles as $file)
-                                                <option value="{{ $file->path }}"
-                                                    {{ $item->preview_image == $file->path ? 'selected' : '' }}>
+                                                <option value="{{ $file->path }}" @selected(old('preview_file', $item->preview_image ?? ($item->preview_video ?? ($item->preview_audio ?? $item->main_file))) == $file->path)>
                                                     {{ $file->name }}
                                                 </option>
                                             @endforeach
@@ -195,17 +196,27 @@
                                             class="form-label mb-2 font-18 font-heading fw-600">{{ __('Main File') }}</label>
                                         <div class="input-group mb-3">
                                             <select name="source_type" class="form-select" id="main_resource_select">
-                                                <option value="" selected disabled>{{ __('Select') }}</option>
-                                                <option value="upload">{{ __('Upload') }}</option>
-                                                <option value="link">{{ __('Link') }}</option>
+                                                <option value="" disabled>{{ __('Select') }}</option>
+                                                <option value="upload" @selected(old('source_type', $item->is_main_file_external == 0 ? 'upload' : 'link') == 'upload')>{{ __('Upload') }}
+                                                </option>
+                                                <option value="link" @selected(old('source_type', $item->is_main_file_external == 0 ? 'upload' : 'link') == 'link')>{{ __('Link') }}
+                                                </option>
                                             </select>
-                                            <select name="upload_source" class="form-select d-none" id="upload_source">
+
+                                            <select name="upload_source"
+                                                class="form-select {{ $item->is_main_file_external == 1 ? 'd-none' : '' }}"
+                                                id="upload_source">
+                                                <option value="" disabled>{{ __('Select File') }}</option>
                                                 @foreach ($uploadFiles as $file)
-                                                    <option value="{{ $file->path }}">{{ $file->name }}</option>
+                                                    <option value="{{ $file->path }}" @selected(old('upload_source', $item->main_file) == $file->path)>
+                                                        {{ $file->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <input type="text" name="link_source" class="form-control d-none"
-                                                id="link_source">
+
+                                            <input type="text" name="link_source"
+                                                class="form-control {{ $item->is_main_file_external == 0 ? 'd-none' : '' }}"
+                                                id="link_source"
+                                                value="{{ old('link_source', $item->is_main_file_external == 1 ? $item->main_file : '') }}">
                                         </div>
                                     </div>
 
@@ -213,7 +224,8 @@
                                         <x-frontend.input-select name="screenshots[]" class="select_2" :label="__('Screenshots')"
                                             multiple="multiple" id="screenshot_input">
                                             @foreach ($uploadFiles as $file)
-                                                <option value="{{ $file->path }}">{{ $file->name }}</option>
+                                                <option value="{{ $file->path }}" @selected(is_array($item->screenshots) && in_array($file->path, $item->screenshots))>
+                                                    {{ $file->name }}</option>
                                             @endforeach
                                         </x-frontend.input-select>
                                     </div>
@@ -234,15 +246,16 @@
                                         <x-frontend.input-select name="support" id="option_support"
                                             label="{{ __('Item Will Be Supported') }}">
                                             <option value="" disabled>{{ __('Select') }}</option>
-                                            <option @selected($item->support == 1) value="1">{{ __('Yes') }}
+                                            <option @selected($item->is_supported == 1) value="1">{{ __('Yes') }}
                                             </option>
-                                            <option @selected($item->support == 0) value="0">{{ __('No') }}
+                                            <option @selected($item->is_supported == 0) value="0">{{ __('No') }}
                                             </option>
                                         </x-frontend.input-select>
                                     </div>
-                                    <div class="col-md-12 d-none" id="support_instruction">
-                                        <x-frontend.textarea name="support_instruction"
-                                            :label="__('Support Instruction')"></x-frontend.textarea>
+                                    <div class="col-md-12 {{ $item->is_supported == 1 ? '' : 'd-none' }}"
+                                        id="support_instruction">
+                                        <x-frontend.textarea name="support_instruction" :label="__('Support Instruction')"
+                                            :value="$item->support_instruction"></x-frontend.textarea>
                                     </div>
                                 </div>
                             </div>
@@ -314,7 +327,6 @@
                         <div class="card border-0 shadow-sm mb-4"
                             style="border-radius: 12px; position: sticky; top: 20px;">
 
-                            <!-- Item Info  -->
                             @include('frontend.dashboard.layouts.partials.Item-Info')
 
                         </div>

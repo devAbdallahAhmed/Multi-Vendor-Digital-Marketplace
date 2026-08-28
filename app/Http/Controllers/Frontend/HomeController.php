@@ -11,6 +11,10 @@ use App\Models\Item;
 use App\Models\FeaturedCategory;
 use App\Models\Admin\SubCategory;
 use App\Models\HighlightedProduct;
+use App\Models\MonthlyPickedProduct;
+use App\Models\FeaturedAuthorSection;
+use App\Models\CounterSection;
+use App\Models\BannerSection;
 
 class HomeController extends Controller
 {
@@ -24,11 +28,12 @@ class HomeController extends Controller
 
         $featuredCategorySelection = FeaturedCategory::first();
         $featuredItems = [];
+        $featuredCategoryIds = $featuredCategorySelection?->category_ids ?? [];
 
-        if ($featuredCategorySelection && !empty($featuredCategorySelection->category_ids)) {
-            $subCategories = SubCategory::whereIn('id', $featuredCategorySelection->category_ids)->get();
+        if (!empty($featuredCategoryIds)) {
+            $subCategories = SubCategory::whereIn('id', $featuredCategoryIds)->get();
 
-            $items = Item::whereIn('sub_category_id', $featuredCategorySelection->category_ids)
+            $items = Item::whereIn('sub_category_id', $featuredCategoryIds)
                 ->where('status', 'active')
                 ->withAvg('reviews', 'stars')
                 ->withCount(['reviews', 'sales'])
@@ -44,37 +49,31 @@ class HomeController extends Controller
         }
 
         $highlightedSection = HighlightedProduct::first();
-        $highlightedProducts = collect();
+        $highlightedItemIds = $highlightedSection?->item_ids ?? [];
+        $highlightedProducts = !empty($highlightedItemIds)
+            ? $this->getBaseHighlightedProductsQuery($highlightedItemIds)->take(4)->get()
+            : collect();
 
-        if ($highlightedSection && !empty($highlightedSection->item_ids)) {
-            $highlightedProducts = $this->getBaseHighlightedProductsQuery($highlightedSection->item_ids)
-                ->take(4)
-                ->get();
-        }
+        $monthlyPickedSection = MonthlyPickedProduct::first();
+        $monthlyItemIds = $monthlyPickedSection?->item_ids ?? [];
+        $monthlyPickedProducts = !empty($monthlyItemIds)
+            ? $this->getBaseHighlightedProductsQuery($monthlyItemIds)->take(8)->get()
+            : collect();
 
-        $monthlyPickedSection = \App\Models\MonthlyPickedProduct::first();
-        $monthlyPickedProducts = collect();
+        $featuredAuthorSection = FeaturedAuthorSection::first();
+        $authorProducts = $featuredAuthorSection?->author_id
+            ? Item::where('author_id', $featuredAuthorSection->author_id)
+            ->where('status', 'active')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'stars')
+            ->latest()
+            ->take(4)
+            ->get()
+            : collect();
 
-        if ($monthlyPickedSection && !empty($monthlyPickedSection->item_ids)) {
-            $monthlyPickedProducts = $this->getBaseHighlightedProductsQuery($monthlyPickedSection->item_ids)
-                ->take(8)
-                ->get();
-        }
+        $counterSection = CounterSection::first();
+        $bannerSection = BannerSection::first();
 
-        $featuredAuthorSection = \App\Models\FeaturedAuthorSection::first();
-        $authorProducts = collect();
-
-        if ($featuredAuthorSection && $featuredAuthorSection->author_id) {
-            $authorProducts = Item::where('author_id', $featuredAuthorSection->author_id)
-                ->where('status', 'active')
-                ->withCount('reviews')
-                ->withAvg('reviews', 'stars')
-                ->latest()
-                ->take(4)
-                ->get();
-        }
-        $counterSection = \App\Models\CounterSection::first();
-        $bannerSection = \App\Models\BannerSection::first();
         return view('frontend.home.index', compact(
             'hero',
             'featuredCategories',
@@ -93,12 +92,11 @@ class HomeController extends Controller
     public function highlightedProducts(): View
     {
         $highlightedSection = HighlightedProduct::first();
-        $highlightedProducts = collect();
+        $highlightedItemIds = $highlightedSection?->item_ids ?? [];
 
-        if ($highlightedSection && !empty($highlightedSection->item_ids)) {
-            $highlightedProducts = $this->getBaseHighlightedProductsQuery($highlightedSection->item_ids)
-                ->paginate(12);
-        }
+        $highlightedProducts = !empty($highlightedItemIds)
+            ? $this->getBaseHighlightedProductsQuery($highlightedItemIds)->paginate(12)
+            : collect();
 
         return view('frontend.pages.highlighted-products', compact('highlightedSection', 'highlightedProducts'));
     }

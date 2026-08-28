@@ -12,10 +12,10 @@ class ProfileService
 
     public function updateProfile(Admin $admin, array $data)
     {
-      
+
         if (isset($data['avatar'])) {
             $this->deleteFile($admin->avatar);
-            $data['avatar'] = $this->uploadFile($data['avatar'], 'uploads/admin/');
+            $data['avatar'] = $this->uploadFile($data['avatar'],'public' , 'uploads/admin/');
         }
         $admin->update($data);
         return $admin;

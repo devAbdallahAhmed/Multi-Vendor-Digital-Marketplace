@@ -91,9 +91,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::get('withdraws', [AuthorWithdrawController::class, 'index'])->name('withdraw.index');
         Route::get('withdraws/create', [AuthorWithdrawController::class, 'create'])->name('withdraw.create');
+        Route::post('withdraws/store', [AuthorWithdrawController::class, 'store'])->name('withdraw.store');
     });
 });
 // Author Withdraw Request
 
-Route::post('withdraws/store', [AuthorWithdrawController::class, 'store'])->name('withdraw.store');
 require __DIR__ . '/auth.php';

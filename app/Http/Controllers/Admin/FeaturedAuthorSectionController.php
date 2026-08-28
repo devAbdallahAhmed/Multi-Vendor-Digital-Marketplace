@@ -14,7 +14,7 @@ class FeaturedAuthorSectionController extends Controller
     {
         $authors = User::where([
             ['user_type', 'author'],
-            ['kyc_status', 1]
+          
         ])->get();
 
         $featuredAuthor = FeaturedAuthorSection::first();

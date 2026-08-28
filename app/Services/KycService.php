@@ -35,7 +35,7 @@ class KycService
     {
         $paths = [];
         foreach ($files as $file) {
-            $path = $this->uploadFile($file, 'kyc_documents', disk: 'local');
+            $path = $this->uploadFile($file, 'kyc_documents' );
 
             if (!$path) {
                 throw new Exception(__('One of the documents failed to upload.'));
@@ -68,7 +68,7 @@ class KycService
                 'document_number' => $data['document_number'],
                 'documents'       => $paths,
                 'status'          => 'pending',
-                'reject_reason'   => null      
+                'reject_reason'   => null
             ]);
 
             return $kyc;

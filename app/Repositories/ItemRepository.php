@@ -12,9 +12,20 @@ class ItemRepository
 {
     public function getPaginatedAuthorItems(int $perPage = 10)
     {
-        return Item::with(['category', 'sub_category'])
-            ->where('author_id', Auth::id())
-            ->paginate($perPage);
+        $query = Item::with(['category', 'sub_category'])
+            ->where('author_id', Auth::id());
+
+        if (request()->has('search') && request('search') != '') {
+            $searchTerm = request('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('category', function ($qCat) use ($searchTerm) {
+                        $qCat->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            });
+        }
+
+        return $query->paginate($perPage)->withQueryString();
     }
 
     public function findAuthorItemById(int $id): Item

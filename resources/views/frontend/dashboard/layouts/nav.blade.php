@@ -30,25 +30,47 @@
         </div>
 
         <div class="dropdown">
-            <button class="btn btn-white border rounded-3 shadow-sm px-2 py-1 d-flex align-items-center gap-2"
+            <button class="btn btn-light border rounded-3 shadow-sm px-2 py-1 d-flex align-items-center gap-2"
                 data-bs-toggle="dropdown">
-                <img src="{{ asset(auth()->user()->avatar) }}" class="rounded-circle border" width="32"
-                    height="32" alt="User">
+
+                @if (auth()->user()->avatar && file_exists(public_path(auth()->user()->avatar)))
+                    <img src="{{ asset(auth()->user()->avatar) }}" class="rounded-circle border" width="32"
+                        height="32" alt="User">
+                @else
+                    <div class="d-flex align-items-center justify-content-center rounded-circle border bg-secondary-subtle"
+                        style="width: 32px; height: 32px;">
+                        <i class="bi bi-person-fill text-secondary"></i>
+                    </div>
+                @endif
+
                 <div class="text-start d-none d-lg-block">
                     <div class="fw-bold text-dark" style="font-size: 0.8rem;">{{ Auth::user()->name ?? 'User' }}</div>
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 p-1" style="width: 200px;">
-                <li><a class="dropdown-item rounded-2 small py-2" href="#"><i class="bi bi-person-fill me-2"></i>
-                        Profile</a></li>
+                <li>
+                    <a class="dropdown-item rounded-2 small py-2" href="{{ route('profile') }}">
+                        <i class="bi bi-person-fill me-2"></i> Profile
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider my-1">
+                </li>
+
+                  <li>
+                    <a class="dropdown-item rounded-2 small py-2" href="{{ route('home') }}">
+                        <i class="bi bi-house-fill me-2"></i> Home
+                    </a>
+                </li>
                 <li>
                     <hr class="dropdown-divider my-1">
                 </li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="dropdown-item rounded-2 small py-2 text-danger"><i
-                                class="bi bi-box-arrow-right me-2"></i> Logout</button>
+                        <button type="submit" class="dropdown-item rounded-2 small py-2 text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </button>
                     </form>
                 </li>
             </ul>

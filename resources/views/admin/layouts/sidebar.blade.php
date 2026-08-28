@@ -7,23 +7,22 @@
         </button>
 
         <h1 class="navbar-brand navbar-brand-autodark py-3 px-3 m-0">
-            <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none gap-3">
-                <div class="brand-logo-icon d-flex align-items-center justify-content-center rounded-3 shadow-sm bg-primary bg-opacity-10"
-                    style="width: 42px; height: 42px;">
-                    <i class="bi bi-grid-1x2-fill fs-4 text-primary"></i>
+            <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none">
+                <div class="px-2 text-center me-2">
+                    <img src="{{ asset(config('settings.logo')) }}" alt="DigiMart Logo" class="img-fluid"
+                        style="max-height: 40px;">
                 </div>
                 <div class="d-flex flex-column justify-content-center text-start lh-sm">
-                    <span class="brand-title fw-bold fs-4 text-dark mb-1">
+                    <span class="brand-title fw-bold fs-4 text-white mb-1">
                         {{ config('settings.site_name', 'DigStore') }}
                     </span>
                     <span class="brand-subtitle text-muted fw-medium text-uppercase"
-                        style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                        style="font-size: 0.70rem; letter-spacing: 0.5px;">
                         Admin Panel
                     </span>
                 </div>
             </a>
         </h1>
-
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-2">
 
@@ -299,6 +298,17 @@
                             </span>
                             <span class="nav-link-title">
                                 Settings
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.wipe-database.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <i class="ti ti-trash"></i>
+                            </span>
+                            <span class="nav-link-title">
+                                Wipe Database
                             </span>
                         </a>
                     </li>
