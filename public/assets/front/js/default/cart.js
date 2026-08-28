@@ -60,3 +60,54 @@ jQuery(document).ready(function ($) {
         });
     });
 });
+
+   document.addEventListener("DOMContentLoaded", function () {
+        const players = new Map();
+        const hoverTimers = new Map(); // Store timeout IDs for each video
+
+        document.querySelectorAll(".player").forEach((el) => {
+            const source = el.querySelector("source");
+            if (source) {
+                source.dataset.src = source.src; // Store actual source
+                source.removeAttribute("src"); // Prevent preloading
+            }
+
+            const player = new Plyr(el, { controls: [] });
+            players.set(el, player);
+        });
+
+        $(function () {
+            $(".product-video").on("mouseover", function () {
+                const videoElement = $(this).find(".player")[0];
+                if (videoElement && players.has(videoElement)) {
+                    // Set a delay before loading the video
+                    const timeoutId = setTimeout(() => {
+                        const player = players.get(videoElement);
+                        const source = videoElement.querySelector("source");
+                        if (source && !videoElement.getAttribute("src")) {
+                            source.setAttribute("src", source.dataset.src);
+                            videoElement.load();
+                        }
+                        player.muted = true;
+                        player.play();
+                    }, 500); // Delay of 500ms
+
+                    hoverTimers.set(videoElement, timeoutId);
+                }
+            });
+
+            $(".product-video").on("mouseout", function () {
+                const videoElement = $(this).find(".player")[0];
+                if (videoElement && players.has(videoElement)) {
+                    const player = players.get(videoElement);
+                    player.pause();
+
+                    // Clear the timeout if the user moves away before loading
+                    if (hoverTimers.has(videoElement)) {
+                        clearTimeout(hoverTimers.get(videoElement));
+                        hoverTimers.delete(videoElement);
+                    }
+                }
+            });
+        });
+    });

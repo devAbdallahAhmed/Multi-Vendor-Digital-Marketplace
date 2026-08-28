@@ -1,18 +1,20 @@
 "use strict";
 
-const fileUploadElem = document.getElementById("fileUpload");
+var fileUploadElem = document.getElementById("fileUpload");
 
-var notyf = new Notyf({
-    duration: 5000,
-});
+if (typeof notyf === "undefined") {
+    var notyf = new Notyf({
+        duration: 5000,
+    });
+}
 
 Dropzone.autoDiscover = false;
 
-if (fileUploadElem) {
-    const uploadUrl = fileUploadElem.getAttribute("data-url") || "";
-    const csrfToken = fileUploadElem.getAttribute("data-token") || "";
+if (fileUploadElem && !fileUploadElem.dropzone) {
+    var uploadUrl = fileUploadElem.getAttribute("data-url") || "";
+    var csrfToken = fileUploadElem.getAttribute("data-token") || "";
 
-    const dropzone = new Dropzone(fileUploadElem, {
+    var dropzone = new Dropzone(fileUploadElem, {
         url: uploadUrl,
         method: "post",
         maxFilesize: 100,
@@ -183,11 +185,11 @@ function setDynamicOption(response) {
     }
 
     if (
-        typeof $.fn !== "undefined" &&
-        typeof $.fn.select2 !== "undefined" &&
-        $("#screenshot_input").hasClass("select_2")
+        typeof jQuery !== "undefined" &&
+        typeof jQuery.fn.select2 !== "undefined" &&
+        jQuery("#screenshot_input").hasClass("select_2")
     ) {
-        $("#screenshot_input").trigger("change");
+        jQuery("#screenshot_input").trigger("change");
     }
 }
 
@@ -241,7 +243,7 @@ function getFileSize(file) {
 function removeFile(id) {
     const deleteUrl = `/user/item/delete/${id}`;
 
-    const currentCsrf =
+    var currentCsrf =
         document
             .querySelector('meta[name="csrf-token"]')
             ?.getAttribute("content") ||
@@ -285,7 +287,7 @@ function cancelOrRemoveTmpFile(uuid, btn) {
     }
 }
 
-const mainResourceSelect = document.getElementById("main_resource_select");
+var mainResourceSelect = document.getElementById("main_resource_select");
 if (mainResourceSelect) {
     mainResourceSelect.addEventListener("change", function () {
         const value = this.value;
@@ -302,7 +304,7 @@ if (mainResourceSelect) {
     });
 }
 
-const optionSupport = document.getElementById("option_support");
+var optionSupport = document.getElementById("option_support");
 if (optionSupport) {
     optionSupport.addEventListener("change", function () {
         const value = this.value;
@@ -314,7 +316,7 @@ if (optionSupport) {
     });
 }
 
-$(function () {
+jQuery(document).ready(function ($) {
     let tagify = null;
     let input = document.querySelector("#my_tags_input");
 
@@ -324,6 +326,10 @@ $(function () {
 
     $("#product_form").on("submit", function (e) {
         e.preventDefault();
+
+        if (typeof tinymce !== "undefined") {
+            tinymce.triggerSave();
+        }
 
         let form = this;
         let formData = new FormData(form);
@@ -370,7 +376,8 @@ $(function () {
                     .prop("disabled", false)
                     .find(".spinner-border")
                     .remove();
-                console.error(xhr);
+
+                console.log("Full Error Response:", xhr.responseJSON);
 
                 if (
                     xhr.status === 422 &&
