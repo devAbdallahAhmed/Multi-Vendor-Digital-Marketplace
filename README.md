@@ -1,11 +1,11 @@
 # 🚀 Pulse - Enterprise-Grade Multi-Vendor Digital Marketplace
 
 <p align="center">
-  <img src="[https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)" alt="Laravel" />
-  <img src="[https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white](https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white)" alt="PHP" />
-  <img src="[https://img.shields.io/badge/MySQL-Advanced-00000F?style=for-the-badge&logo=mysql&logoColor=white](https://img.shields.io/badge/MySQL-Advanced-00000F?style=for-the-badge&logo=mysql&logoColor=white)" alt="MySQL" />
-  <img src="[https://img.shields.io/badge/Stripe-Payment-626CD9?style=for-the-badge&logo=Stripe&logoColor=white](https://img.shields.io/badge/Stripe-Payment-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)" alt="Stripe" />
-  <a href="[https://documenter.getpostman.com/view/36684922/2sBYAuRWMz](https://documenter.getpostman.com/view/36684922/2sBYAuRWMz)"><img src="[https://img.shields.io/badge/Postman-API_Docs-FF6C37?style=for-the-badge&logo=postman&logoColor=white](https://img.shields.io/badge/Postman-API_Docs-FF6C37?style=for-the-badge&logo=postman&logoColor=white)" alt="Postman API Docs" /></a>
+  <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
+  <img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
+  <img src="https://img.shields.io/badge/MySQL-Advanced-00000F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Stripe-Payment-626CD9?style=for-the-badge&logo=Stripe&logoColor=white" alt="Stripe" />
+  <a href="https://documenter.getpostman.com/view/36684922/2sBYAuRWMz"><img src="https://img.shields.io/badge/Postman-API_Docs-FF6C37?style=for-the-badge&logo=postman&logoColor=white" alt="Postman API Docs" /></a>
 </p>
 
 <p align="center">
