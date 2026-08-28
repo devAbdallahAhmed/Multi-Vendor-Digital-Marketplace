@@ -101,3 +101,8 @@ php artisan storage:link
 
 # 6. Start the Local Development Server
 php artisan serve
+# 5. Link Storage (Crucial for displaying images & digital products)
+php artisan storage:link
+
+# 6. Start the Local Development Server
+php artisan serve
