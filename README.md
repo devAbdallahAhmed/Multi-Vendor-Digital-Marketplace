@@ -43,18 +43,37 @@
 Built with scalability and maintainability in mind, the backend strictly follows the **Repository** and **Service** patterns. This ensures thin controllers, reusable business logic, and a decoupled data access layer.
 
 ```text
-📦 Pulse-Marketplace
- ┣ 📂 app
- ┃ ┣ 📂 Http
- ┃ ┃ ┣ 📂 Controllers (Separated: Admin, Frontend, Vendor API logic)
- ┃ ┃ ┗ 📂 Requests (Form Request Validation for robust security)
- ┃ ┣ 📂 Models (Eloquent ORM, Polymorphic Relations, Soft Deletes)
- ┃ ┣ 📂 Repositories (Data Access Layer - abstracts DB queries) 🚀
- ┃ ┣ 📂 Services (Core Business Logic & 3rd Party Integrations) 🚀
- ┃ ┗ 📂 Traits (Reusable behaviors e.g., FileUploadTrait)
- ┣ 📂 database (Migrations, Advanced Seeders, Model Factories)
- ┣ 📂 public/docs (Assets & Readme Screenshots)
- ┗ 📂 routes (Modular routing for Web & RESTful API)
+devabdallahahmed-multi-vendor-digital-marketplace/
+├── app/
+│   ├── Contracts/          # Interfaces (e.g., PaymentGatewayInterface)
+│   ├── Http/
+│   │   ├── Controllers/    # Admin, Api, Auth, and Frontend controllers
+│   │   ├── Middleware/     # Custom middlewares (e.g., IsAuthor, CheckKyc)
+│   │   └── Requests/       # Form requests for validation
+│   ├── Models/             # Eloquent models (User, Item, Category, Purchase, etc.)
+│   ├── Repositories/       # Data access logic (Cart, Item, Product)
+│   ├── Services/           # Business logic (OrderService, PayPalService, StripeService)
+│   └── Traits/             # Reusable traits (ApiResponseTrait, fileUpload)
+├── bootstrap/              # Application bootstrapping files
+├── config/                 # Configurations (paypal, stripe, permission, etc.)
+├── database/
+│   ├── factories/          # Model factories for testing
+│   ├── migrations/         # Database schema migrations for multi-vendor system
+│   └── seeders/            # Database seeders (Admin, Roles, Categories)
+├── public/                 # Public assets (compiled CSS/JS, uploads, images)
+├── resources/
+│   ├── css/ & js/          # Frontend source assets
+│   └── views/              # Blade templates (admin panel, frontend, auth, components)
+├── routes/
+│   ├── admin.php           # Admin panel routes
+│   ├── api.php             # RESTful API endpoints (V1, Frontend, Admin)
+│   ├── auth.php            # Authentication routes
+│   └── web.php             # Public marketplace routes
+├── tests/                  # Unit and Feature tests (Auth, Profile, etc.)
+├── .env.example            # Environment variables template
+├── composer.json           # PHP dependencies (Laravel 11, etc.)
+├── package.json            # Node.js dependencies
+└── vite.config.js          # Vite frontend build configuration
 ```
 
 ---
